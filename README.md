@@ -9,8 +9,9 @@ Fully Parameterized & Programmable Platform Level Interrupt Controller (PLIC) fo
 ## Documentation
 
 - [Product Brief]()
-- [RV12 Datasheet]()
+- [Datasheet]()
 - [User Guide]()
+- [Register Mapping Worksheet]()
 
 ## Features
 
