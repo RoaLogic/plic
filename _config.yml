@@ -1,0 +1,4 @@
+theme: jekyll-theme-dinky
+title: RISC-V PLIC
+description: Programmable Platform Level Interrupt Controller
+show_downloads: true
