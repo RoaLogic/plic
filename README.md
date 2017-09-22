@@ -34,8 +34,8 @@ The PLIC core implements Dynamic Registers, which means the registers and regist
 
 ## Parameters
 
-| **PARAMETER**     | **DESCRIPTION**                                        |
-|:------------------|:-------------------------------------------------------|
+| Parameter         | Description                                            |
+| ----------------- | ------------------------------------------------------ |
 | HADDR_SIZE        | AHB Bus Address Size                                   |
 | HDATA_SIZE        | AHB Bus Data Size                                      |
 | SOURCES           | Number of Interrupt Sources                            |
