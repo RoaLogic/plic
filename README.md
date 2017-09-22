@@ -1,20 +1,41 @@
 # Platform Level Interrupt Controller
-Fully Parameterized and Programmable Interrupt Controller
-Compliant to the RISC-V Privilegel Level 1.9, 1.9.1, 1.10 specifications
 
-## Dynamic Registers
-The PLIC core uses Dynamic Registers, which means that the register definition and the register address mapping are automatically generated based on the parameters provided to the core.
-The core prints the register mapping during simulation (and for some tools during synthesis).
+## Overview
 
+Fully Parameterized & Programmable Platform Level Interrupt Controller (PLIC) for RISC-V based Processor Systems supporting a user-defined number of interrupt sources and targets.
 
+![Example PLIC System Diagram](docs/AHB-Lite_PLIC_System_Diagram.png)
 
-## Supported Interfaces:
+## Documentation
+
+- [Product Brief]()
+- [RV12 Datasheet]()
+- [User Guide]()
+
+## Features
+
+- AHB-Lite Interface with programmable address and data width
+- User defined number of Interrupt Sources & Targets
+- User defined priority level per Interrupt Source
+- Interrupt masking per target via Priority Threshold support
+- User defined Interrupt Pending queue depth per source
+
+## Compatibility
+
+Compliant to the RISC-V Privilege Level 1.9, 1.9.1, 1.10 specifications
+
+## Interfaces
+
 - AHB3 Lite
 - Wishbone
+- Dynamic Registers
 
-## AHB3 Lite Parameters
-| **PARAMETER**     | **DESCRIPTION**                                        |
-|:------------------|:-------------------------------------------------------|
+The PLIC core implements Dynamic Registers, which means the registers and register mapping are automatically generated based on the parameters provided to the core. The core prints the register mapping during simulation (and for some tools during synthesis).
+
+## Parameters
+
+| Parameter         | Description                                            |
+| ----------------- | ------------------------------------------------------ |
 | HADDR_SIZE        | AHB Bus Address Size                                   |
 | HDATA_SIZE        | AHB Bus Data Size                                      |
 | SOURCES           | Number of Interrupt Sources                            |
@@ -24,16 +45,28 @@ The core prints the register mapping during simulation (and for some tools durin
 | HAS_THRESHOLD     | Implement the Interrupt Priority Threshold Registers?  |
 | HAS_CONFIG_REG    | Implement a register containing the IP configuration?  |
 
+## Resources
+
+Extract table from datasheet
+
+## License
+
+Released under the RoaLogic [Non-Commerical License](/LICENSE.md)
+
+## Dependencies
+Requires the Roa Logic [AHB3Lite Package](). This is are included as a submodule.
+After cloning the RV12 git repository, perform a 'git submodule init' to download the submodule.
 
 ## Dynamic Register Examples
-### Example 1
+### Example 1:
 Parameters:  
-HDATA_SIZE=32  
+> HDATA_SIZE=32  
 SOURCE=16  
 TARGETS=2  
 PRIORITIES=7  
 HAS_THRESHOLD=1  
 HAS_CONFIG_REG=0
+
 ```
 - Configuration Report -------------------------------------
   Sources | Targets | Priority-lvl | Threshold? | Event-Cnt
@@ -52,14 +85,15 @@ HAS_CONFIG_REG=0
 - End Configuration Report ---------------------------------
 ```
 
-### Example 2
+### Example 2:
 Parameters:  
-HDATA_SIZE=64  
+> HDATA_SIZE=64  
 SOURCE=64  
 TARGETS=4  
 PRIORITIES=15  
 HAS_THRESHOLD=1  
-HAS_CONFIG_REG=1  
+HAS_CONFIG_REG=1
+
 ```
 - Configuration Report -------------------------------------
   Sources | Targets | Priority-lvl | Threshold? | Event-Cnt  
@@ -86,5 +120,3 @@ HAS_CONFIG_REG=1
   0x0088   ID                     57'h0, ID[3][6:0]
 - End Configuration Report ---------------------------------
 ```
-
-
