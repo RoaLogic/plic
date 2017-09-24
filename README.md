@@ -1,5 +1,3 @@
-# Platform Level Interrupt Controller
-
 ## Overview
 
 Fully Parameterized & Programmable Platform Level Interrupt Controller (PLIC) for RISC-V based Processor Systems supporting a user-defined number of interrupt sources and targets.
