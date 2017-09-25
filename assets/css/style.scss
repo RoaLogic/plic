@@ -3,6 +3,10 @@
 
 @import "{{ site.theme }}";
 
+body {
+	background-color: #FFFFFF;
+}
+
 /* Add Roa Logic Font */
 h1, h2, h3 {
 	font-family: Montserrat, Monaco, serif;
@@ -26,15 +30,9 @@ a {
     color: #050692;
 }
 
-/* Reduce left margin by 10px, Add Roa Logic Colors */
+/* Reduce left margin by 10px */
 header {
 	padding: 34px 25px 22px 40px;
-	background-color: #159957;
-	background-image: linear-gradient(120deg, #155799, #159957);
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;
-	border: 0px;
 }
 
 footer {
@@ -70,8 +68,8 @@ header li:hover {
 
 /* Format Logo in Header */
 p.logo {
-	/*background-color: #F7F7F7;
-	border: 1px solid #000;*/
+	background-color: #F7F7F7;
+	/*border: 1px solid #000;*/
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
