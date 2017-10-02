@@ -10,7 +10,7 @@ author: Roa Logic
 
 The Roa Logic AHB-Lite PLIC (Platform Level Interrupt Controller) IP is a fully parameterized soft IP implementing a Interrupt Controller as specified by the *[RISC-V Privileged 1.9.1 specification][riscv_priv_spec]*.
 
-The IP features an AHB-Lite Slave interface, with all signals defined in the *[AMBA 3 AHB-Lite v1.0](ahb-lite_Spec)* specifications fully supported. Bus address & data widths as well as the number of Interrupt Sources and Targets supported are specified via parameters.
+The IP features an AHB-Lite Slave interface, with all signals defined in the *[AMBA 3 AHB-Lite v1.0][ahb-lite_Spec]* specifications fully supported. Bus address & data widths as well as the number of Interrupt Sources and Targets supported are specified via parameters.
 
 The controller further supports user defined priority levels and pending events, in addition to interrupt masking via programmable priority thresholds
 
@@ -94,7 +94,7 @@ The AHB-Lite PLIC IP is a fully parameterised Platform-Level Interrupt Controlle
 
 The purpose of the PLIC core is to connect multiple interrupt sources to one or more interrupt targets. The core supports a programmable number of simultaneous pending interrupt requests per source and routing of those interrupt requests to individual targets.
 
-Per the [RISC-V Privileged Architecture Instruction Set specification (v1.9.1)](riscv_priv_spec), the core performs full interrupt prioritisation of each interrupt source; each may be assigned a separate priority and enabled per target via a matrix of interrupt enable bits. Further, an optional threshold per target may be defined to mask lower priority interrupts.
+Per the [RISC-V Privileged Architecture Instruction Set specification (v1.9.1)][riscv_priv_spec], the core performs full interrupt prioritisation of each interrupt source; each may be assigned a separate priority and enabled per target via a matrix of interrupt enable bits. Further, an optional threshold per target may be defined to mask lower priority interrupts.
 
 To reduce latency, the PLIC core presents all asserted interrupts to the target in priority order, queuing them so that a software interrupt handler can service all interrupts without the need to restore the interrupted context.
 
@@ -216,7 +216,7 @@ The default value is enabled (‘1’). To disable this parameter should be set 
 
 ## AHB-Lite Interface
 
-The AHB-Lite interface is a regular AHB-Lite slave port. All signals are supported. See the *[AMBA 3 AHB-Lite Specification](ahb-lite_spec)* for a complete description of the signals.
+The AHB-Lite interface is a regular AHB-Lite slave port. All signals are supported. See the *[AMBA 3 AHB-Lite Specification][ahb-lite_spec]* for a complete description of the signals.
 
 | **Port**    |   **Size**   | **Direction** | **Description**               |
 | ----------- | :----------: | :-----------: | ----------------------------- |
@@ -604,8 +604,19 @@ All implementations are push button, no effort has been undertaken to reduce are
 
 # References
 
-[ahb-lite_Spec]: http://example.com/	"AHB3 Lite Specification"
-[riscv_priv_spec]: http://example.com/	"RISC-V Privilege Specification 1.9.1"
+The RV12 CPU is designed to be compliant with v1.9.1 of theRISC-V Privileged Architecture and v2.2 of the RISC-V User Level ISA.
+
+This datasheet includes documentation derived from thefollowing RISC-V Foundation documentation, as licensed under the CreativeCommons Attribution 4.0 International License:
+
+“The RISC-V Instruction Set Manual, Volume I: User-Level ISA, Document Version 2.2", Editors Andrew Waterman and Krste Asanović,RISC-V Foundation, May 2017.
+
+ “The RISC-VInstruction Set Manual, Volume II: Privileged Architecture, Version 1.9.1",Editors Andrew Waterman and Krste Asanović, RISC-V Foundation, November 2016
+
+## Links
+
+[ahb-lite_Spec]: http://example.com/ 	"AHB3 Lite Specification"
+[riscv_priv_spec]: http://example.com/	"RISC-V Privileged Architecture Specification v1.9.1"
+[riscv_isa_spec]: http://example.com/	"RISC-V User-Level ISA Specification v2.2"
 
 # Revision History
 
