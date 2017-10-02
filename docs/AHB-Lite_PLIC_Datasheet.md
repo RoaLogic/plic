@@ -38,6 +38,8 @@ The controller further supports user defined priority levels and pending events,
 
 [Resources](#resources)
 
+[References](#references)
+
 [Revision History](#revision-history)
 
 # Getting Started
@@ -604,19 +606,15 @@ All implementations are push button, no effort has been undertaken to reduce are
 
 # References
 
-The RV12 CPU is designed to be compliant with v1.9.1 of theRISC-V Privileged Architecture and v2.2 of the RISC-V User Level ISA.
+The PLIC is designed to be compliant with the [RISC-V Privileged Architecture v1.9.1][riscv_priv_spec] and [RISC-V User Level ISA v2.2][riscv_isa_spec] specifications, as licensed under the Creative Commons Attribution 4.0 International License:
 
-This datasheet includes documentation derived from thefollowing RISC-V Foundation documentation, as licensed under the CreativeCommons Attribution 4.0 International License:
+> “The RISC-V Instruction Set Manual, Volume I: User-Level ISA, Document Version 2.2", Editors Andrew Waterman and Krste Asanović,RISC-V Foundation, May 2017.
 
-“The RISC-V Instruction Set Manual, Volume I: User-Level ISA, Document Version 2.2", Editors Andrew Waterman and Krste Asanović,RISC-V Foundation, May 2017.
+> “The RISC-VInstruction Set Manual, Volume II: Privileged Architecture, Version 1.9.1",Editors Andrew Waterman and Krste Asanović, RISC-V Foundation, November 2016
 
- “The RISC-VInstruction Set Manual, Volume II: Privileged Architecture, Version 1.9.1",Editors Andrew Waterman and Krste Asanović, RISC-V Foundation, November 2016
-
-## Links
-
-[ahb-lite_Spec]: http://example.com/ 	"AHB3 Lite Specification"
-[riscv_priv_spec]: http://example.com/	"RISC-V Privileged Architecture Specification v1.9.1"
-[riscv_isa_spec]: http://example.com/	"RISC-V User-Level ISA Specification v2.2"
+[ahb-lite_Spec]: https://www.arm.com/products/system-ip/amba-specifications "AHB3 Lite Specification"
+[riscv_priv_spec]: https://people.eecs.berkeley.edu/%7Ekrste/papers/riscv-privileged-v1.9.1.pdf "RISC-V Privileged Architecture Specification v1.9.1"
+[riscv_isa_spec]: https://github.com/riscv/riscv-isa-manual/releases/download/riscv-user-2.2/riscv-spec-v2.2.pdf "RISC-V User-Level ISA Specification v2.2"
 
 # Revision History
 
