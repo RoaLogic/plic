@@ -8,14 +8,13 @@ author: Roa Logic
 
 # AHB-Lite PLIC Datasheet
 
-The Roa Logic AHB-Lite PLIC (Platform Level Interrupt Controller) IP is a fully parameterized soft IP implementing a Interrupt Controller as specified by the *[RISC-V Privileged 1.9.1 specification](RISCV_Priv_Spec)*.
+The Roa Logic AHB-Lite PLIC (Platform Level Interrupt Controller) IP is a fully parameterized soft IP implementing a Interrupt Controller as specified by the RISC-V Privileged 1.9.1 specification.
 
-The IP features an AHB-Lite Slave interface, with all signals defined in the *[AMBA 3 AHB-Lite v1.0](AHB-Lite_Spec)* specifications fully supported. Bus address & data widths as well as the number of Interrupt Sources and Targets supported are specified via parameters.
+The IP features an AHB-Lite Slave interface, with all signals defined in the *AMBA 3 AHB-Lite v1.0* specifications fully supported. Bus address & data widths as well as the number of Interrupt Sources and Targets supported are specified via parameters.
 
 The controller further supports user defined priority levels and pending events, in addition to interrupt masking via programmable priority thresholds
 
 ![AHB-Lite PLIC Block Diagram](../assets/graphics/AHB-Lite_PLIC_Port_Diagram.png)
-
 
 
 ## Features
@@ -28,17 +27,17 @@ The controller further supports user defined priority levels and pending events,
 
 # Contents
 
-[Getting Started](#Getting-Started)
+[Getting Started](#getting-started)
 
-[Specifications](#Specifications)
+[Specifications](#specifications)
 
-[Configurations](#Configurations)
+[Configurations](#configurations)
 
-[Interfaces](Interfaces)
+[Interfaces](#interfaces)
 
-[Resources](Resources)
+[Resources](#resources)
 
-[Revision History](#Revision-History)
+[References](#references)
 
 # Getting Started
 
@@ -50,6 +49,7 @@ The tarball contains a directory structure as outlined below:
 
 ![](../assets/graphics/Folders.png)
 
+
 The *doc* directory contains relevant documents like user guides, application notes, and datasheets.
 
 The *rtl* directory contains the actual IP design files. Depending on the license agreement the AHB-Lite PLIC is delivered as either encrypted Verilog-HDL or as plain SystemVerilog source files. Encrypted files have the extension “.enc.sv”, plain source files have the extension “.sv”. The files are encryption according to the IEEE-P1735 encryption standard. Encryption keys for Mentor Graphics (Modelsim, Questasim, Precision), Synplicity (Synplify, Synplify-Pro), and Aldec (Active-HDL, Riviera-Pro) are provided. As such there should be no issue targeting any existing FPGA technology.
@@ -58,7 +58,7 @@ If any other synthesis or analysis tool is used then a plain source RTL delivery
 
 The *bench* directory contains the (encrypted) source files for the testbench.
 
-The *sim* directory contains the files/structure to run the simulations. Section ''[Running the testbench](#Running-the-Testbench)'' provides for instructions on how to use the makefile.
+The *sim* directory contains the files/structure to run the simulations. Section 1.2 ‘Running the testbench’ provides for instructions on how to use the makefile.
 
 ## Running the testbench
 
@@ -94,7 +94,7 @@ The AHB-Lite PLIC IP is a fully parameterised Platform-Level Interrupt Controlle
 
 The purpose of the PLIC core is to connect multiple interrupt sources to one or more interrupt targets. The core supports a programmable number of simultaneous pending interrupt requests per source and routing of those interrupt requests to individual targets.
 
-Per the [RISC-V Privileged Architecture Instruction Set specification (v1.9.1)](), the core performs full interrupt prioritisation of each interrupt source; each may be assigned a separate priority and enabled per target via a matrix of interrupt enable bits. Further, an optional threshold per target may be defined to mask lower priority interrupts.
+Per the [RISC-V Privileged Architecture Instruction Set specification (v1.9.1)](riscv_priv_spec), the core performs full interrupt prioritisation of each interrupt source; each may be assigned a separate priority and enabled per target via a matrix of interrupt enable bits. Further, an optional threshold per target may be defined to mask lower priority interrupts.
 
 To reduce latency, the PLIC core presents all asserted interrupts to the target in priority order, queuing them so that a software interrupt handler can service all interrupts without the need to restore the interrupted context.
 
@@ -114,15 +114,14 @@ The Roa Logic implementation of the handshake between Interrupt source, target a
 
 ![AHB-Lite_PLIC_Handshake](../assets/graphics/AHB-Lite_PLIC_Handshake.png)
 
-
-
 ### PLIC Configuration
 
 A matrix of Interrupt Enable vectors – one IE register per target – determines which target processes the interrupts of which source.
 
 Each Interrupt Source attached to the PLIC is then assigned a Priority Level – an unsigned integer that determines the relative priority of the interrupt source. The greater the integer, the greater the priority level. A Priority Threshold per target may also be defined to mask lower priority interrupts such that interrupts will only be presented to a target if the assigned Priority Level &gt; Priority Threshold
 
-In addition each source is assigned an Interrupt Identifier (`ID`) – an unique unsigned integer. This identifier determines interrupt priority when 2 or more interrupts with the same priority level are asserted. The lower the `ID` assigned to the source, the greater the interrupt priority.
+
+In addition each source is assigned an Interrupt Identifier (ID) – an unique unsigned integer. This identifier determines interrupt priority when 2 or more interrupts with the same priority level are asserted. The lower the ID assigned to the source, the greater the interrupt priority.
 
 ### Interrupt Request
 
@@ -152,7 +151,8 @@ Once an interrupt has been serviced, completion is signalled to the PLIC by writ
 
 On receiving the completion notification the PLIC will again allow interrupts to be forwarded from the corresponding source.
 
-The Interrupt Handler may then exit, however it is possible a new interrupt request may have been asserted while the handler was running. To reduce latency the handler may instead determine is a new interrupt has been received and if so again claim the interrupt as described in section "[Claim Response](#Claim-Response)". In this way the interrupt handler can service all interrupts without the need to restore the interrupted context.
+The Interrupt Handler may then exit, however it is possible a new interrupt request may have been asserted while the handler was running. To reduce latency the handler may instead determine is a new interrupt has been received and if so again claim the interrupt as described in section 2.2.4. In this way the interrupt handler can service all interrupts without the need to restore the interrupted context.
+
 
 # Configurations
 
@@ -160,9 +160,10 @@ The Interrupt Handler may then exit, however it is possible a new interrupt requ
 
  The size and implementation style of the PLIC module is defined via HDL parameters as specified below:
 
-| **Parameter**            | **Type** | **Default** | **Description**              |
-| :----------------------- | :------: | :---------: | :--------------------------- |
-| **AHB  Interface:**      |          |             |                              |
+| **Parameter**       | **Type** | **Default** | **Description** |
+| :------------------ | :------: | :---------: | :-------------- |
+| **AHB  Interface:** |          |             |                 |
+<<<<<<< HEAD
 | `HADDR_SIZE`             | Integer  |     32      | Width of AHB Address Bus     |
 | `HDATA_SIZE`             | Integer  |     32      | Width of AHB Data Buses      |
 |                          |          |             |                              |
@@ -197,18 +198,64 @@ The PLIC IP supports prioritisation of individual interrupt sources. The `PRIORI
 ### MAX\_PENDING\_COUNT
 
 The PLIC module supports multiple concurrently arriving interrupt requests. The maximum number of requests that are supported is defined by the `MAX_PENDING_COUNT` parameter.
+=======
+| HADDR_SIZE               | Integer  |     32      | Width of AHB Address Bus     |
+| HDATA_SIZE               | Integer  |     32      | Width of AHB Data Buses      |
+|                          |          |             |                              |
+| **PLIC  Configuration:** |          |             |                              |
+| SOURCES                  | Integer  |     16      | Number of Interrupt  Sources |
+| TARGETS                  | Integer  |      4      | Number of Interrupt Targets  |
+| PRIORITIES               | Integer  |      8      | Number of Priority Levels    |
+| MAX_PENDING_COUNT        | Integer  |      8      | Max number of pending events |
+| HAS_THRESHOLD            | Integer  |      1      | Is Threshold Implemented     |
+| HAS_CONFIG_REG           | Integer  |      1      | Is Config Reg. Implemented   |
+
+Table 3‑1: Core Parameters
+
+### HADDR\_SIZE
+
+The HADDR\_SIZE parameter specifies the address bus size to connect to the AHB-Lite based host. Valid values are 32 and 64. The default value is 32.
+
+### HDATA\_SIZE
+
+The HDATA\_SIZE parameter specifies the data bus size to connect to the AHB-Lite based host. Valid values are 32 and 64. The default value is 32
+
+### SOURCES
+
+The SOURCES parameter defines the number of individual interrupt sources supported by the PLIC IP. The default value is 16. The minimum value is 1.
+
+### TARGETS
+
+The TARGETS parameter defines the number of targets supported by the PLIC IP. The default value is 4. The minimum value is 1.
+
+### PRIORITIES
+
+The PLIC IP supports prioritisation of individual interrupt sources. The PRIORITIES parameter defines the number of priority levels supported by the PLIC IP. The default value is 8. The minimum value is 1.
+
+### MAX\_PENDING\_COUNT
+
+The PLIC module supports multiple concurrently arriving interrupt requests. The maximum number of requests that are supported is defined by the MAX\_PENDING\_COUNT parameter.
+>>>>>>> 2d44129... Added First Draft of Datasheet
 
 The default value is 8. The minimum value is 0.
 
 ### HAS\_THRESHOLD
 
+<<<<<<< HEAD
 The PLIC module supports interrupt thresholds – the masking of individual interrupt sources based on their priority level. The `HAS_THRESHOLD` parameter defines if this capability is enabled.
+=======
+The PLIC module supports interrupt thresholds – the masking of individual interrupt sources based on their priority level. The HAS\_THRESHOLD parameter defines if this capability is enabled.
+>>>>>>> 2d44129... Added First Draft of Datasheet
 
 The default value is enabled (‘1’). To disable, this parameter should be set to ‘0’.
 
 ### HAS\_CONFIG\_REG
 
+<<<<<<< HEAD
 The PLIC module supports a programmable Configuration Register, which is documented in section 0. The `HAS_CONFIG_REG` parameter defines if this capability is enabled.
+=======
+The PLIC module supports a programmable Configuration Register, which is documented in section 0. The HAS\_CONFIG\_REG parameter defines if this capability is enabled.
+>>>>>>> 2d44129... Added First Draft of Datasheet
 
 The default value is enabled (‘1’). To disable this parameter should be set to ‘0’.
 
@@ -216,7 +263,9 @@ The default value is enabled (‘1’). To disable this parameter should be set 
 
 ## AHB-Lite Interface
 
-The AHB-Lite interface is a regular AHB-Lite slave port. All signals are supported. See the *[AMBA 3 AHB-Lite Specification](AHB-Lite_Spec)* for a complete description of the signals.
+<<<<<<< HEAD
+
+The AHB-Lite interface is a regular AHB-Lite slave port. All signals are supported. See the *[AMBA 3 AHB-Lite Specification](ahb-lite_spec)* for a complete description of the signals.
 
 | **Port**    |   **Size**   | **Direction** | **Description**               |
 | ----------- | :----------: | :-----------: | ----------------------------- |
@@ -250,11 +299,50 @@ When the active low asynchronous `HRESETn` input is asserted (‘0’), the inte
 The AHB-Lite interface only responds to other signals on its bus – with the exception of the global asynchronous reset signal `HRESETn` – when `HSEL` is asserted (‘1’). When `HSEL` is negated (‘0’) the interface considers the bus `IDLE`.
 
 ### HTRANS
+=======
+The AHB-Lite interface is a regular AHB-Lite slave port. All signals are supported. See the *AMBA 3 AHB-Lite Specification* for a complete description of the signals.
+
+  
+
+| **Port**  |  **Size**  | **Direction** | **Description**               |
+| --------- | :--------: | :-----------: | ----------------------------- |
+| HRESETn   |     1      |     Input     | Asynchronous active low reset |
+| HCLK      |     1      |     Input     | Clock Input                   |
+| HSEL      |     1      |     Input     | Bus Select                    |
+| HTRANS    |     2      |     Input     | Transfer Type                 |
+| HADDR     | HADDR_SIZE |     Input     | Address Bus                   |
+| HWDATA    | HDATA_SIZE |     Input     | Write Data Bus                |
+| HRDATA    | HDATA_SIZE |    Output     | Read Data Bus                 |
+| HWRITE    |     1      |     Input     | Write Select                  |
+| HSIZE     |     3      |     Input     | Transfer Size                 |
+| HBURST    |     3      |     Input     | Transfer Burst Size           |
+| HPROT     |     4      |     Input     | Transfer Protection Level     |
+| HREADYOUT |     1      |    Output     | Transfer Ready Output         |
+| HREADY    |     1      |     Input     | Transfer Ready Input          |
+| HRESP     |     1      |    Output     | Transfer Response             |
+
+Table 4‑1: AHB-Lite Interface Ports
+
+### HRESETn
+
+When the active low asynchronous HRESETn input is asserted (‘0’), the interface is put into its initial reset state.
+
+### HCLK
+
+HCLK is the interface system clock. All internal logic for the AMB3-Lite interface operates at the rising edge of this system clock and AHB bus timings are related to the rising edge of HCLK.
+
+### HSEL
+
+The AHB-Lite interface only responds to other signals on its bus – with the exception of the global asynchronous reset signal HRESETn – when HSEL is asserted (‘1’). When HSEL is negated (‘0’) the interface considers the bus IDLE.
+
+###HTRANS
+>>>>>>> 2d44129... Added First Draft of Datasheet
 
 HTRANS indicates the type of the current transfer.
 
 | **HTRANS** | **Type** | **Description**                          |
 | :--------: | :------: | :--------------------------------------- |
+<<<<<<< HEAD
 |     00     |  `IDLE`  | No transfer required                     |
 |     01     |  `BUSY`  | Connected master is not  ready to accept data, but intents to continue the current burst. |
 |     10     | `NONSEQ` | First transfer of a burst or a single transfer |
@@ -279,6 +367,34 @@ HTRANS indicates the type of the current transfer.
 ### HSIZE
 
 `HSIZE` indicates the size of the current transfer.
+=======
+|     00     |   IDLE   | No transfer required                     |
+|     01     |   BUSY   | Connected master is not  ready to accept data, but intents to continue the current burst. |
+|     10     |  NONSEQ  | First transfer of a burst or a single transfer |
+|     11     |   SEQ    | Remaining transfers of a burst           |
+
+Table 4‑2: AHB-Lite Transfer Type (HTRANS)
+
+### HADDR
+
+HADDR is the address bus. Its size is determined by the HADDR\_SIZE parameter and is driven to the connected peripheral.
+
+### HWDATA
+
+HWDATA is the write data bus. Its size is determined by the HDATA\_SIZE parameter and is driven to the connected peripheral.
+
+### HRDATA
+
+HRDATA is the read data bus. Its size is determined by HDATA\_SIZE parameter and is sourced by the APB4 peripheral.
+
+### HWRITE
+
+HWRITE is the read/write signal. HWRITE asserted (‘1’) indicates a write transfer.
+
+### HSIZE
+
+HSIZE indicates the size of the current transfer.
+>>>>>>> 2d44129... Added First Draft of Datasheet
 
 | **HSIZE** | **Size** | **Description** |
 | :-------: | :------: | :-------------- |
@@ -291,12 +407,18 @@ HTRANS indicates the type of the current transfer.
 |    110    | 512 bit  |                 |
 |    111    | 1024 bit |                 |
 
+<<<<<<< HEAD
+=======
+Table 4‑3: Transfer Size Values (HSIZE)
+
+>>>>>>> 2d44129... Added First Draft of Datasheet
 ### HBURST
 
 HBURST indicates the transaction burst type – a single transfer or part of a burst.
 
 | **HBURST** | **Type** | **Description**               |
 | :--------: | :------: | ----------------------------- |
+<<<<<<< HEAD
 |    000     | `SINGLE` | Single access**               |
 |    001     |  `INCR`  | Continuous incremental  burst |
 |    010     | `WRAP4`  | 4-beat wrapping burst         |
@@ -309,6 +431,22 @@ HBURST indicates the transaction burst type – a single transfer or part of a b
 ### HPROT
 
 The `HPROT` signals provide additional information about the bus transfer and are intended to implement a level of protection.
+=======
+|    000     |  SINGLE  | Single access**               |
+|    001     |   INCR   | Continuous incremental  burst |
+|    010     |  WRAP4   | 4-beat wrapping burst         |
+|    011     |  INCR4   | 4-beat incrementing burst     |
+|    100     |  WRAP8   | 8-beat wrapping burst         |
+|    101     |  INCR8   | 8-beat incrementing burst     |
+|    110     |  WRAP16  | 16-beat wrapping burst        |
+|    111     |  INCR16  | 16-beat incrementing burst    |
+
+Table 4‑4: AHB-Lite Burst Types (HBURST)
+
+### HPROT
+
+The HPROT signals provide additional information about the bus transfer and are intended to implement a level of protection.
+>>>>>>> 2d44129... Added First Draft of Datasheet
 
 | **Bit#** | **Value** | **Description**                 |
 | :------: | :-------: | ------------------------------- |
@@ -321,6 +459,7 @@ The `HPROT` signals provide additional information about the bus transfer and ar
 |    0     |     1     | Data Access                     |
 |          |     0     | Opcode fetch                    |
 
+<<<<<<< HEAD
 ### HREADYOUT
 
 `HREADYOUT` indicates that the current transfer has finished. Note, for the AHB-Lite PLIC this signal is constantly asserted as the core is always ready for data access.
@@ -332,30 +471,65 @@ The `HPROT` signals provide additional information about the bus transfer and ar
 ### HRESP
 
 `HRESP` is the instruction transfer response and indicates OKAY (‘0’) or ERROR (‘1’).
+=======
+Table 4‑5: AHB-Lite Transaction Protection Signals (HPROT)
+
+### HREADYOUT
+
+HREADYOUT indicates that the current transfer has finished. Note, for the AHB-Lite PLIC this signal is constantly asserted as the core is always ready for data access.
+
+### HREADY
+
+HREADY indicates whether or not the addressed peripheral is ready to transfer data. When HREADY is negated (‘0’) the peripheral is not ready, forcing wait states. When HREADY is asserted (‘1’) the peripheral is ready and the transfer completed.
+
+### HRESP
+
+HRESP is the instruction transfer response and indicates OKAY (‘0’) or ERROR (‘1’).
+>>>>>>> 2d44129... Added First Draft of Datasheet
 
 ## PLIC Interface
 
 Blah
 
+<<<<<<< HEAD
 | **Port** | **Size**  | **Direction** | **Description**    |
 | :------: | :-------: | :-----------: | ------------------ |
 |  `SRC`   | `SOURCES` |     Input     | Interrupt Sources  |
 |  `IRQ`   | `TARGETS` |    Output     | Interrupt Requests |
 
-Note: Width of PLIC interface buses defined by [Core Parameters](#Core-Parameters).
+Note: Width of PLIC interface buses defined by [Core Parameters](#core-parameters).
 
 ### SRC
 
-Interrupt sources connect to the `SRC[SOURCES-1..0]` input of the PLIC module. The width of this interface is defined by the [SOURCES parameter](#SOURCES).
+Interrupt sources connect to the `SRC[SOURCES-1..0]` input of the PLIC module. The width of this interface is defined by the [SOURCES](#sources) parameter.
 
 ### IRQ
 
-Interrupt targets are sourced by the `IRQ[TARGETS-1..0]` output of the PLIC module. The width of this interface is defined by the [TARGETS parameter](#TARGETS).
+Interrupt targets are sourced by the `IRQ[TARGETS-1..0]` output of the PLIC module. The width of this interface is defined by the [TARGETS](#targets) parameter.
+=======
+| **Port** | **Size** | **Direction** | **Description**    |
+| :------: | :------: | :-----------: | ------------------ |
+|   SRC    | SOURCES  |     Input     | Interrupt Sources  |
+|   IRQ    | TARGETS  |    Output     | Interrupt Requests |
+
+Table 4‑6: PLIC Interface Signals
+
+Note: Width of PLIC interface buses defined by Core Parameters – see section 3.1
+
+### SRC
+
+Interrupt sources connect to the SRC\[SOURCES-1..0\] input of the PLIC module. The width of this interface is defined by the SOURCES parameter (See section 3.1.3)
+
+### IRQ
+
+Interrupt targets are sourced by the IRQ\[TARGETS-1..0\] output of the PLIC module. The width of this interface is defined by the TARGETS parameter (See section 3.1.4)
+>>>>>>> 2d44129... Added First Draft of Datasheet
 
 ## Register Interface
 
 The following registers are user accessible in the PLIC module:
 
+<<<<<<< HEAD
 | **Register** | **Registers** |   **Width (bits)**    | **Mode** | **Function**                             |
 | :----------: | :-----------: | :-------------------: | :------: | ---------------------------------------- |
 |   `CONFIG`   |       1       |          64           |    RO    | Configuration                            |
@@ -364,6 +538,18 @@ The following registers are user accessible in the PLIC module:
 |     `ID`     |   `TARGETS`   |  clog~2~(`SOURCES`)   |    RW    | ID of Highest priority IRQ, Int. Claim (R), Int. Complete (W) |
 |  `PRIORITY`  |   `SOURCES`   | clog~2~(`PRIORITIES`) |    RW    | Priority Level                           |
 | `THRESHOLD`  |   `TARGETS`   | clog~2~(`PRIORITIES`) |    RW    | Priority Threshold                       |
+=======
+| **Register** | **Registers** |  **Width (bits)**   | **Mode** | **Function**                             |
+| :----------: | :-----------: | :-----------------: | -------- | ---------------------------------------- |
+|    CONFIG    |       1       |         64          | RO       | Configuration                            |
+|      EL      |       1       |       SOURCES       | RW       | Edge/Level Trigger                       |
+|      IE      |    TARGETS    |       SOURCES       | RW       | Interrupt Enable                         |
+|      ID      |    TARGETS    |  clog~2~(SOURCES)   | RW       | ID of Highest priority IRQ, Int. Claim (R), Int. Complete (W) |
+|   PRIORITY   |    SOURCES    | clog~2~(PRIORITIES) | RW       | Priority Level                           |
+|  THRESHOLD   |    TARGETS    | clog~2~(PRIORITIES) | RW       | Priority Threshold                       |
+
+Table 4‑7: PLIC Registers
+>>>>>>> 2d44129... Added First Draft of Datasheet
 
 Note: clog~2~() refers to the System Verilog function by the same name, defined as:
 
@@ -371,6 +557,7 @@ Note: clog~2~() refers to the System Verilog function by the same name, defined 
 
 ### CONFIG
 
+<<<<<<< HEAD
 The `CONFIG` register is a Read-Only register that enables a software routine to determine the hardware configuration of the PLIC module.
 
 When enabled via the `HAS_CONFIG_REG` hardware parameter, the `CONFIG` register returns a 64 bit value constructed as follows:
@@ -379,23 +566,52 @@ When enabled via the `HAS_CONFIG_REG` hardware parameter, the `CONFIG` register 
 | ------------ | ---- | ------------- | ---------- | ------- | ------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
 | Value        | 0    | HAS_THRESHOLD | PRIORITIES | TARGETS | SOURCES |      |      |      |      |      |      |      |      |
 
-The values, `HAS\_THRESHOLD`, `PRIORITIES`, `TARGETS` and `SOURCES` correspond to the hardware parameters documented in section 3.1.
+The values, `HAS_THRESHOLD`, `PRIORITIES`, `TARGETS` and `SOURCES` correspond to the hardware parameters documented in section 3.1.
 
 ### EL
 
 The `EL` Read/Write register defines if an interrupt source is Edge or Level Triggered.
 
-The number of interrupt sources, as defined by the [`SOURCES` parameter](#SOURCES), determines the width of the `EL` register. One bit within the register corresponds to an interrupt source, where a logic high (‘1’) defines a rising-edge triggered interrupt and a logic low (‘0’) defines a level triggered interrupt.
+The number of interrupt sources, as defined by the [`SOURCES`](#sources) parameter, determines the width of the `EL` register. One bit within the register corresponds to an interrupt source, where a logic high (‘1’) defines a rising-edge triggered interrupt and a logic low (‘0’) defines a level triggered interrupt.
 
 ### IE\[ \]
 
 The matrix of `IE[]` Read/Write registers define if an interrupt source is enabled or disabled for a specific target. When disabled, any interrupts generated by the source will be ignored by the PLIC.
 
-The number of targets determines the number of  `IE[]` registers. The number of interrupt sources, as defined by the [SOURCES parameter](#SOURCES) (see section 3.1.3), determines the width of each  `IE[]` register. One bit within the register corresponds to an individual interrupt source, where a logic high (‘1’) defines an interrupt source as enabled and a logic low (‘0’) as disabled.
+The number of targets determines the number of  `IE[]` registers. The number of interrupt sources, as defined by the [SOURCES](#sources) parameter, determines the width of each  `IE[]` register. One bit within the register corresponds to an individual interrupt source, where a logic high (‘1’) defines an interrupt source as enabled and a logic low (‘0’) as disabled.
 
 ### ID\[ \]
 
-The `ID\[\]` Read/Write register identifies to each target the ID of the highest priority pending interrupt request.
+The `ID[ ]` Read/Write register identifies to each target the ID of the highest priority pending interrupt request.
+=======
+The CONFIG register is a Read-Only register that enables a software routine to determine the hardware configuration of the PLIC module.
+
+When enabled via the HAS\_CONFIG\_REG hardware parameter, the CONFIG register returns a 64 bit value constructed as follows:
+
+  Bit Position 63        49     48    47
+-------------- ---- ---------------- ------------ --------- --------- -- ---- ---- -- ---- ---- -- ---
+  Value    0  HAS\_THRESHOLD PRIORITIES TARGETS SOURCES
+
+Table 4‑8: CONFIG Register Fields
+
+The values, HAS\_THRESHOLD, PRIORITIES, TARGETS and SOURCES correspond to the hardware parameters documented in section 3.1.
+
+### EL
+
+The EL Read/Write register defines if an interrupt source is Edge or Level Triggered.
+
+The number of interrupt sources, as defined by the SOURCES parameter (see section 3.1.3), determines the width of the EL register. One bit within the register corresponds to an interrupt source, where a logic high (‘1’) defines a rising-edge triggered interrupt and a logic low (‘0’) defines a level triggered interrupt.
+
+### IE\[ \]
+
+The matrix of IE\[\] Read/Write registers define if an interrupt source is enabled or disabled for a specific target. When disabled, any interrupts generated by the source will be ignored by the PLIC.
+
+The number of targets determines the number of IE\[\] registers. The number of interrupt sources, as defined by the SOURCES parameter (see section 3.1.3), determines the width of each IE\[\] register. One bit within the register corresponds to an individual interrupt source, where a logic high (‘1’) defines an interrupt source as enabled and a logic low (‘0’) as disabled.
+
+### ID\[ \]
+
+The ID\[\] Read/Write register identifies to each target the ID of the highest priority pending interrupt request.
+>>>>>>> 2d44129... Added First Draft of Datasheet
 
 This register indicates to the target which of potentially multiple pending interrupts should be serviced rather than relying on this being resolved by the software Interrupt Service Routine.
 
@@ -405,15 +621,27 @@ A target then writes to this register to indicate completion of servicing the in
 
 ### PRIORITY\[ \]
 
+<<<<<<< HEAD
 The `PRIORITY\[\]` Read/Write registers define the priority level of each interrupt source.
 
-There is one `PRIORITY\[\]` register per interrupt source as defined by the `SOURCES` parameter (see [SOURCES](#SOURCES)), identified as `PRIORITY\[SOURCES-1:0\]`. The width of each register is derived from the number of priority levels as defined by the `PRIORITIES` parameter (see [section TARGETS](#TARGETS)).
+There is one `PRIORITY\[\]` register per interrupt source as defined by the `SOURCES` parameter (see [SOURCES](#sources)), identified as `PRIORITY\[SOURCES-1:0\]`. The width of each register is derived from the number of priority levels as defined by the `PRIORITIES` parameter (see [section TARGETS](#targets)).
 
 Interrupt priority increases with larger values of `PRIORITY`.
 
 ### THRESHOLD\[ \]
 
 Each target may be assigned a priority threshold via the `THRESHOLD\[\]` registers. Only active interrupts that have a priority strictly greater than the threshold will cause an interrupt notification to be sent to the target. A `THRESHOLD\[\]` value of 0 means that no interrupts will be masked.
+=======
+The PRIORITY\[\] Read/Write registers define the priority level of each interrupt source.
+
+There is one PRIORITY\[\] register per interrupt source as defined by the SOURCES parameter (see section 3.1.3), identified as PRIORITY\[SOURCES-1:0\]. The width of each register is derived from the number of priority levels as defined by the PRIORITIES parameter (see section 3.1.5).
+
+Interrupt priority increases with larger values of PRIORITY.
+
+### THRESHOLD\[ \]
+
+Each target may be assigned a priority threshold via the THRESHOLD\[\] registers. Only active interrupts that have a priority strictly greater than the threshold will cause an interrupt notification to be sent to the target. A THRESHOLD\[\] value of 0 means that no interrupts will be masked.
+>>>>>>> 2d44129... Added First Draft of Datasheet
 
 ## Register Address Mapping
 
@@ -427,7 +655,8 @@ A spreadsheet in Microsoft Excel format is available to perform these calculatio
 
 ### Itemising Register Requirements
 
-The section "[RegisterInterface](#Register-Interface)" provides a summary of the registers required to control and configure the PLIC. The following is a more detailed summary of those requirements.
+<<<<<<< HEAD
+The section "[Register Interface](#register-interface)" provides a summary of the registers required to control and configure the PLIC. The following is a more detailed summary of those requirements.
 
 #### CONFIG Register
 
@@ -436,6 +665,17 @@ The `CONFIG` register is always 64 bits. For 32 bit implementations this means 2
 #### EL Registers
 
 Each interrupt source requires a single bit in the `EL` register to define if the source is level or edge triggered. These bits will be packed into the minimum number of registers.
+=======
+Table 4‑7: PLIC Registers provides a summary of the registers required to control and configure the PLIC. The following is a more detailed summary of those requirements.
+
+#### CONFIG Register
+
+The CONFIG register is always 64 bits. For 32 bit implementations this means 2 physical registers are required, 1 each for the upper and lower word. For 64 bit implementations a single register will be implemented.
+
+#### EL Registers
+
+Each interrupt source requires a single bit in the EL register to define if the source is level or edge triggered. These bits will be packed into the minimum number of registers.
+>>>>>>> 2d44129... Added First Draft of Datasheet
 
 The physical number of registers implemented can be calculated as follows:
 
@@ -468,15 +708,25 @@ No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)*TARGETS
 
 #### ID Registers
 
+<<<<<<< HEAD
 The `ID\[\]` Read/Write register identifies the ID of the highest priority pending interrupt request, with one ID register required per target.
+=======
+The ID\[\] Read/Write register identifies the ID of the highest priority pending interrupt request, with one ID register required per target.
+>>>>>>> 2d44129... Added First Draft of Datasheet
 
 > `No. of Registers = TARGETS`
 
 #### Priority Registers
 
+<<<<<<< HEAD
 Each interrupt source can be assigned a priority, which is defined as positive integer. The PLIC parameter `PRIORITIES` defines the number of priority levels for a specific implementation, which then allows a source to be assigned a priority between 1 and `PRIORITIES`.
 
 These priority levels are packed into `HDATA\_SIZE` bit registers, as fields aligned to 4-bit nibble boundaries
+=======
+Each interrupt source can be assigned a priority, which is defined as positive integer. The PLIC parameter PRIORITIES defines the number of priority levels for a specific implementation, which then allows a source to be assigned a priority between 1 and PRIORITIES.
+
+These priority levels are packed into HDATA\_SIZE bit registers, as fields aligned to 4-bit nibble boundaries
+>>>>>>> 2d44129... Added First Draft of Datasheet
 
 > `No. of Registers = ROUNDUP(SOURCES/FPR)`
 
@@ -530,7 +780,11 @@ The order of the registers in the memory map is defined as follows:
 |     5     | THRESHOLD Registers |
 |     6     | ID Registers        |
 
+<<<<<<< HEAD
 
+=======
+Table 4‑9: Register Address Map Order
+>>>>>>> 2d44129... Added First Draft of Datasheet
 
 Registers a mapped to consecutive addresses based on this order and the number of registers required.
 
@@ -555,7 +809,11 @@ The resulting number of registers is:
 |      ID       |     4      |
 |   **Total**   |   **26**   |
 
+<<<<<<< HEAD
 These registers will be then mapped as follows according to the order defined below:
+=======
+These registers will be then mapped as follows according to the order defined in Table 4‑9:
+>>>>>>> 2d44129... Added First Draft of Datasheet
 
 | **Reg** | **Parameter** | **Value** |
 | :-----: | :-----------: | :-------: |
@@ -588,7 +846,11 @@ These registers will be then mapped as follows according to the order defined be
 
 Note: A spreadsheet exists that can calculate the above Register Address Mapping and is downloadable from the Roa Logic web site.
 
+<<<<<<< HEAD
 ![Register Mapping Worksheet](../assets/graphics/AHB-Lite_PLIC_Worksheet.png)
+=======
+![MacBook HD:Users:Paul:Dropbox:Screenshots:Screenshot 2017-09-22 14.32.47.png](media/image6.png){width="5.75in" height="7.097222222222222in"}
+>>>>>>> 2d44129... Added First Draft of Datasheet
 
 # Resources
 
@@ -602,10 +864,27 @@ All implementations are push button, no effort has been undertaken to reduce are
 |              |         |                 |            |                       |
 |              |         |                 |            |                       |
 
+<<<<<<< HEAD
 # References
 
-[AHB-Lite_Spec]: http://example.com/	"AHB3 Lite Specification"
-[RISCV_Priv_Spec]: http://example.com/	"RISC-V Privilege Specification 1.9.1"
+<<<<<<< HEAD
+The PLIC is designed to be compliant with the [RISC-V Privileged Architecture v1.9.1][riscv_priv_spec] and [RISC-V User Level ISA v2.2][riscv_isa_spec] specifications, as licensed under the Creative Commons Attribution 4.0 International License:
+
+> “The RISC-V Instruction Set Manual, Volume I: User-Level ISA, Document Version 2.2", Editors Andrew Waterman and Krste Asanović,RISC-V Foundation, May 2017.
+
+> “The RISC-VInstruction Set Manual, Volume II: Privileged Architecture, Version 1.9.1",Editors Andrew Waterman and Krste Asanović, RISC-V Foundation, November 2016
+
+[ahb-lite_Spec]: https://www.arm.com/products/system-ip/amba-specifications "AHB3 Lite Specification"
+[riscv_priv_spec]: https://people.eecs.berkeley.edu/%7Ekrste/papers/riscv-privileged-v1.9.1.pdf "RISC-V Privileged Architecture Specification v1.9.1"
+[riscv_isa_spec]: https://github.com/riscv/riscv-isa-manual/releases/download/riscv-user-2.2/riscv-spec-v2.2.pdf "RISC-V User-Level ISA Specification v2.2"
+
+=======
+[ahb-lite_Spec]: http://example.com/	"AHB3 Lite Specification"
+[riscv_priv_spec]: http://example.com/	"RISC-V Privilege Specification 1.9.1"
+>>>>>>> 953a2de... Fixed internal links for GFM
+>>>>>>> =======
+>>>>>>> Table 5‑1: Resource Utilization Examples
+>>>>>>> 2d44129... Added First Draft of Datasheet
 
 # Revision History
 
@@ -617,3 +896,11 @@ All implementations are push button, no effort has been undertaken to reduce are
 | ** **    |          |              |
 | ** **    |          |              |
 | ** **    |          |              |
+<<<<<<< HEAD
+=======
+
+Table 6‑1: Revision History
+```
+
+```
+>>>>>>> 2d44129... Added First Draft of Datasheet
