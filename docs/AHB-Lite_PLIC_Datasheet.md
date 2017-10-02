@@ -8,9 +8,9 @@ author: Roa Logic
 
 # AHB-Lite PLIC Datasheet
 
-The Roa Logic AHB-Lite PLIC (Platform Level Interrupt Controller) IP is a fully parameterized soft IP implementing a Interrupt Controller as specified by the *[RISC-V Privileged 1.9.1 specification](RISCV_Priv_Spec)*.
+The Roa Logic AHB-Lite PLIC (Platform Level Interrupt Controller) IP is a fully parameterized soft IP implementing a Interrupt Controller as specified by the *[RISC-V Privileged 1.9.1 specification](riscv_priv_spec)*.
 
-The IP features an AHB-Lite Slave interface, with all signals defined in the *[AMBA 3 AHB-Lite v1.0](AHB-Lite_Spec)* specifications fully supported. Bus address & data widths as well as the number of Interrupt Sources and Targets supported are specified via parameters.
+The IP features an AHB-Lite Slave interface, with all signals defined in the *[AMBA 3 AHB-Lite v1.0](ahb-lite_Spec)* specifications fully supported. Bus address & data widths as well as the number of Interrupt Sources and Targets supported are specified via parameters.
 
 The controller further supports user defined priority levels and pending events, in addition to interrupt masking via programmable priority thresholds
 
@@ -28,17 +28,17 @@ The controller further supports user defined priority levels and pending events,
 
 # Contents
 
-[Getting Started](#Getting-Started)
+[Getting Started](#getting-started)
 
-[Specifications](#Specifications)
+[Specifications](#specifications)
 
-[Configurations](#Configurations)
+[Configurations](#configurations)
 
-[Interfaces](Interfaces)
+[Interfaces](#interfaces)
 
-[Resources](Resources)
+[Resources](#resources)
 
-[Revision History](#Revision-History)
+[Revision History](#revision-history)
 
 # Getting Started
 
@@ -58,7 +58,7 @@ If any other synthesis or analysis tool is used then a plain source RTL delivery
 
 The *bench* directory contains the (encrypted) source files for the testbench.
 
-The *sim* directory contains the files/structure to run the simulations. Section ''[Running the testbench](#Running-the-Testbench)'' provides for instructions on how to use the makefile.
+The *sim* directory contains the files/structure to run the simulations. Section ''[Running the testbench](#running-the-testbench)'' provides for instructions on how to use the makefile.
 
 ## Running the testbench
 
@@ -94,7 +94,7 @@ The AHB-Lite PLIC IP is a fully parameterised Platform-Level Interrupt Controlle
 
 The purpose of the PLIC core is to connect multiple interrupt sources to one or more interrupt targets. The core supports a programmable number of simultaneous pending interrupt requests per source and routing of those interrupt requests to individual targets.
 
-Per the [RISC-V Privileged Architecture Instruction Set specification (v1.9.1)](), the core performs full interrupt prioritisation of each interrupt source; each may be assigned a separate priority and enabled per target via a matrix of interrupt enable bits. Further, an optional threshold per target may be defined to mask lower priority interrupts.
+Per the [RISC-V Privileged Architecture Instruction Set specification (v1.9.1)](riscv_priv_spec), the core performs full interrupt prioritisation of each interrupt source; each may be assigned a separate priority and enabled per target via a matrix of interrupt enable bits. Further, an optional threshold per target may be defined to mask lower priority interrupts.
 
 To reduce latency, the PLIC core presents all asserted interrupts to the target in priority order, queuing them so that a software interrupt handler can service all interrupts without the need to restore the interrupted context.
 
@@ -152,7 +152,7 @@ Once an interrupt has been serviced, completion is signalled to the PLIC by writ
 
 On receiving the completion notification the PLIC will again allow interrupts to be forwarded from the corresponding source.
 
-The Interrupt Handler may then exit, however it is possible a new interrupt request may have been asserted while the handler was running. To reduce latency the handler may instead determine is a new interrupt has been received and if so again claim the interrupt as described in section "[Claim Response](#Claim-Response)". In this way the interrupt handler can service all interrupts without the need to restore the interrupted context.
+The Interrupt Handler may then exit, however it is possible a new interrupt request may have been asserted while the handler was running. To reduce latency the handler may instead determine is a new interrupt has been received and if so again claim the interrupt as described in section "[Claim Response](#claim-response)". In this way the interrupt handler can service all interrupts without the need to restore the interrupted context.
 
 # Configurations
 
@@ -216,7 +216,7 @@ The default value is enabled (‘1’). To disable this parameter should be set 
 
 ## AHB-Lite Interface
 
-The AHB-Lite interface is a regular AHB-Lite slave port. All signals are supported. See the *[AMBA 3 AHB-Lite Specification](AHB-Lite_Spec)* for a complete description of the signals.
+The AHB-Lite interface is a regular AHB-Lite slave port. All signals are supported. See the *[AMBA 3 AHB-Lite Specification](ahb-lite_spec)* for a complete description of the signals.
 
 | **Port**    |   **Size**   | **Direction** | **Description**               |
 | ----------- | :----------: | :-----------: | ----------------------------- |
@@ -342,15 +342,15 @@ Blah
 |  `SRC`   | `SOURCES` |     Input     | Interrupt Sources  |
 |  `IRQ`   | `TARGETS` |    Output     | Interrupt Requests |
 
-Note: Width of PLIC interface buses defined by [Core Parameters](#Core-Parameters).
+Note: Width of PLIC interface buses defined by [Core Parameters](#core-parameters).
 
 ### SRC
 
-Interrupt sources connect to the `SRC[SOURCES-1..0]` input of the PLIC module. The width of this interface is defined by the [SOURCES parameter](#SOURCES).
+Interrupt sources connect to the `SRC[SOURCES-1..0]` input of the PLIC module. The width of this interface is defined by the [SOURCES](#sources) parameter.
 
 ### IRQ
 
-Interrupt targets are sourced by the `IRQ[TARGETS-1..0]` output of the PLIC module. The width of this interface is defined by the [TARGETS parameter](#TARGETS).
+Interrupt targets are sourced by the `IRQ[TARGETS-1..0]` output of the PLIC module. The width of this interface is defined by the [TARGETS](#targets) parameter.
 
 ## Register Interface
 
@@ -379,23 +379,23 @@ When enabled via the `HAS_CONFIG_REG` hardware parameter, the `CONFIG` register 
 | ------------ | ---- | ------------- | ---------- | ------- | ------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
 | Value        | 0    | HAS_THRESHOLD | PRIORITIES | TARGETS | SOURCES |      |      |      |      |      |      |      |      |
 
-The values, `HAS\_THRESHOLD`, `PRIORITIES`, `TARGETS` and `SOURCES` correspond to the hardware parameters documented in section 3.1.
+The values, `HAS_THRESHOLD`, `PRIORITIES`, `TARGETS` and `SOURCES` correspond to the hardware parameters documented in section 3.1.
 
 ### EL
 
 The `EL` Read/Write register defines if an interrupt source is Edge or Level Triggered.
 
-The number of interrupt sources, as defined by the [`SOURCES` parameter](#SOURCES), determines the width of the `EL` register. One bit within the register corresponds to an interrupt source, where a logic high (‘1’) defines a rising-edge triggered interrupt and a logic low (‘0’) defines a level triggered interrupt.
+The number of interrupt sources, as defined by the [`SOURCES`](#sources) parameter, determines the width of the `EL` register. One bit within the register corresponds to an interrupt source, where a logic high (‘1’) defines a rising-edge triggered interrupt and a logic low (‘0’) defines a level triggered interrupt.
 
 ### IE\[ \]
 
 The matrix of `IE[]` Read/Write registers define if an interrupt source is enabled or disabled for a specific target. When disabled, any interrupts generated by the source will be ignored by the PLIC.
 
-The number of targets determines the number of  `IE[]` registers. The number of interrupt sources, as defined by the [SOURCES parameter](#SOURCES) (see section 3.1.3), determines the width of each  `IE[]` register. One bit within the register corresponds to an individual interrupt source, where a logic high (‘1’) defines an interrupt source as enabled and a logic low (‘0’) as disabled.
+The number of targets determines the number of  `IE[]` registers. The number of interrupt sources, as defined by the [SOURCES](#sources) parameter, determines the width of each  `IE[]` register. One bit within the register corresponds to an individual interrupt source, where a logic high (‘1’) defines an interrupt source as enabled and a logic low (‘0’) as disabled.
 
 ### ID\[ \]
 
-The `ID\[\]` Read/Write register identifies to each target the ID of the highest priority pending interrupt request.
+The `ID[ ]` Read/Write register identifies to each target the ID of the highest priority pending interrupt request.
 
 This register indicates to the target which of potentially multiple pending interrupts should be serviced rather than relying on this being resolved by the software Interrupt Service Routine.
 
@@ -407,7 +407,7 @@ A target then writes to this register to indicate completion of servicing the in
 
 The `PRIORITY\[\]` Read/Write registers define the priority level of each interrupt source.
 
-There is one `PRIORITY\[\]` register per interrupt source as defined by the `SOURCES` parameter (see [SOURCES](#SOURCES)), identified as `PRIORITY\[SOURCES-1:0\]`. The width of each register is derived from the number of priority levels as defined by the `PRIORITIES` parameter (see [section TARGETS](#TARGETS)).
+There is one `PRIORITY\[\]` register per interrupt source as defined by the `SOURCES` parameter (see [SOURCES](#sources)), identified as `PRIORITY\[SOURCES-1:0\]`. The width of each register is derived from the number of priority levels as defined by the `PRIORITIES` parameter (see [section TARGETS](#targets)).
 
 Interrupt priority increases with larger values of `PRIORITY`.
 
@@ -427,7 +427,7 @@ A spreadsheet in Microsoft Excel format is available to perform these calculatio
 
 ### Itemising Register Requirements
 
-The section "[RegisterInterface](#Register-Interface)" provides a summary of the registers required to control and configure the PLIC. The following is a more detailed summary of those requirements.
+The section "[Register Interface](#register-interface)" provides a summary of the registers required to control and configure the PLIC. The following is a more detailed summary of those requirements.
 
 #### CONFIG Register
 
@@ -604,8 +604,8 @@ All implementations are push button, no effort has been undertaken to reduce are
 
 # References
 
-[AHB-Lite_Spec]: http://example.com/	"AHB3 Lite Specification"
-[RISCV_Priv_Spec]: http://example.com/	"RISC-V Privilege Specification 1.9.1"
+[ahb-lite_Spec]: http://example.com/	"AHB3 Lite Specification"
+[riscv_priv_spec]: http://example.com/	"RISC-V Privilege Specification 1.9.1"
 
 # Revision History
 
