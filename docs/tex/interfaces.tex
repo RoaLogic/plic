@@ -6,7 +6,8 @@
 
 Blah
 
-\begin{longtable}[]{@{}cccl@{}}
+%\begin{longtable}[]{@{}cccl@{}}
+\begin{longtable}{@{\extracolsep{\fill}}C{3cm}C{3cm}C{3cm}L{3cm}}
 \toprule
 \textbf{Port} & \textbf{Size} & \textbf{Direction} &
 \textbf{Description}\tabularnewline
@@ -76,16 +77,8 @@ module.
 When enabled via the \texttt{HAS\_CONFIG\_REG} hardware parameter, the
 \texttt{CONFIG} register returns a 64 bit value constructed as follows:
 
-\begin{longtable}[]{@{}llllllllllllll@{}}
-\toprule
-Bit Position & 63 & & 49 & 48 & 47 & & 32 & 31 & & 16 & 15 & &
-0\tabularnewline
-\midrule
-\endhead
-Value & 0 & HAS\_THRESHOLD & PRIORITIES & TARGETS & SOURCES & & & & & &
-& &\tabularnewline
-\bottomrule
-\end{longtable}
+
+***ADD TABLE***
 
 The values, \texttt{HAS\_THRESHOLD}, \texttt{PRIORITIES},
 \texttt{TARGETS} and \texttt{SOURCES} correspond to the hardware

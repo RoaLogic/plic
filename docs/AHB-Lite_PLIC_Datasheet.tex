@@ -1,53 +1,38 @@
-\documentclass[]{article}
+\documentclass[blue]{datasheet}
 
-\usepackage[utf8]{inputenc}
-\usepackage[english]{babel}
-\usepackage{lmodern}
-\usepackage{amssymb,amsmath}
-\usepackage{ifxetex,ifluatex}
+\input{./tex/setup.tex}
 
-\usepackage{graphicx,grffile}
-\graphicspath{ {./img/} }
-
-\usepackage{longtable}
-
-\usepackage{booktabs} % For \toprule, \midrule and \bottomrule
-\usepackage{csvsimple}
-
-\usepackage{hyperref}
-\hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    filecolor=magenta,      
-    urlcolor=blue,
-}
- 
-\urlstyle{same}
-
-\setlength{\parindent}{0.5em}
-\setlength{\parskip}{0.5em}
-
-
-
-\title{AHB-Lite Platform Level Interrupt Controller}
-\author{Roa Logic}
-\date{}
+% \usepackage{showframe}
 
 \begin{document}
 
-\input{./tex/titlepage.tex}
+% \layout{}
+
+\maketitle
+
+\newpage
 
 \input{./tex/tableofcontents.tex}
 
 \input{./tex/introduction.tex}
 
+\pagebreak
+
 \input{./tex/specification.tex}
+
+\pagebreak
 
 \input{./tex/configuration.tex}
 
+\pagebreak
+
 \input{./tex/interfaces.tex}
 
+\pagebreak
+
 \input{./tex/resources.tex}
+
+\pagebreak
 
 \input{./tex/references.tex}
 
