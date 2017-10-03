@@ -1,17 +1,26 @@
+% Title Page generator
+
 %Logo
 %Title
 %DocType
 %Project
 %Date
 
+% Define Package
 \ProvidesPackage{roalogictitle}[2017/10/01 v1]
 \RequirePackage{graphicx}
+
+% Define new variables
 \newcommand*{\project}[1]{\gdef\@project{#1}%
 }
 
 \newcommand*{\doctype}[1]{\gdef\@doctype{#1}%
 }
 
+\newcommand*{\header}[1]{\gdef\@header{#1}%
+}
+
+% Overload \maketitle with new layout
 \renewcommand*{\maketitle}{%
 \begin{titlepage}
 \par
@@ -30,11 +39,7 @@
 \vspace{7cm}
 {\scshape\large (c) Roa Logic B.V. \par}
 
-
 \vfill
-
-
-
 
 \end{titlepage}
 }

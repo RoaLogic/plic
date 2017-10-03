@@ -1,44 +1,52 @@
+%define new document type
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{datasheet}[2017/10/01 Roa Logic Datasheet Class]
+\LoadClass[a4paper]{article} % Inherit std article class
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
 
-\LoadClass[a4paper]{article}
-
+% Load Roalogic Title Page Generator
 \usepackage{roalogictitle}
 
-\newcommand{\headlinecolor}{\normalcolor}
+% Define Roa Logic Colour Scheme
 \RequirePackage[table]{xcolor}
+\newcommand{\headlinecolor}{\normalcolor}
 \definecolor{rlsection}{HTML}{3D5986}
 \definecolor{rlsubsection}{HTML}{5B80B8}
 \definecolor{rltable}{HTML}{D5DFED}
 
-\usepackage[utf8]{inputenc}
-\usepackage[english]{babel}
-\usepackage{lmodern}
-\usepackage{amssymb,amsmath}
+% Load packages
+\usepackage{lmodern} % Font Library
+\usepackage{amssymb,amsmath} % Math Fonts
 \usepackage{ifxetex,ifluatex}
-\usepackage{graphicx,grffile}
-\usepackage{longtable}
-\usepackage{vmargin}   
-\usepackage{tabularx}
+\usepackage{graphicx,grffile} % Graphics support
+\usepackage{longtable} % Long table supprot
+\usepackage{vmargin} % Margin control  
+\usepackage{tabularx} % Table support
 
 \usepackage{booktabs} % For \toprule, \midrule and \bottomrule
-\usepackage{csvsimple}
+\usepackage{csvsimple} % Import CSV files
 
-\usepackage{layout}
-\usepackage{hyperref}
+\usepackage{layout} % Show summary of page layout
+\usepackage{hyperref} % Hyperlink support
     
-\usepackage{titlesec}
+\usepackage{titlesec} %Headings Syliser
 
-\usepackage{fancyhdr}
+\usepackage{fancyhdr} % Header & Footer control
 \pagestyle{fancy}
 
+% Page Layout Control
+
+% Paragraph formatting
 \setlength{\parindent}{0.5em}
 \setlength{\parskip}{0.5em}
 
+% Long table formatting
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}                  
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}                        
 \newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
 
+% Hyperlink formatting
 \hypersetup{
     colorlinks=true,
     linkcolor=blue,
@@ -49,18 +57,13 @@
 \urlstyle{same}
 
 
+% Font & Colour control
 \renewcommand{\familydefault}{\rmdefault}
  
 \DeclareOption{green}{\renewcommand{\headlinecolor}{\color{green}}}
 \DeclareOption{blue}{\renewcommand{\headlinecolor}{\color{rlcolor}}}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
- 
-
-
-%\titleformat{\section}
-%{\color{rlcolor}\sffamily\huge\bfseries}
-%{\color{rlcolor}\thesection}{1em}{\hrule}
 
 \titleformat{\section}
   {\color{rlsection}\sffamily\Huge\bfseries}{\thesection}{1em}{}[{\titlerule[0.8pt]}]
@@ -78,24 +81,13 @@
 \titlespacing*{\paragraph}   {0pt}{3.25ex plus 1ex minus .2ex}{1em}
 \titlespacing*{\subparagraph} {\parindent}{3.25ex plus 1ex minus .2ex}{1em}
 
+% Table Numbering
 \makeatletter
 \renewcommand{\thetable}{\thesection.\@arabic\c@table}
 \@addtoreset{table}{section}
 \makeatother
 
+% Figure Numbering
 \usepackage{amsmath}
 \numberwithin{figure}{section}
-
- 
-%\let\oldlongtable\longtable
-%\let\endoldlongtable\endlongtable
-%\renewenvironment{longtable}{\rowcolors{2}{rltable}{white}\oldlongtable} {
-%\endoldlongtable}
-
-
-% \renewcommand{\normalsize}{\fontsize{9}{10}\selectfont}
-
-% \setcounter{secnumdepth}{0}
-
-
 
