@@ -6,23 +6,20 @@
 
 Blah
 
-%\begin{longtable}[]{@{}cccl@{}}
-\begin{longtable}{@{\extracolsep{\fill}}C{3cm}C{3cm}C{3cm}L{3cm}}
-\toprule
-\textbf{Port} & \textbf{Size} & \textbf{Direction} &
-\textbf{Description}\tabularnewline
-\midrule
-\endhead
-\texttt{SRC} & \texttt{SOURCES} & Input & Interrupt
-Sources\tabularnewline
-\texttt{IRQ} & \texttt{TARGETS} & Output & Interrupt
-Requests\tabularnewline
-\bottomrule
-\caption{PLIC Interface Signals}
-\label{tab:PLICIF}
-\end{longtable}
+\begin{table}[h]
+	\begin{tabular*}{0.75\textwidth}{@{\extracolsep{\fill}}lccl}	
+		\thickhline 
+		\textbf{Port} & \textbf{Size} & \textbf{Direction} & \textbf{Description}\\
+		\hline 
+		\texttt{SRC} & \texttt{SOURCES} & Input & Interrupt Sources\\
+		\texttt{IRQ} & \texttt{TARGETS} & Output & Interrupt Requests \\
+		\thickhline 	
+	\end{tabular*} 
+	\caption{PLIC Interface Signals}
+	\label{tab:PLICIF2}
+\end{table}
 
-Note: Width of PLIC interface buses defined by
+Note: Width of PLIC interface buses are defined by
 \protect\hyperlink{core-parameters}{Core Parameters}.
 
 \subsubsection{SRC}
@@ -41,21 +38,22 @@ output of the PLIC module. The width of this interface is defined by the
 
 The following registers are user accessible in the PLIC module:
 
-\begin{longtable}[]{@{}ccccp{3cm}@{}}
-\toprule
-\textbf{Register} & \textbf{Registers} & \textbf{Width (bits)} & \textbf{Mode} & \textbf{Function}\tabularnewline
-\midrule
-\endhead
-\texttt{CONFIG} & 1 & 64 & RO & Configuration\tabularnewline
-\texttt{EL} & 1 & \texttt{SOURCES} & RW & Edge/Level Trigger\tabularnewline
-\texttt{IE} & \texttt{TARGETS} & \texttt{SOURCES} & RW & Interrupt Enable\tabularnewline
-\texttt{ID} & \texttt{TARGETS} & clog\textsubscript{2}(\texttt{SOURCES}) & RW & ID of Highest priority IRQ, Int. Claim (R), Int. Complete (W)\tabularnewline
-\texttt{PRIORITY} & \texttt{SOURCES} & clog\textsubscript{2}(\texttt{PRIORITIES}) & RW & Priority Level\tabularnewline
-\texttt{THRESHOLD} & \texttt{TARGETS} & clog\textsubscript{2}(\texttt{PRIORITIES}) & RW & Priority Threshold\tabularnewline
-\bottomrule
+\begin{table}[h]
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ccccp{5cm}}	
+	\thickhline 
+	\textbf{Register} & \textbf{Registers} & \textbf{Width (bits)} & \textbf{Mode} & \textbf{Function} \\
+	\hline 
+	\texttt{CONFIG} & 1 & 64 & RO & Configuration\\
+	\texttt{EL} & 1 & \texttt{SOURCES} & RW & Edge/Level Trigger\\
+	\texttt{IE} & \texttt{TARGETS} & \texttt{SOURCES} & RW & Interrupt Enable\\
+	\texttt{ID} & \texttt{TARGETS} & clog\textsubscript{2}(\texttt{SOURCES}) & RW & ID of Highest priority IRQ, \newline Int. Claim (R), \newline Int. Complete (W)\\
+	\texttt{PRIORITY} & \texttt{SOURCES} & clog\textsubscript{2}(\texttt{PRIORITIES}) & RW & Priority Level\\
+	\texttt{THRESHOLD} & \texttt{TARGETS} & clog\textsubscript{2}(\texttt{PRIORITIES}) & RW & Priority Threshold \\
+	\thickhline 	
+\end{tabular*} 
 \caption{PLIC Register Interface}
-\label{tab:REGIF}
-\end{longtable}
+\label{tab:REGIF2}
+\end{table}
 
 Note: clog\textsubscript{2}() refers to the System Verilog function by
 the same name, defined as:
@@ -78,7 +76,11 @@ When enabled via the \texttt{HAS\_CONFIG\_REG} hardware parameter, the
 \texttt{CONFIG} register returns a 64 bit value constructed as follows:
 
 
-***ADD TABLE***
+\begin{figure}[h]
+	\includegraphics[width=\linewidth]{CONFIG}
+	\caption[Configuration Register]{}
+	\label{fig:configreg}
+\end{figure}
 
 The values, \texttt{HAS\_THRESHOLD}, \texttt{PRIORITIES},
 \texttt{TARGETS} and \texttt{SOURCES} correspond to the hardware
@@ -132,16 +134,9 @@ the highest priority interrupt source to be serviced.
 
 \subsubsection{PRIORITY[]}
 
-The \texttt{PRIORITY[]} Read/Write
-registers define the priority level of each interrupt source.
+The \texttt{PRIORITY[]} Read/Write registers define the priority level of each interrupt source.
 
-There is one \texttt{PRIORITY[]}
-register per interrupt source as defined by the \texttt{SOURCES}
-parameter (see \protect\hyperlink{SOURCES}{\texttt{SOURCES}}), identified as
-\texttt{PRIORITY[SOURCES-1:0]}. The
-width of each register is derived from the number of priority levels as
-defined by the \texttt{PRIORITIES} parameter (see
-\protect\hyperlink{TARGETS}{\texttt{TARGETS}}).
+There is one \texttt{PRIORITY[]} register per interrupt source as defined by the \texttt{SOURCES} parameter (see \protect\hyperlink{SOURCES}{\texttt{SOURCES}}), identified as \texttt{PRIORITY[SOURCES-1:0]}. The width of each register is derived from the number of priority levels as defined by the \texttt{PRIORITIES} parameter (see \protect\hyperlink{TARGETS}{\texttt{TARGETS}}).
 
 Interrupt priority increases with larger values of \texttt{PRIORITY}.
 
@@ -184,6 +179,7 @@ the PLIC. The following is a more detailed summary of those
 requirements.
 
 \paragraph{CONFIG Register}
+\noindent % Bodge for limited style support
 
 The \texttt{CONFIG} register is always 64 bits. For 32 bit
 implementations this means 2 physical registers are required, 1 each for
@@ -191,6 +187,7 @@ the upper and lower word. For 64 bit implementations a single register
 will be implemented.
 
 \paragraph{EL Registers}
+\noindent % Bodge for limited style support
 
 Each interrupt source requires a single bit in the \texttt{EL} register
 to define if the source is level or edge triggered. These bits will be
@@ -213,6 +210,7 @@ No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)
 \end{verbatim}
 
 \paragraph{IE Registers}
+\noindent % Bodge for limited style support
 
 Interrupt sources may be enabled or disabled per target requiring single
 bit per target. These bits will be packed into the fewest registers
@@ -234,6 +232,7 @@ No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)*TARGETS
 \end{verbatim}
 
 \paragraph{ID Registers}
+\noindent % Bodge for limited style support
 
 The \texttt{ID[]} Read/Write
 register identifies the ID of the highest priority pending interrupt
@@ -243,7 +242,8 @@ request, with one ID register required per target.
 \texttt{No.\ of\ Registers\ =\ TARGETS}
 \end{quote}
 
-\paragraph{Priority Registers}
+\paragraph{PRIORITY Registers}
+\noindent % Bodge for limited style support
 
 Each interrupt source can be assigned a priority, which is defined as
 positive integer. The PLIC parameter \texttt{PRIORITIES} defines the
@@ -258,42 +258,42 @@ These priority levels are packed into
 \begin{quote}
 \texttt{No.\ of\ Registers\ =\ ROUNDUP(SOURCES/FPR)}
 \end{quote}
-
 where:
-
+\indent
 \begin{verbatim}
-FPR = FIELDS_PER_REGISTER
-    = HDATA_SIZE/(4*NPP)
+    FPR = FIELDS_PER_REGISTER    
+        = HDATA_SIZE/(4*NPP)
 
-NPP = NIBBLES_PER_PRIORITY
-    = ROUNDUP($clog2(PRIORITIES+1)/4)
+     NPP = NIBBLES_PER_PRIORITY
+         = ROUNDUP($clog2(PRIORITIES+1)/4)
 \end{verbatim}
 
 Example: For a 32 bit system supporting 48 interrupt sources and 8
 priority levels
 
 \begin{verbatim}
-NPP = NIBBLES_PER_PRIORITY
-    = ROUNDUP($clog2(PRIORITIES+1)/4)
-    = ROUNDUP($clog2(8+1)/4)
-    = ROUNDUP(4/4)
-    = 1
+    NPP = NIBBLES_PER_PRIORITY
+        = ROUNDUP($clog2(PRIORITIES+1)/4)
+        = ROUNDUP($clog2(8+1)/4)
+        = ROUNDUP(4/4)
+        = 1
 
-FPR = FIELDS_PER_REGISTER
-    = HDATA_SIZE/(4*NPP)
-    = 32/(4*1)
-    = 8
+    FPR = FIELDS_PER_REGISTER
+        = HDATA_SIZE/(4*NPP)
+        = 32/(4*1)
+        = 8
 
-No. of Registers = ROUNDUP(SOURCES/FPR)
-                 = ROUNDUP(48/8)
-                 = 6
+    No. of Registers = ROUNDUP(SOURCES/FPR)
+                     = ROUNDUP(48/8)
+                     = 6
 \end{verbatim}
 
 Note: clog\textsubscript{2}() refers to the System Verilog function by
 the same name and calculates the number of binary bits required to
 represent a given integer.
 
-\paragraph{Threshold Registers}
+\paragraph{THRESHOLD Registers}
+\noindent % Bodge for limited style support
 
 Each target may be assigned a priority threshold and therefore the PLIC
 implements 1 register per threshold.
@@ -304,101 +304,110 @@ implements 1 register per threshold.
 
 \subsubsection{Register Address Map}
 
-The order of the registers in the memory map is defined as follows:
+The order of the registers in the memory map is defined as Table \ref{tab:REGMAP}.
 
-\begin{longtable}[]{@{}cl@{}}
-\toprule
-\textbf{Order} & \textbf{Registers}\tabularnewline
-\midrule
-\endhead
-1 & CONFIG Register(s)\tabularnewline
-2 & EL Registers\tabularnewline
-3 & PRIORITY Registers\tabularnewline
-4 & IE Registers\tabularnewline
-5 & THRESHOLD Registers\tabularnewline
-6 & ID Registers\tabularnewline
-\bottomrule
-\caption{Register Address Order}
-\label{tab:REGMAP}
-\end{longtable}
+\begin{table}[ht]
+	\begin{tabular*}{0.4\textwidth}{@{\extracolsep{\fill}}cl}	
+		\thickhline 
+		\textbf{Order} & \textbf{Registers}\\
+		\hline 
+		1 & CONFIG Register(s)\\
+		2 & EL Registers\\
+		3 & PRIORITY Registers\\
+		4 & IE Registers\\
+		5 & THRESHOLD Registers\\
+		6 & ID Registers\\
+		\thickhline 	
+	\end{tabular*} 
+	\caption{Register Address Order}
+	\label{tab:REGMAP}
+\end{table}
 
-Registers a mapped to consecutive addresses based on this order and the
-number of registers required.
+Registers are mapped to consecutive addresses based on this order and the
+number of registers required. Using the previous example of a 32 bit system supporting 48 interrupt sources, 4 targets and 8 priority levels as shown in Table \ref{tab:REGMAPEX}:
 
-Using the previous example of a 32 bit system supporting 48 interrupt
-sources, 4 targets and 8 priority levels:
-
-\begin{longtable}[]{@{}cc@{}}
-\toprule
-\textbf{Parameter} & \textbf{Value}\tabularnewline
-\midrule
-\endhead
-HDATA\_WIDTH & 32\tabularnewline
-SOURCES & 48\tabularnewline
-TARGETS & 4\tabularnewline
-PRIORITIES & 8\tabularnewline
-\bottomrule
-\end{longtable}
+\begin{table}[ht]
+	\begin{tabular*}{0.4\textwidth}{@{\extracolsep{\fill}}cc}	
+		\thickhline 
+		\textbf{Parameter} & \textbf{Number}\\
+		\hline 
+		HDATA\_WIDTH & 32\\
+		SOURCES & 48\\
+		TARGETS & 4\\
+		PRIORITIES & 8\\
+		\thickhline 	
+	\end{tabular*} 
+	\caption{Register Map Example}
+	\label{tab:REGMAPEX}
+\end{table}
 
 The resulting number of registers is:
 
-\begin{longtable}[]{@{}cc@{}}
-\toprule
-\textbf{Registers} & \textbf{Number}\tabularnewline
-\midrule
-\endhead
-CONFIG & 2\tabularnewline
-EL & 2\tabularnewline
-PRIORITY & 6\tabularnewline
-IE & 8\tabularnewline
-THRESHOLD & 4\tabularnewline
-ID & 4\tabularnewline
-\textbf{Total} & \textbf{26}\tabularnewline
-\bottomrule
-\end{longtable}
+\begin{table}[ht]
+	\begin{tabular*}{0.4\textwidth}{@{\extracolsep{\fill}}cc}	
+		\thickhline 
+		\textbf{Registers} & \textbf{Number}\\
+		\hline 
+		CONFIG & 2\\
+		EL & 2\\
+		PRIORITY & 6\\
+		IE & 8\\
+		THRESHOLD & 4\\
+		ID & 4\\
+		\hline
+		\textbf{Total} & \textbf{26}\\
+		\thickhline 	
+	\end{tabular*} 
+	\caption{Calculating Number of Registers}
+	\label{tab:REGMAPNUM}
+\end{table}
 
 These registers will be then mapped as follows according to the order
-defined below:
+defined in Table \ref{tab:REGMAPNUM}:
 
-\begin{longtable}[]{@{}ccc@{}}
-\toprule
-\textbf{Reg} & \textbf{Parameter} & \textbf{Value}\tabularnewline
-\midrule
-\endhead
-\textbf{0} & 0x0 & CONFIG\tabularnewline
-\textbf{1} & 0x4 & CONFIG\tabularnewline
-\textbf{2} & 0x8 & EL\tabularnewline
-\textbf{3} & 0xC & EL\tabularnewline
-\textbf{4} & 0x10 & PRIORITY\tabularnewline
-\textbf{5} & 0x14 & PRIORITY\tabularnewline
-\textbf{6} & 0x18 & PRIORITY\tabularnewline
-\textbf{7} & 0x1C & PRIORITY\tabularnewline
-\textbf{8} & 0x20 & PRIORITY\tabularnewline
-\textbf{9} & 0x24 & PRIORITY\tabularnewline
-\textbf{10} & 0x28 & IE\tabularnewline
-\textbf{11} & 0x2C & IE\tabularnewline
-\textbf{12} & 0x30 & IE\tabularnewline
-\textbf{13} & 0x34 & IE\tabularnewline
-\textbf{14} & 0x38 & IE\tabularnewline
-\textbf{15} & 0x3C & IE\tabularnewline
-\textbf{16} & 0x40 & IE\tabularnewline
-\textbf{17} & 0x44 & IE\tabularnewline
-\textbf{18} & 0x48 & THRESHOLD\tabularnewline
-\textbf{19} & 0x4C & THRESHOLD\tabularnewline
-\textbf{20} & 0x50 & THRESHOLD\tabularnewline
-\textbf{21} & 0x54 & THRESHOLD\tabularnewline
-\textbf{22} & 0x58 & ID\tabularnewline
-\textbf{23} & 0x5C & ID\tabularnewline
-\textbf{24} & 0x60 & ID\tabularnewline
-\textbf{25} & 0x64 & ID\tabularnewline
-\bottomrule
-\end{longtable}
+\begin{table}[t]
+	\begin{tabular*}{0.4\textwidth}{@{\extracolsep{\fill}}ccc}	
+		\thickhline 
+		\textbf{Reg} & \textbf{Parameter} & \textbf{Value}\\
+		\hline 
+		\textbf{0} & 0x0 & CONFIG\\
+		\textbf{1} & 0x4 & CONFIG\\
+		\textbf{2} & 0x8 & EL\\
+		\textbf{3} & 0xC & EL\\
+		\textbf{4} & 0x10 & PRIORITY\\
+		\textbf{5} & 0x14 & PRIORITY\\
+		\textbf{6} & 0x18 & PRIORITY\\
+		\textbf{7} & 0x1C & PRIORITY\\
+		\textbf{8} & 0x20 & PRIORITY\\
+		\textbf{9} & 0x24 & PRIORITY\\
+		\textbf{10} & 0x28 & IE\\
+		\textbf{11} & 0x2C & IE\\
+		\textbf{12} & 0x30 & IE\\
+		\textbf{13} & 0x34 & IE\\
+		\textbf{14} & 0x38 & IE\\
+		\textbf{15} & 0x3C & IE\\
+		\textbf{16} & 0x40 & IE\\
+		\textbf{17} & 0x44 & IE\\
+		\textbf{18} & 0x48 & THRESHOLD\\
+		\textbf{19} & 0x4C & THRESHOLD\\
+		\textbf{20} & 0x50 & THRESHOLD\\
+		\textbf{21} & 0x54 & THRESHOLD\\
+		\textbf{22} & 0x58 & ID\\
+		\textbf{23} & 0x5C & ID\\
+		\textbf{24} & 0x60 & ID\\
+		\textbf{25} & 0x64 & ID\\
+		\thickhline 	
+	\end{tabular*} 
+	\caption{Example Register Map}
+	\label{tab:REGMAPRES}
+\end{table}
 
 Note: A spreadsheet exists that can calculate the above Register Address
 Mapping and is downloadable from the Roa Logic web site.
 
-\begin{figure}[h]
-\centering
+\begin{figure}[ht]
 \includegraphics{../assets/graphics/AHB-Lite_PLIC_Worksheet.png}
 \caption{Register Mapping Worksheet}
+\label{fig:WORKSHEET}
 \end{figure}
+

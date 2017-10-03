@@ -5,29 +5,30 @@ supported. See the
 \emph{\href{https://www.arm.com/products/system-ip/amba-specifications}{AMBA
 3 AHB-Lite Specification}} for a complete description of the signals.
 
-\begin{longtable}[]{@{}lccl@{}}
-\toprule
-\textbf{Port} & \textbf{Size} & \textbf{Direction} & \textbf{Description}\tabularnewline
-\midrule
-\endhead
-\texttt{HRESETn} & 1 & Input & Asynchronous active low reset\tabularnewline
-\texttt{HCLK} & 1 & Input & Clock Input\tabularnewline
-\texttt{HSEL} & 1 & Input & Bus Select\tabularnewline
-\texttt{HTRANS} & 2 & Input & Transfer Type\tabularnewline
-\texttt{HADDR} & \texttt{HADDR\_SIZE} & Input & Address Bus\tabularnewline
-\texttt{HWDATA} & \texttt{HDATA\_SIZE} & Input & Write Data Bus\tabularnewline
-\texttt{HRDATA} & \texttt{HDATA\_SIZE} & Output & Read Data Bus\tabularnewline
-\texttt{HWRITE} & 1 & Input & Write Select\tabularnewline
-\texttt{HSIZE} & 3 & Input & Transfer Size\tabularnewline
-\texttt{HBURST} & 3 & Input & Transfer Burst Size\tabularnewline
-\texttt{HPROT} & 4 & Input & Transfer Protection Level\tabularnewline
-\texttt{HREADYOUT} & 1 & Output & Transfer Ready Output\tabularnewline
-\texttt{HREADY} & 1 & Input & Transfer Ready Input\tabularnewline
-\texttt{HRESP} & 1 & Output & Transfer Response\tabularnewline
-\bottomrule
-\caption{AHB Interface Signals}
-\label{tab:AHBIF}
-\end{longtable}
+\begin{table}[h]
+	\begin{tabular*}{0.75\textwidth}{@{\extracolsep{\fill}}cccl}	
+		\thickhline 
+		\textbf{Port} & \textbf{Size} & \textbf{Direction} & \textbf{Description}\\
+		\hline 
+		\texttt{HRESETn} & 1 & Input & Asynchronous active low reset\\
+		\texttt{HCLK} & 1 & Input & Clock Input\\
+		\texttt{HSEL} & 1 & Input & Bus Select\\
+		\texttt{HTRANS} & 2 & Input & Transfer Type\\
+		\texttt{HADDR} & \texttt{HADDR\_SIZE} & Input & Address Bus\\
+		\texttt{HWDATA} & \texttt{HDATA\_SIZE} & Input & Write Data Bus\\
+		\texttt{HRDATA} & \texttt{HDATA\_SIZE} & Output & Read Data Bus\\
+		\texttt{HWRITE} & 1 & Input & Write Select\\
+		\texttt{HSIZE} & 3 & Input & Transfer Size\\
+		\texttt{HBURST} & 3 & Input & Transfer Burst Size\\
+		\texttt{HPROT} & 4 & Input & Transfer Protection Level\\
+		\texttt{HREADYOUT} & 1 & Output & Transfer Ready Output\\
+		\texttt{HREADY} & 1 & Input & Transfer Ready Input\\
+		\texttt{HRESP} & 1 & Output & Transfer Response\\
+		\thickhline 	
+	\end{tabular*} 
+	\caption{PLIC Interface Signals}
+	\label{tab:AHBIF}
+\end{table}
 
 \subsubsection{HRESETn}
 
@@ -49,21 +50,22 @@ the exception of the global asynchronous reset signal \texttt{HRESETn}
 
 \subsubsection{HTRANS}
 
-HTRANS indicates the type of the current transfer.
+HTRANS indicates the type of the current transfer as shown in Table \ref{tab:HTRANS}
 
-\begin{longtable}[]{@{}ccp{7cm}@{}}
-\toprule
-\textbf{HTRANS} & \textbf{Type} & \textbf{Description}\tabularnewline
-\midrule
-\endhead
-00 & \texttt{IDLE} & No transfer required\tabularnewline
-01 & \texttt{BUSY} & Connected master is not ready to accept data, but intents to continue the current burst.\tabularnewline
-10 & \texttt{NONSEQ} & First transfer of a burst or a single transfer\tabularnewline
-11 & \texttt{SEQ} & Remaining transfers of a burst\tabularnewline
-\bottomrule
-\caption{HTRANS Transfer Types}
-\label{table:HTRANS}
-\end{longtable}
+\begin{table}[h]
+	\begin{tabular*}{0.75\textwidth}{@{\extracolsep{\fill}}ccp{7cm}}	
+		\thickhline 
+		\textbf{HTRANS} & \textbf{Type} & \textbf{Description}\\
+		\hline 
+		00 & \texttt{IDLE} & No transfer required\\
+		01 & \texttt{BUSY} & Connected master is not ready to accept data, but intents to continue the current burst.\\
+		10 & \texttt{NONSEQ} & First transfer of a burst or a single transfer\\
+	11 & \texttt{SEQ} & Remaining transfers of a burst\\
+		\thickhline 	
+	\end{tabular*} 
+	\caption{HTRANS Signal Types}
+	\label{tab:HTRANS}
+\end{table}
 
 \subsubsection{HADDR}
 
@@ -89,71 +91,74 @@ indicates a write transfer.
 
 \subsubsection{HSIZE}
 
-\texttt{HSIZE} indicates the size of the current transfer.
+\texttt{HSIZE} indicates the size of the current transfer as shown in table \ref{tab:HSIZE}:
 
-\begin{longtable}[]{@{}ccl@{}}
-\toprule
-\textbf{HSIZE} & \textbf{Size} & \textbf{Description}\tabularnewline
-\midrule
-\endhead
-000 & 8 bit & Byte\tabularnewline
-001 & 16 bit & Half Word\tabularnewline
-010 & 32 bit & Word\tabularnewline
-011 & 64 bits & Double Word\tabularnewline
-100 & 128 bit &\tabularnewline
-101 & 256 bit &\tabularnewline
-110 & 512 bit &\tabularnewline
-111 & 1024 bit &\tabularnewline
-\bottomrule
-\caption{HSIZE Values}
-\label{tab:HSIZE}
-\end{longtable}
+\begin{table}[h]
+	\begin{tabular*}{0.5\textwidth}{@{\extracolsep{\fill}}ccl}	
+		\thickhline 
+		\textbf{HSIZE} & \textbf{Size} & \textbf{Description}\\
+		\hline 
+		000 & 8 bit & Byte\\
+		001 & 16 bit & Half Word\\
+		010 & 32 bit & Word\\
+		011 & 64 bits & Double Word\\
+		100 & 128 bit &\\
+		101 & 256 bit &\\
+		110 & 512 bit &\\
+		111 & 1024 bit &\\
+		\thickhline 	
+	\end{tabular*} 
+	\caption{HSIZE Values}
+	\label{tab:HSIZE}
+\end{table}
 
 \subsubsection{HBURST}
 
 HBURST indicates the transaction burst type -- a single transfer or part
 of a burst.
 
-\begin{longtable}[]{@{}ccl@{}}
-\toprule
-\textbf{HBURST} & \textbf{Type} & \textbf{Description}\tabularnewline
-\midrule
-\endhead
-000 & \texttt{SINGLE} & Single access**\tabularnewline
-001 & \texttt{INCR} & Continuous incremental burst\tabularnewline
-010 & \texttt{WRAP4} & 4-beat wrapping burst\tabularnewline
-011 & \texttt{INCR4} & 4-beat incrementing burst\tabularnewline
-100 & \texttt{WRAP8} & 8-beat wrapping burst\tabularnewline
-101 & \texttt{INCR8} & 8-beat incrementing burst\tabularnewline
-110 & \texttt{WRAP16} & 16-beat wrapping burst\tabularnewline
-111 & \texttt{INCR16} & 16-beat incrementing burst\tabularnewline
-\bottomrule
-\caption{HBURST Types}
-\label{tab:HBURST}
-\end{longtable}
+\begin{table}[h]
+	\begin{tabular*}{0.6\textwidth}{@{\extracolsep{\fill}}ccl}	
+		\thickhline 
+		\textbf{HBURST} & \textbf{Type} & \textbf{Description}\\
+		\hline 
+		000 & \texttt{SINGLE} & Single access**\\
+		001 & \texttt{INCR} & Continuous incremental burst\\
+		010 & \texttt{WRAP4} & 4-beat wrapping burst\\
+		011 & \texttt{INCR4} & 4-beat incrementing burst\\
+		100 & \texttt{WRAP8} & 8-beat wrapping burst\\
+		101 & \texttt{INCR8} & 8-beat incrementing burst\\
+		110 & \texttt{WRAP16} & 16-beat wrapping burst\\
+		111 & \texttt{INCR16} & 16-beat incrementing burst\\		\thickhline 	
+	\end{tabular*} 
+	\caption{HBURST Types}
+	\label{tab:HBURST}
+\end{table}
 
 \subsubsection{HPROT}
 
 The \texttt{HPROT} signals provide additional information about the bus
 transfer and are intended to implement a level of protection.
 
-\begin{longtable}[]{@{}ccl@{}}
-\toprule
-\textbf{Bit\#} & \textbf{Value} & \textbf{Description}\tabularnewline
-\midrule
-\endhead
-3 & 1 & Cacheable region addressed\tabularnewline
-& 0 & Non-cacheable region addressed\tabularnewline
-2 & 1 & Bufferable\tabularnewline
-& 0 & Non-bufferable\tabularnewline
-1 & 1 & Privileged Access\tabularnewline
-& 0 & User Access\tabularnewline
-0 & 1 & Data Access\tabularnewline
-& 0 & Opcode fetch\tabularnewline
-\bottomrule
-\caption{HPROT Indicators}
-\label{tab:HPROT}
-\end{longtable}
+\begin{table}[h]
+	\begin{tabular*}{0.6\textwidth}{@{\extracolsep{\fill}}ccl}	
+		\thickhline 
+		\textbf{Bit\#} & \textbf{Value} & \textbf{Description}\\
+		\hline 
+		3 & 1 & Cacheable region addressed\\
+		& 0 & Non-cacheable region addressed\\
+		2 & 1 & Bufferable\\
+		& 0 & Non-bufferable\\
+		1 & 1 & Privileged Access\\
+		& 0 & User Access\\
+		0 & 1 & Data Access\\
+		& 0 & Opcode fetch\\
+		\thickhline 	
+	\end{tabular*} 
+	\caption{HPROT Indicators}
+	\label{tab:HPROT}
+\end{table}
+
 
 \subsubsection{HREADYOUT}
 
@@ -172,3 +177,5 @@ asserted (`1') the peripheral is ready and the transfer completed.
 
 \texttt{HRESP} is the instruction transfer response and indicates OKAY
 (`0') or ERROR (`1').
+
+\newpage

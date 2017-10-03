@@ -1,30 +1,32 @@
 \section{Configurations}
 
-\subsection{Core Parameters}
+\hypertarget{core-parameters}{\subsection{Core Parameters}\label{sec:core-parameters}}
 
 The size and implementation style of the PLIC module is defined via HDL
 parameters as specified below:
 
-\begin{longtable}[]{@{}lccl@{}}
-\toprule
-\textbf{Parameter} & \textbf{Type} & \textbf{Default} & \textbf{Description}\tabularnewline
-\midrule
-\endhead
-\textbf{AHB Interface:} & & &\tabularnewline
-\texttt{HADDR\_SIZE} & Integer & 32 & Width of AHB Address Bus\tabularnewline
-\texttt{HDATA\_SIZE} & Integer & 32 & Width of AHB Data Buses\tabularnewline
-& & &\tabularnewline
-\textbf{PLIC Configuration:} & & &\tabularnewline
-\texttt{SOURCES} & Integer & 16 & Number of Interrupt Sources\tabularnewline
-\texttt{TARGETS} & Integer & 4 & Number of Interrupt Targets\tabularnewline
-\texttt{PRIORITIES} & Integer & 8 & Number of Priority Levels\tabularnewline
-\texttt{MAX\_PENDING\_COUNT} & Integer & 8 & Max number of pending events\tabularnewline
-\texttt{HAS\_THRESHOLD} & Integer & 1 & Is Threshold Implemented\tabularnewline
-\texttt{HAS\_CONFIG\_REG} & Integer & 1 & Is Config Reg. Implemented\tabularnewline
-\bottomrule
-\caption{Core Parameters}
-\label{tab:CoreParams}
-\end{longtable}
+
+\begin{table}[h]
+	\begin{tabular*}{0.9\textwidth}{@{\extracolsep{\fill}}lccl}	
+		\thickhline 
+		\textbf{Parameter} & \textbf{Type} & \textbf{Default} & \textbf{Description}\\
+		\hline
+		\textbf{AHB Interface:} & & &\\
+		\texttt{HADDR\_SIZE} & Integer & 32 & Width of AHB Address Bus\\
+		\texttt{HDATA\_SIZE} & Integer & 32 & Width of AHB Data Buses\\
+		& & &\\
+		\textbf{PLIC Configuration:} & & &\\
+		\texttt{SOURCES} & Integer & 16 & Number of Interrupt Sources\\
+		\texttt{TARGETS} & Integer & 4 & Number of Interrupt Targets\\
+		\texttt{PRIORITIES} & Integer & 8 & Number of Priority Levels\\
+		\texttt{MAX\_PENDING\_COUNT} & Integer & 8 & Max number of pending events\\
+		\texttt{HAS\_THRESHOLD} & Integer & 1 & Is Threshold Implemented\\
+		\texttt{HAS\_CONFIG\_REG} & Integer & 1 & Is Config Reg. Implemented\\
+		\thickhline 	
+	\end{tabular*} 
+	\caption{Core Parameters}
+	\label{tab:CoreParams}
+\end{table}
 
 
 \subsubsection{HADDR\_SIZE}

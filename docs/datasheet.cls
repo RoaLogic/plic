@@ -6,7 +6,7 @@
 \usepackage[english]{babel}
 
 % Load Roalogic Title Page Generator
-\usepackage{roalogictitle}
+\usepackage{pkg/roalogictitle}
 
 % Define Roa Logic Colour Scheme
 \RequirePackage[table]{xcolor}
@@ -90,4 +90,21 @@
 % Figure Numbering
 \usepackage{amsmath}
 \numberwithin{figure}{section}
+
+% Pad All Table Rows
+\renewcommand{\arraystretch}{1.2}
+
+% Define think table lines
+\makeatletter
+\newcommand{\thickhline}{%
+	\noalign {\ifnum 0=`}\fi \hrule height 1pt
+	\futurelet \reserved@a \@xhline
+}
+\newcolumntype{"}{@{\hskip\tabcolsep\vrule width 1pt\hskip\tabcolsep}}
+\makeatother
+
+% Center all Floats (Figs & Tables)
+\makeatletter
+\g@addto@macro\@floatboxreset\centering
+\makeatother
 
