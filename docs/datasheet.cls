@@ -78,6 +78,14 @@
 \titlespacing*{\paragraph}   {0pt}{3.25ex plus 1ex minus .2ex}{1em}
 \titlespacing*{\subparagraph} {\parindent}{3.25ex plus 1ex minus .2ex}{1em}
 
+\makeatletter
+\renewcommand{\thetable}{\thesection.\@arabic\c@table}
+\@addtoreset{table}{section}
+\makeatother
+
+\usepackage{amsmath}
+\numberwithin{figure}{section}
+
  
 %\let\oldlongtable\longtable
 %\let\endoldlongtable\endlongtable
