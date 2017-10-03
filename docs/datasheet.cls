@@ -37,6 +37,8 @@
 \usepackage{fancyhdr} % Header & Footer control
 \pagestyle{fancy}
 
+\usepackage{comment}
+
 % Page Layout Control
 
 % Paragraph formatting
