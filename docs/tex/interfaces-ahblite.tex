@@ -37,7 +37,7 @@ When the active low asynchronous \texttt{HRESETn} input is asserted
 \subsubsection{HCLK}
 
 \texttt{HCLK} is the interface system clock. All internal logic for the
-AMB3-Lite interface operates at the rising edge of this system clock and
+AHB-Lite interface operates at the rising edge of this system clock and
 AHB bus timings are related to the rising edge of \texttt{HCLK}.
 
 \subsubsection{HSEL}
@@ -59,7 +59,7 @@ HTRANS indicates the type of the current transfer as shown in Table \ref{tab:HTR
 		00 & \texttt{IDLE} & No transfer required\\
 		01 & \texttt{BUSY} & Connected master is not ready to accept data, but intents to continue the current burst.\\
 		10 & \texttt{NONSEQ} & First transfer of a burst or a single transfer\\
-	11 & \texttt{SEQ} & Remaining transfers of a burst\\
+		11 & \texttt{SEQ} & Remaining transfers of a burst\\
 		\bottomrule 	
 	\caption{HTRANS Signal Types}
 	\label{tab:HTRANS}
@@ -79,8 +79,9 @@ peripheral.
 
 \subsubsection{HRDATA}
 
-\texttt{HRDATA} is the read data bus. Its size is determined by
-\texttt{HDATA\_SIZE} parameter and is sourced by the APB4 peripheral.
+\texttt{HRDATA} is the read data bus. Its size is determined by the
+\texttt{HDATA\_SIZE} parameter and is sourced by the connected
+peripheral.
 
 \subsubsection{HWRITE}
 
