@@ -6,27 +6,26 @@ The size and implementation style of the PLIC module is defined via HDL
 parameters as specified below:
 
 
-\begin{table}[h]
-	\begin{tabular*}{0.9\textwidth}{@{\extracolsep{\fill}}lccl}	
-		\thickhline 
+\begin{longtable}[c]{@{\extracolsep{\fill}}lccl@{}}	
+		\toprule 
 		\textbf{Parameter} & \textbf{Type} & \textbf{Default} & \textbf{Description}\\
-		\hline
-		\textbf{AHB Interface:} & & &\\
+		\midrule
+		\endhead
+		\emph{\textbf{AHB Interface:}} & & &\\
 		\texttt{HADDR\_SIZE} & Integer & 32 & Width of AHB Address Bus\\
 		\texttt{HDATA\_SIZE} & Integer & 32 & Width of AHB Data Buses\\
 		& & &\\
-		\textbf{PLIC Configuration:} & & &\\
+		\emph{\textbf{PLIC Configuration:}} & & &\\
 		\texttt{SOURCES} & Integer & 16 & Number of Interrupt Sources\\
 		\texttt{TARGETS} & Integer & 4 & Number of Interrupt Targets\\
 		\texttt{PRIORITIES} & Integer & 8 & Number of Priority Levels\\
 		\texttt{MAX\_PENDING\_COUNT} & Integer & 8 & Max number of pending events\\
 		\texttt{HAS\_THRESHOLD} & Integer & 1 & Is Threshold Implemented\\
 		\texttt{HAS\_CONFIG\_REG} & Integer & 1 & Is Config Reg. Implemented\\
-		\thickhline 	
-	\end{tabular*} 
+		\bottomrule 	
 	\caption{Core Parameters}
 	\label{tab:CoreParams}
-\end{table}
+\end{longtable}
 
 
 \subsubsection{HADDR\_SIZE}

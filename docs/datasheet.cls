@@ -38,8 +38,8 @@
 % Page Layout Control
 
 % Paragraph formatting
-\setlength{\parindent}{0.5em}
-\setlength{\parskip}{0.5em}
+%\setlength{\parindent}{1em}
+%\setlength{\parskip}{0.75em}
 
 % Long table formatting
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}                  
@@ -78,18 +78,14 @@
 \titlespacing*{\section}     {0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
 \titlespacing*{\subsection}   {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 \titlespacing*{\subsubsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
-\titlespacing*{\paragraph}   {0pt}{3.25ex plus 1ex minus .2ex}{1em}
-\titlespacing*{\subparagraph} {\parindent}{3.25ex plus 1ex minus .2ex}{1em}
+\titlespacing*{\paragraph}   {0pt}{3.25ex plus 1ex minus .2ex}{0.5em}
+\titlespacing*{\subparagraph} {\parindent}{3.25ex plus 1ex minus .2ex}{0.5em}
 
-% Table Numbering
-\makeatletter
-\renewcommand{\thetable}{\thesection.\@arabic\c@table}
-\@addtoreset{table}{section}
-\makeatother
 
-% Figure Numbering
+% Table & Figure Numbering
 \usepackage{amsmath}
 \numberwithin{figure}{section}
+\numberwithin{table}{section}
 
 % Pad All Table Rows
 \renewcommand{\arraystretch}{1.2}
