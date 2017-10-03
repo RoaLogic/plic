@@ -6,7 +6,7 @@ Fully Parameterized & Programmable Platform Level Interrupt Controller (PLIC) fo
 
 ## Documentation
 
-- [Product Brief]()
+- [Product Brief](docs/AHB-Lite_PLIC_Datasheet.md)
 - [Datasheet]()
 - [User Guide]()
 - [Register Mapping Worksheet]()
