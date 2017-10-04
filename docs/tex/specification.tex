@@ -2,7 +2,7 @@
 
 \subsection{Functional Description}
 
-The AHB-Lite PLIC IP is a fully parameterised Platform-Level Interrupt
+The AHB-Lite PLIC IP core is a fully parameterised Platform-Level Interrupt
 Controller, featuring a single AHB-Lite Slave interface and interfaces
 to a user-defined number of both Interrupt Sources and Targets.
 
@@ -50,16 +50,16 @@ the following sections:
 \paragraph{}
 
 A matrix of Interrupt Enable vectors -- one IE register per target --
-determines which target processes the interrupts of which source.
+determines which target processes the interrupts from which source.
 
 Each Interrupt Source attached to the PLIC is then assigned a Priority
 Level -- an unsigned integer that determines the relative priority of
 the interrupt source. The greater the integer, the greater the priority
 level. A Priority Threshold per target may also be defined to mask lower
 priority interrupts such that interrupts will only be presented to a
-target if the assigned Priority Level Priority Threshold
+target if the assigned Priority Level is greater than the Priority Threshold.
 
-In addition each source is assigned an Interrupt Identifier
+In addition each source is automatically assigned an Interrupt Identifier
 (\texttt{ID}) -- an unique unsigned integer. This identifier determines
 interrupt priority when 2 or more interrupts with the same priority
 level are asserted. The lower the \texttt{ID} assigned to the source,
@@ -72,6 +72,12 @@ the request by first checking if an interrupt enable bit is set for each
 target and if the priority of the interrupt source exceeds any defined
 Interrupt Priority Threshold. If these conditions do not hold, the
 Interrupt Request is deemed invalid and ignored.
+\comment
+Not entirely true. When a source asserts an interrupt request, the request is latched and the (internal) Interrupt Pending (IP) bit is asserted.
+The PLIC then checks is an interrupt enable bit is set for a target (IP && IE). Finally it determines the priority.
+The main difference here that the interrupt is not 'ignored'. If IE is not set or the priority is not high enough, the interrupt is not lost, merely 'stalled' or 'parked'.
+If, later, the IE bit is set and/or the Priority Threshold is changed, the interrupt will progress to the target.
+\endcomment
 
 The PLIC also determines if a previous interrupt request has been made
 by the same source. If an interrupt is defined as level triggered and
@@ -79,11 +85,15 @@ has already been asserted but not yet serviced, the request is ignored.
 If an interrupt is defined as edge triggered and has already been
 asserted but not yet serviced, the request is queued by incrementing a
 Interrupt Pending counter by one. The depth of this counter is
-programmable.
+parameterised.
 
 If the request is deemed valid the request is forwarded to the
 appropriate target. In the case of queued edge-triggered requests, the
 interrupt pending counter is decremented by one.
+
+\comment
+The pending counter is decremented as soon as the target claims the interrupt
+\endcomment
 
 \subsubsection{Interrupt Notification}
 
@@ -100,6 +110,11 @@ of the highest priority interrupt to be processed.
 A target makes an interrupt claim response by reading the ID register,
 which also notifies the target of the interrupt source to service. The
 PLIC de-asserts the IRQ output for the target in response to the claim.
+
+\comment
+The IRQ line may remain asserted if another, lower priority, interrupt is still pending.
+\endcomment
+
 
 \subsubsection{Interrupt Handler}
 
@@ -118,7 +133,7 @@ interrupts to be forwarded from the corresponding source.
 
 The Interrupt Handler may then exit, however it is possible a new
 interrupt request may have been asserted while the handler was running.
-To reduce latency the handler may instead determine is a new interrupt
+To reduce latency the handler may instead determine if a new interrupt
 has been received and if so again claim the interrupt as described in
 section \emph{\ref{sec:claim-response} \nameref{sec:claim-response}}. In this
 way the interrupt handler can service all interrupts without the need to
