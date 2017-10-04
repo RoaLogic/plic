@@ -9,13 +9,14 @@
 \usepackage{pkg/roalogictitle}
 
 % Define Roa Logic Colour Scheme
-\RequirePackage[table]{xcolor}
+\usepackage[table]{xcolor}
 \newcommand{\headlinecolor}{\normalcolor}
 \definecolor{rlsection}{HTML}{3D5986}
 \definecolor{rlsubsection}{HTML}{5B80B8}
 \definecolor{rltable}{HTML}{D5DFED}
 
 % Load packages
+\usepackage[shadow]{todonotes}
 \usepackage{lmodern} % Font Library
 \usepackage{amssymb,amsmath} % Math Fonts
 \usepackage{ifxetex,ifluatex}
@@ -41,7 +42,7 @@
 
 % Paragraph formatting
 %\setlength{\parindent}{1em}
-%\setlength{\parskip}{0.75em}
+\setlength{\parskip}{0.5em}
 
 % Long table formatting
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}                  
@@ -77,10 +78,10 @@
   {\color{rlsubsection}\sffamily\large\bfseries}{\thesubsubsection}{1em}{}
   
 \titlespacing*{\chapter}     {0pt}{50pt}{40pt}
-\titlespacing*{\section}     {0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
-\titlespacing*{\subsection}   {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
-\titlespacing*{\subsubsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
-\titlespacing*{\paragraph}   {0pt}{3.25ex plus 1ex minus .2ex}{0.5em}
+\titlespacing*{\section}     {0pt}{1.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+\titlespacing*{\subsection}   {0pt}{1.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\titlespacing*{\subsubsection}{0pt}{1.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\titlespacing*{\paragraph}   {0pt}{1.25ex plus 1ex minus .2ex}{0.5em}
 \titlespacing*{\subparagraph} {\parindent}{3.25ex plus 1ex minus .2ex}{0.5em}
 
 
@@ -105,4 +106,9 @@
 \makeatletter
 \g@addto@macro\@floatboxreset\centering
 \makeatother
+
+% Define ToDo Colours
+\presetkeys{todonotes}{color=blue!30, backgroundcolor=white, bordercolor=black, figcolor=white}{}
+\newcommand{\sph}[1]{\todo[color=red!40, bordercolor=red, backgroundcolor=white, author=SPH:]{#1}}
+\newcommand{\rh}[1]{\todo[color=green!40, bordercolor=green, backgroundcolor=white, author=RH:]{#1}}
 

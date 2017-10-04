@@ -63,12 +63,12 @@ The PLIC module supports multiple concurrently arriving interrupt
 requests. The maximum number of requests that are supported is defined
 by the \texttt{MAX\_PENDING\_COUNT} parameter.
 
-\comment
+\begin{comment}
 This is unclear.
 The MAX_PENDING_COUNT parameter determines how many edge triggered interrupts can be queued. This is per interrupt-source. Each interrupt-source has an interrupt-pending-counter. MAX_PENDING_COUNT indicates the max.number this counter can hold.
 If there are more interrupts pending than the counter can hold, then the counter retains its value (ie it 'hit' a ceiling).
 The minimum value, of course, is 0, which indicates no pending interrupt.
-\endcomment
+\end{comment}
 
 The default value is 8. The minimum value is 0.
 
@@ -87,10 +87,5 @@ The PLIC module supports an optional Configuration Register, which is
 documented in section 0. The \texttt{HAS\_CONFIG\_REG} parameter defines
 if this capability is enabled.
 
-\comment
-There is nothing programmable about this register. It is read-only.
-I changed 'programmable' to 'optional'
-\endcomment
-
-The default value is enabled (`1'). To disable this parameter should be
+The default value is enabled (1'). To disable this parameter should be
 set to `0'.
