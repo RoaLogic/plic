@@ -2,11 +2,9 @@
 
 \input{./tex/interfaces-ahblite.tex}
 
-\subsection{PLIC Interface}
+\subsection{PLIC Interface} 
 
-\begin{comment}
-SPH: need to add an Introduction here
-\end{comment}
+\missingfigure{Test} \todo[author=SPH, color=red]{Add PLIC Interface Intro}
 
 \begin{longtable}[c]{@{\extracolsep{\fill}}lccl@{\extracolsep{\fill}}}	
 	\toprule
@@ -16,7 +14,7 @@ SPH: need to add an Introduction here
 	\texttt{SRC} & \texttt{SOURCES} & Input & Interrupt Sources\\
 	\texttt{IRQ} & \texttt{TARGETS} & Output & Interrupt Requests \\
 	\bottomrule 	
-	\caption{PLIC Interface Signals}
+	\caption{PLIC Interface Signals} 
 	\label{tab:PLICIF2}
 
 \end{longtable}
@@ -79,9 +77,11 @@ module.
 When enabled via the \texttt{HAS\_CONFIG\_REG} hardware parameter, the
 \texttt{CONFIG} register returns a 64 bit value constructed as follows:
 
-\begin{figure}[h]
-	\includegraphics[width=\linewidth]{CONFIG}
-	\caption[Configuration Register]{}
+
+\todo[author=SPH, color=red]{Fix diagram Font}
+\begin{figure}[h] 
+	\includegraphics[width=\linewidth]{CONFIG} 
+	\caption[Configuration Register]{Configuration Register}
 	\label{fig:configreg}
 \end{figure}
 
@@ -322,7 +322,11 @@ The order of the registers in the memory map is defined as Table \ref{tab:REGMAP
 \end{longtable}
 
 Registers are mapped to consecutive addresses based on this order and the
-number of registers required. Using the previous example of a 32 bit system supporting 48 interrupt sources, 4 targets and 8 priority levels as shown in Table \ref{tab:REGMAPEX}:
+number of registers required. \todo[author=SPH]{Expand register address map section with more details} 
+
+\paragraph{Register Address Map Example:} ~\\
+
+Using the previous example of a 32 bit system supporting 48 interrupt sources, 4 targets and 8 priority levels as shown in Table \ref{tab:REGMAPEX}:
 
 \begin{longtable}[c]{@{}cc@{}}	
 		\toprule 
@@ -355,13 +359,13 @@ The resulting number of registers is:
 		\midrule
 		\textbf{Total} & \textbf{26}\\
 		\bottomrule 	
-	\caption{Calculating Number of Registers}
+	\caption{Calculated Registers}
 	\label{tab:REGMAPNUM}
 \end{longtable}
 
 
 These registers will be then mapped as follows according to the order
-defined in Table \ref{tab:REGMAPNUM}:
+defined in Table \ref{tab:REGMAP}:
 
 \begin{longtable}[c]{ccc}	
 		\toprule 
@@ -399,8 +403,8 @@ defined in Table \ref{tab:REGMAPNUM}:
 	\label{tab:REGMAPRES}
 \end{longtable}
 
-Note: A spreadsheet exists that can calculate the above Register Address
-Mapping and is downloadable from the Roa Logic web site.
+Note: When simulating the PLIC, the simulator will print a detailed Register Address
+Mapping showing explicitly how each interrupt source and target maps to the register fields. A Microsoft Excel worksheet is also available from the Roa Logic web site showing the same Address Map.
 
 \begin{figure}[ht]
 \includegraphics{../assets/graphics/AHB-Lite_PLIC_Worksheet.png}

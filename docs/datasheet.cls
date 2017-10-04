@@ -10,7 +10,7 @@
 
 
 % Define Roa Logic Colour Scheme
-\RequirePackage[table]{xcolor}
+\usepackage[table]{xcolor}
 \newcommand{\headlinecolor}{\normalcolor}
 
 \definecolor{rlsection}{HTML}{3D5986}
@@ -18,6 +18,7 @@
 \definecolor{rltable}{HTML}{D5DFED}
 
 % Load packages
+\usepackage[shadow]{todonotes}
 \usepackage{lmodern} % Font Library
 \usepackage{amssymb,amsmath} % Math Fonts
 \usepackage{ifxetex,ifluatex}
@@ -42,7 +43,8 @@
 % Page Layout Control
 
 % Paragraph formatting
-\setlength{\parindent}{0.5em}
+
+%\setlength{\parindent}{1em}
 \setlength{\parskip}{0.5em}
 
 
@@ -90,10 +92,10 @@
   {\color{rlsubsection}\sffamily\large\bfseries}{\thesubsubsection}{1em}{}
   
 \titlespacing*{\chapter}     {0pt}{50pt}{40pt}
-\titlespacing*{\section}     {0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
-\titlespacing*{\subsection}   {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
-\titlespacing*{\subsubsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
-\titlespacing*{\paragraph}   {0pt}{3.25ex plus 1ex minus .2ex}{0.5em}
+\titlespacing*{\section}     {0pt}{1.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+\titlespacing*{\subsection}   {0pt}{1.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\titlespacing*{\subsubsection}{0pt}{1.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\titlespacing*{\paragraph}   {0pt}{1.25ex plus 1ex minus .2ex}{0.5em}
 \titlespacing*{\subparagraph} {\parindent}{3.25ex plus 1ex minus .2ex}{0.5em}
 
 
@@ -125,6 +127,7 @@
 \g@addto@macro\@floatboxreset\centering
 \makeatother
 
+
 % Pad All Table Rows
 \renewcommand{\arraystretch}{1.2}
 
@@ -141,4 +144,5 @@
 \makeatletter
 \g@addto@macro\@floatboxreset\centering
 \makeatother
+
 
