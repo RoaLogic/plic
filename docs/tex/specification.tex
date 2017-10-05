@@ -11,23 +11,14 @@ one or more interrupt targets. The core supports a programmable number
 of simultaneous pending interrupt requests per source and routing of
 those interrupt requests to individual targets.
 
-Per the
-\href{https://people.eecs.berkeley.edu/\%7Ekrste/papers/riscv-privileged-v1.9.1.pdf}{RISC-V
-Privileged Architecture Instruction Set specification (v1.9.1)}, the
-core performs full interrupt prioritisation of each interrupt source;
-each may be assigned a separate priority and enabled per target via a
-matrix of interrupt enable bits. Further, an optional threshold per
-target may be defined to mask lower priority interrupts.
+Per the \href{https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.9.1.pdf}{RISC-V Privileged Architecture Instruction Set specification (v1.9.1)}, the core performs full interrupt prioritisation of each interrupt source; each may be assigned a separate priority and enabled per target via a matrix of interrupt enable bits. Further, an optional threshold per target may be defined to mask lower priority interrupts.
 
-To reduce latency, the PLIC core presents all asserted interrupts to the
-target in priority order, queuing them so that a software interrupt
-handler can service all interrupts without the need to restore the
-interrupted context.
+To reduce latency, the PLIC core presents all asserted interrupts to the target in priority order, queuing them so that a software interrupt handler can service all interrupts without the need to restore the interrupted context.
 
 An example use of the PLIC core is shown below:
 
-\begin{figure}[h]
-\includegraphics{../assets/graphics/AHB-Lite_PLIC_System_Diagram.png}
+\begin{figure}[!htb]
+\includegraphics{img/plic-system.png}
 \caption{PLIC System Diagram}
 \label{fig:SYSDIAG}
 \end{figure}
@@ -38,9 +29,9 @@ The Roa Logic implementation of the handshake between Interrupt source,
 target and PLIC is illustrated below, and described in further detail in
 the following sections:
 
-\begin{figure}[h]
+\begin{figure}[!htb]
 
-\includegraphics{../assets/graphics/AHB-Lite_PLIC_Handshake.png}
+\includegraphics{img/plic-handshake.png}
 \caption{Interrupt Handling handshake}
 \label{fig:HANDSHAKE}
 \end{figure}
@@ -118,7 +109,6 @@ interrupts to be forwarded from the corresponding source.
 The Interrupt Handler may then exit, however it is possible a new
 interrupt request may have been asserted while the handler was running.
 To reduce latency the handler may instead determine if a new interrupt
-has been received and if so again claim the interrupt as described in
-section \emph{\ref{sec:claim-response} \nameref{sec:claim-response}}. In this
+has been received and if so again claim the interrupt (See earlier). In this
 way the interrupt handler can service all interrupts without the need to
 restore the interrupted context.

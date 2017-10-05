@@ -4,7 +4,7 @@
 
 \section{PLIC Interface} 
 
-\missingfigure{Test} \todo[author=SPH, color=red]{Add PLIC Interface Intro}
+\todo[author=SPH, color=red]{Add PLIC Interface Intro}
 
 \begin{longtable}[c]{@{\extracolsep{\fill}}lccl@{\extracolsep{\fill}}}	
 	\toprule
@@ -19,19 +19,18 @@
 \end{longtable}
 
 Note: Width of PLIC interface buses are defined by
-\protect\hyperlink{core-parameters}{Core Parameters}.
+\nameref{sec:core-parameters}. 
 
 \subsection{SRC}
 
 Interrupt sources connect to the \texttt{SRC{[}SOURCES-1..0{]}} input of
-the PLIC module. The width of this interface is defined by the
-\protect\hyperlink{SOURCES}{\texttt{SOURCES}} parameter.
+the PLIC module. The width of this interface is defined by the \texttt{\nameref{sec:SOURCES}} parameter. 
 
 \subsection{IRQ}
 
 Interrupt targets are sourced by the \texttt{IRQ{[}TARGETS-1..0{]}}
 output of the PLIC module. The width of this interface is defined by the
-\protect\hyperlink{TARGETS}{\texttt{TARGETS}} parameter.
+\texttt{\nameref{sec:TARGETS}} parameter.
 
 \section{Register Interface}
 
@@ -76,17 +75,15 @@ module.
 When enabled via the \texttt{HAS\_CONFIG\_REG} hardware parameter, the
 \texttt{CONFIG} register returns a 64 bit value constructed as follows:
 
-\todo[author=SPH, color=red]{Fix diagram Font}
-
 \begin{figure}[h] 
-	\includegraphics[width=\linewidth]{img/CONFIG.png} 
+	\includegraphics{img/config} 
 	\caption[Configuration Register]{Configuration Register}
 	\label{fig:configreg}
 \end{figure}
 
 The values, \texttt{HAS\_THRESHOLD}, \texttt{PRIORITIES},
 \texttt{TARGETS} and \texttt{SOURCES} correspond to the hardware
-parameters documented in section 3.1.
+parameters documented in section \ref{sec:core-parameters} \nameref{sec:core-parameters}.
 
 \subsubsection{EL}
 
@@ -94,7 +91,7 @@ The \texttt{EL} Read/Write register defines if an interrupt source is
 Edge or Level Triggered.
 
 The number of interrupt sources, as defined by the
-\protect\hyperlink{SOURCES}{\texttt{SOURCES}} parameter, determines
+\texttt{SOURCES} parameter, determines
 the width of the \texttt{EL} register. One bit within the register
 corresponds to an interrupt source, where a logic high (`1') defines a
 rising-edge triggered interrupt and a logic low (`0') defines a level
@@ -109,7 +106,7 @@ PLIC.
 
 The number of targets determines the number of \texttt{IE[]}
 registers. The number of interrupt sources, as defined by the
-\protect\hyperlink{SOURCES}{\texttt{SOURCES}} parameter, determines the
+\texttt{SOURCES} parameter, determines the
 width of each \texttt{IE[]} register. One bit within the register
 corresponds to an individual interrupt source, where a logic high (`1')
 defines an interrupt source as enabled and a logic low (`0') as
@@ -138,7 +135,7 @@ the highest priority interrupt source to be serviced.
 
 The \texttt{PRIORITY[]} Read/Write registers define the priority level of each interrupt source.
 
-There is one \texttt{PRIORITY[]} register per interrupt source as defined by the \texttt{SOURCES} parameter (see \protect\hyperlink{SOURCES}{\texttt{SOURCES}}), identified as \texttt{PRIORITY[SOURCES-1:0]}. The width of each register is derived from the number of priority levels as defined by the \texttt{PRIORITIES} parameter (see \protect\hyperlink{TARGETS}{\texttt{TARGETS}}).
+There is one \texttt{PRIORITY[]} register per interrupt source as defined by the \texttt{SOURCES} parameter, identified as \texttt{PRIORITY[SOURCES-1:0]}. The width of each register is derived from the number of priority levels as defined by the \texttt{PRIORITIES} parameter.
 
 Interrupt priority increases with larger values of \texttt{PRIORITY}.
 
@@ -302,7 +299,7 @@ implements 1 register per threshold.
 
 The order of the registers in the memory map is defined as Table \ref{tab:REGMAP}.
 
-\begin{longtable}[h]{@{}cp{4cm}@{}}	
+\begin{longtable}[]{@{}cl@{}}	
 		\toprule 
 		\textbf{Order} & \textbf{Registers}\\
 		\midrule

@@ -2,3 +2,8 @@
 docs/test.md
 *.tpbuild
 docs/.texpadtmp
+*.tdo
+*.gz
+*.out
+*.log
+*.aux
