@@ -7,3 +7,6 @@ docs/.texpadtmp
 *.out
 *.log
 *.aux
+*.toc
+*.txss
+*.toc
