@@ -1,4 +1,5 @@
-\graphicspath{ {./img/} } 
+% Load Roalogic Title Page Generator
+\usepackage{pkg/roalogictitle}
 
 % Document Variables
 
@@ -11,13 +12,9 @@
 \project{http://roalogic.github.io/plic}
 \author{Paul Hardy}
 
-% Headers & Footers
-%\pagestyle{myheadings}
-%\markright{AHB-Lite Platform Level Interrupt Controller\hfill}
-\usepackage{fancyhdr}
-\pagestyle{fancyplain}
+ % Set page headers/footer
+\pagestyle{fancy}
 \fancyhf{}
-\lhead{ \fancyplain{}{AHB-Lite Platform Level Interrupt Controller} }
-\lfoot{ \fancyplain{}{\today} }
-\cfoot{\fancyplain{}{© Roa Logic, 2017} }
-\rfoot{ \fancyplain{}{\thepage} }
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE,LO]{AHB-Lite Platform Level Interrupt Controller}
+\fancyfoot[CE,CO]{\textcircled{c} Roa Logic}

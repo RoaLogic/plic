@@ -1,6 +1,6 @@
-\section{Specifications}
+\chapter{Specifications}
 
-\subsection{Functional Description}
+\section{Functional Description}
 
 The AHB-Lite PLIC IP core is a fully parameterised Platform-Level Interrupt
 Controller, featuring a single AHB-Lite Slave interface and interfaces
@@ -11,41 +11,31 @@ one or more interrupt targets. The core supports a programmable number
 of simultaneous pending interrupt requests per source and routing of
 those interrupt requests to individual targets.
 
-Per the
-\href{https://people.eecs.berkeley.edu/\%7Ekrste/papers/riscv-privileged-v1.9.1.pdf}{RISC-V
-Privileged Architecture Instruction Set specification (v1.9.1)}, the
-core performs full interrupt prioritisation of each interrupt source;
-each may be assigned a separate priority and enabled per target via a
-matrix of interrupt enable bits. Further, an optional threshold per
-target may be defined to mask lower priority interrupts.
+Per the \href{https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.9.1.pdf}{RISC-V Privileged Architecture Instruction Set specification (v1.9.1)}, the core performs full interrupt prioritisation of each interrupt source; each may be assigned a separate priority and enabled per target via a matrix of interrupt enable bits. Further, an optional threshold per target may be defined to mask lower priority interrupts.
 
-To reduce latency, the PLIC core presents all asserted interrupts to the
-target in priority order, queuing them so that a software interrupt
-handler can service all interrupts without the need to restore the
-interrupted context.
+To reduce latency, the PLIC core presents all asserted interrupts to the target in priority order, queuing them so that a software interrupt handler can service all interrupts without the need to restore the interrupted context.
 
 An example use of the PLIC core is shown below:
 
-\begin{figure}[h]
-\centering
-\includegraphics{../assets/graphics/AHB-Lite_PLIC_System_Diagram.png}
+\begin{figure}[!htb]
+\includegraphics{img/plic-system.png}
 \caption{PLIC System Diagram}
 \end{figure}
-\rh{Update System Diagram}
 
-\subsection{Interrupt Handling Handshake}
+\section{Interrupt Handling Handshake}
 
 The Roa Logic implementation of the handshake between Interrupt source,
 target and PLIC is illustrated below, and described in further detail in
 the following sections:
 
-\begin{figure}[h]
-\centering
-\includegraphics{../assets/graphics/AHB-Lite_PLIC_Handshake.png}
-\caption{}
+\begin{figure}[!htb]
+
+\includegraphics{img/plic-handshake.png}
+\caption{Interrupt Handling handshake}
+\label{fig:HANDSHAKE}
 \end{figure}
 
-\subsubsection{PLIC Configuration}
+\subsection{PLIC Configuration}
 
 A matrix of Interrupt Enable vectors -- one IE register per target --
 determines which target processes the interrupts from which source.
@@ -63,7 +53,7 @@ interrupt priority when 2 or more interrupts with the same priority
 level are asserted. The lower the \texttt{ID} assigned to the source,
 the greater the interrupt priority.
 
-\subsubsection{Interrupt Request}
+\subsection{Interrupt Request}
 
 A source asserts an interrupt request to the PLIC. The PLIC validates
 the request by first checking if an interrupt enable bit is set for each
@@ -83,7 +73,7 @@ If the request is deemed valid the request is forwarded to the
 appropriate target. In the case of queued edge-triggered requests, the
 interrupt pending counter is decremented by one immediately upon claim of the interrupt by the target.
 
-\subsubsection{Interrupt Notification}
+\subsection{Interrupt Notification}
 
 A target is notified of an interrupt request by the assertion of the IRQ
 output for the relevant target. The PLIC also blocks the forwarding of
@@ -93,20 +83,20 @@ request is serviced.
 On each clock cycle the ID register is loaded with the unique identifier
 of the highest priority interrupt to be processed.
 
-\subsubsection{Claim Response} \label{sec:claim-response}
+\subsection{Claim Response} \label{sec:claim-response}
 
 A target makes an interrupt claim response by reading the ID register,
 which also notifies the target of the interrupt source to service. The
 PLIC de-asserts the IRQ output for the target in response to the claim.
 unless another, lower priority, interrupt is still pending.
 
-\subsubsection{Interrupt Handler}
+\subsection{Interrupt Handler}
 
 If the ID read is greater than zero, the target services the identified
 interrupt source. If the ID read is zero, this indicates no outstanding
 pending interrupts remain and the handler may terminate.
 
-\subsubsection{Interrupt Completion}
+\subsection{Interrupt Completion}
 
 Once an interrupt has been serviced, completion is signalled to the PLIC
 by writing to the ID register. The act of writing to the register is the
@@ -118,7 +108,6 @@ interrupts to be forwarded from the corresponding source.
 The Interrupt Handler may then exit, however it is possible a new
 interrupt request may have been asserted while the handler was running.
 To reduce latency the handler may instead determine if a new interrupt
-has been received and if so again claim the interrupt as described in
-section \emph{\ref{sec:claim-response} \nameref{sec:claim-response}}. In this
+has been received and if so again claim the interrupt (See earlier). In this
 way the interrupt handler can service all interrupts without the need to
 restore the interrupted context.

@@ -1,4 +1,4 @@
-\subsection{AHB-Lite Interface}
+\section{AHB-Lite Interface}
 
 The AHB-Lite interface is a regular AHB-Lite slave port. All signals are
 supported. See the
@@ -29,25 +29,25 @@ supported. See the
 	\label{tab:AHBIF}
 \end{longtable}
 
-\subsubsection{HRESETn}
+\subsection{HRESETn}
 
 When the active low asynchronous \texttt{HRESETn} input is asserted
 (`0'), the interface is put into its initial reset state.
 
-\subsubsection{HCLK}
+\subsection{HCLK}
 
 \texttt{HCLK} is the interface system clock. All internal logic for the
 AHB-Lite interface operates at the rising edge of this system clock and
 AHB bus timings are related to the rising edge of \texttt{HCLK}.
 
-\subsubsection{HSEL}
+\subsection{HSEL}
 
 The AHB-Lite interface only responds to other signals on its bus -- with
 the exception of the global asynchronous reset signal \texttt{HRESETn}
 -- when \texttt{HSEL} is asserted (`1'). When \texttt{HSEL} is negated
 (`0') the interface considers the bus \texttt{IDLE}.
 
-\subsubsection{HTRANS}
+\subsection{HTRANS}
 
 HTRANS indicates the type of the current transfer as shown in Table \ref{tab:HTRANS}
 
@@ -65,30 +65,30 @@ HTRANS indicates the type of the current transfer as shown in Table \ref{tab:HTR
 	\label{tab:HTRANS}
 \end{longtable}
 
-\subsubsection{HADDR}
+\subsection{HADDR}
 
 \texttt{HADDR} is the address bus. Its size is determined by the
 \texttt{HADDR\_SIZE} parameter and is driven to the connected
 peripheral.
 
-\subsubsection{HWDATA}
+\subsection{HWDATA}
 
 \texttt{HWDATA} is the write data bus. Its size is determined by the
 \texttt{HDATA\_SIZE} parameter and is driven to the connected
 peripheral.
 
-\subsubsection{HRDATA}
+\subsection{HRDATA}
 
 \texttt{HRDATA} is the read data bus. Its size is determined by the
 \texttt{HDATA\_SIZE} parameter and is sourced by the connected
 peripheral.
 
-\subsubsection{HWRITE}
+\subsection{HWRITE}
 
 \texttt{HWRITE} is the read/write signal. \texttt{HWRITE} asserted (`1')
 indicates a write transfer.
 
-\subsubsection{HSIZE}
+\subsection{HSIZE}
 
 \texttt{HSIZE} indicates the size of the current transfer as shown in table \ref{tab:HSIZE}:
 
@@ -110,7 +110,7 @@ indicates a write transfer.
 	\label{tab:HSIZE}
 \end{longtable}
 
-\subsubsection{HBURST}
+\subsection{HBURST}
 
 HBURST indicates the transaction burst type -- a single transfer or part
 of a burst.
@@ -133,7 +133,7 @@ of a burst.
 	\label{tab:HBURST}
 \end{longtable}
 
-\subsubsection{HPROT}
+\subsection{HPROT}
 
 The \texttt{HPROT} signals provide additional information about the bus
 transfer and are intended to implement a level of protection.
@@ -156,20 +156,20 @@ transfer and are intended to implement a level of protection.
 	\label{tab:HPROT}
 \end{longtable}
 
-\subsubsection{HREADYOUT}
+\subsection{HREADYOUT}
 
 \texttt{HREADYOUT} indicates that the current transfer has finished.
 Note, for the AHB-Lite PLIC this signal is constantly asserted as the
 core is always ready for data access.
 
-\subsubsection{HREADY}
+\subsection{HREADY}
 
 \texttt{HREADY} indicates whether or not the addressed peripheral is
 ready to transfer data. When \texttt{HREADY} is negated (`0') the
 peripheral is not ready, forcing wait states. When \texttt{HREADY} is
 asserted (`1') the peripheral is ready and the transfer completed.
 
-\subsubsection{HRESP}
+\subsection{HRESP}
 
 \texttt{HRESP} is the instruction transfer response and indicates OKAY
 (`0') or ERROR (`1').

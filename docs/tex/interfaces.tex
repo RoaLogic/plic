@@ -1,10 +1,10 @@
-\section{Interfaces}
+\chapter{Interfaces}
 
 \input{./tex/interfaces-ahblite.tex}
 
-\subsection{PLIC Interface} 
+\section{PLIC Interface} 
 
-\missingfigure{Test} \todo[author=SPH, color=red]{Add PLIC Interface Intro}
+\todo[author=SPH, color=red]{Add PLIC Interface Intro}
 
 \begin{longtable}[c]{@{\extracolsep{\fill}}lccl@{\extracolsep{\fill}}}	
 	\toprule
@@ -21,22 +21,20 @@
 
 
 Note: Width of PLIC interface buses are defined by
+\nameref{sec:core-parameters}. 
 
-\protect\hyperlink{core-parameters}{Core Parameters}.
-
-\subsubsection{SRC}
+\subsection{SRC}
 
 Interrupt sources connect to the \texttt{SRC{[}SOURCES-1..0{]}} input of
-the PLIC module. The width of this interface is defined by the
-\protect\hyperlink{SOURCES}{\texttt{SOURCES}} parameter.
+the PLIC module. The width of this interface is defined by the \texttt{\nameref{sec:SOURCES}} parameter. 
 
-\subsubsection{IRQ}
+\subsection{IRQ}
 
 Interrupt targets are sourced by the \texttt{IRQ{[}TARGETS-1..0{]}}
 output of the PLIC module. The width of this interface is defined by the
-\protect\hyperlink{TARGETS}{\texttt{TARGETS}} parameter.
+\texttt{\nameref{sec:TARGETS}} parameter.
 
-\subsection{Register Interface}
+\section{Register Interface}
 
 The following registers are user accessible in the PLIC module:
 
@@ -68,6 +66,8 @@ argument shall be treated as an unsigned value, and an argument value of
 0 shall produce a result of 0.}
 \end{quote}
 
+\subsection{Register Descriptions}
+
 \subsubsection{CONFIG}
 
 The \texttt{CONFIG} register is a Read-Only register that enables a
@@ -77,10 +77,8 @@ module.
 When enabled via the \texttt{HAS\_CONFIG\_REG} hardware parameter, the
 \texttt{CONFIG} register returns a 64 bit value constructed as follows:
 
-
-\todo[author=SPH, color=red]{Fix diagram Font}
 \begin{figure}[h] 
-	\includegraphics[width=\linewidth]{CONFIG} 
+	\includegraphics{img/config} 
 	\caption[Configuration Register]{Configuration Register}
 	\label{fig:configreg}
 \end{figure}
@@ -89,7 +87,7 @@ When enabled via the \texttt{HAS\_CONFIG\_REG} hardware parameter, the
 
 The values, \texttt{HAS\_THRESHOLD}, \texttt{PRIORITIES},
 \texttt{TARGETS} and \texttt{SOURCES} correspond to the hardware
-parameters documented in section 3.1.
+parameters documented in section \ref{sec:core-parameters} \nameref{sec:core-parameters}.
 
 \subsubsection{EL}
 
@@ -97,7 +95,7 @@ The \texttt{EL} Read/Write register defines if an interrupt source is
 Edge or Level Triggered.
 
 The number of interrupt sources, as defined by the
-\protect\hyperlink{SOURCES}{\texttt{SOURCES}} parameter, determines
+\texttt{SOURCES} parameter, determines
 the width of the \texttt{EL} register. One bit within the register
 corresponds to an interrupt source, where a logic high (`1') defines a
 rising-edge triggered interrupt and a logic low (`0') defines a level
@@ -112,7 +110,7 @@ PLIC.
 
 The number of targets determines the number of \texttt{IE[]}
 registers. The number of interrupt sources, as defined by the
-\protect\hyperlink{SOURCES}{\texttt{SOURCES}} parameter, determines the
+\texttt{SOURCES} parameter, determines the
 width of each \texttt{IE[]} register. One bit within the register
 corresponds to an individual interrupt source, where a logic high (`1')
 defines an interrupt source as enabled and a logic low (`0') as
@@ -141,7 +139,7 @@ the highest priority interrupt source to be serviced.
 
 The \texttt{PRIORITY[]} Read/Write registers define the priority level of each interrupt source.
 
-There is one \texttt{PRIORITY[]} register per interrupt source as defined by the \texttt{SOURCES} parameter (see \protect\hyperlink{SOURCES}{\texttt{SOURCES}}), identified as \texttt{PRIORITY[SOURCES-1:0]}. The width of each register is derived from the number of priority levels as defined by the \texttt{PRIORITIES} parameter (see \protect\hyperlink{TARGETS}{\texttt{TARGETS}}).
+There is one \texttt{PRIORITY[]} register per interrupt source as defined by the \texttt{SOURCES} parameter, identified as \texttt{PRIORITY[SOURCES-1:0]}. The width of each register is derived from the number of priority levels as defined by the \texttt{PRIORITIES} parameter.
 
 Interrupt priority increases with larger values of \texttt{PRIORITY}.
 
@@ -176,21 +174,21 @@ calculations based on user-defined parameters to show the registers and
 memory mapping. Further, simulation of the PLIC will also shows the
 registers and memory mapping.
 
-\subsubsection{Itemising Register Requirements}
+\subsection{Itemising Register Requirements}
 
 The section "\protect\hyperlink{register-interface}{Register Interface}"
 provides a summary of the registers required to control and configure
 the PLIC. The following is a more detailed summary of those
 requirements.
 
-\paragraph{CONFIG Register:} ~\\
+\subsubsection{CONFIG Register:}
 
 The \texttt{CONFIG} register is always 64 bits. For 32 bit
 implementations this means 2 physical registers are required, 1 each for
 the upper and lower word. For 64 bit implementations a single register
 will be implemented.
 
-\paragraph{EL Registers:} ~\\
+\subsubsection{EL Registers:}
 
 Each interrupt source requires a single bit in the \texttt{EL} register
 to define if the source is level or edge triggered. These bits will be
@@ -212,7 +210,7 @@ No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)
                  = 2
 \end{verbatim}
 
-\paragraph{IE Registers:} ~\\
+\subsubsection{IE Registers:}
 
 Interrupt sources may be enabled or disabled per target requiring single
 bit per target. These bits will be packed into the fewest registers
@@ -233,7 +231,7 @@ No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)*TARGETS
                  = 8
 \end{verbatim}
 
-\paragraph{ID Registers:} ~\\
+\subsubsection{ID Registers:}
 
 The \texttt{ID[]} Read/Write
 register identifies the ID of the highest priority pending interrupt
@@ -243,7 +241,7 @@ request, with one ID register required per target.
 \texttt{No.\ of\ Registers\ =\ TARGETS}
 \end{quote}
 
-\paragraph{PRIORITY Registers:} ~\\
+\subsubsection{PRIORITY Registers:}
 
 Each interrupt source can be assigned a priority, which is defined as
 positive integer. The PLIC parameter \texttt{PRIORITIES} defines the
@@ -264,8 +262,8 @@ where:
     FPR = FIELDS_PER_REGISTER    
         = HDATA_SIZE/(4*NPP)
 
-     NPP = NIBBLES_PER_PRIORITY
-         = ROUNDUP($clog2(PRIORITIES+1)/4)
+    NPP = NIBBLES_PER_PRIORITY
+        = ROUNDUP($clog2(PRIORITIES+1)/4)
 \end{verbatim}
 
 Example: For a 32 bit system supporting 48 interrupt sources and 8
@@ -292,7 +290,7 @@ Note: clog\textsubscript{2}() refers to the System Verilog function by
 the same name and calculates the number of binary bits required to
 represent a given integer.
 
-\paragraph{THRESHOLD Registers:} ~\\
+\subsubsection{THRESHOLD Registers:}
 
 Each target may be assigned a priority threshold and therefore the PLIC
 implements 1 register per threshold.
@@ -301,11 +299,11 @@ implements 1 register per threshold.
 \texttt{No.\ of\ Registers\ =\ TARGETS}
 \end{quote}
 
-\subsubsection{Register Address Map}
+\subsection{Register Address Ordering}
 
 The order of the registers in the memory map is defined as Table \ref{tab:REGMAP}.
 
-\begin{longtable}[c]{@{}cp{4cm}@{}}	
+\begin{longtable}[]{@{}cl@{}}	
 		\toprule 
 		\textbf{Order} & \textbf{Registers}\\
 		\midrule
@@ -324,7 +322,7 @@ The order of the registers in the memory map is defined as Table \ref{tab:REGMAP
 Registers are mapped to consecutive addresses based on this order and the
 number of registers required. \todo[author=SPH]{Expand register address map section with more details} 
 
-\paragraph{Register Address Map Example:} ~\\
+\subsection{Register Address Map Example}
 
 Using the previous example of a 32 bit system supporting 48 interrupt sources, 4 targets and 8 priority levels as shown in Table \ref{tab:REGMAPEX}:
 
