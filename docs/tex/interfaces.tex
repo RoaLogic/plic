@@ -55,13 +55,13 @@ HTRANS indicates the type of the current transfer as shown in Table \ref{tab:HTR
 
 \begin{longtable}[c]{@{\extracolsep{\fill}}ccp{7cm}}	
 	\toprule 
-	\textbf{HTRANS} & \textbf{Type} & \textbf{Description}\\
+	\textbf{{\tt HTRANS}} & \textbf{Type} & \textbf{Description}\\
 	\midrule
 	\endhead 
-	00 & \texttt{IDLE}   & No transfer required\\
-	01 & \texttt{BUSY}   & Connected master is not ready to accept data, but intents to continue the current burst.\\
-	10 & \texttt{NONSEQ} & First transfer of a burst or a single transfer\\
-	11 & \texttt{SEQ}    & Remaining transfers of a burst\\
+	{\tt 00} & \texttt{IDLE}   & No transfer required\\
+	{\tt 01} & \texttt{BUSY}   & Connected master is not ready to accept data, but intents to continue the current burst.\\
+	{\tt 10} & \texttt{NONSEQ} & First transfer of a burst or a single transfer\\
+	{\tt 11} & \texttt{SEQ}    & Remaining transfers of a burst\\
 	\bottomrule 	
 	\caption{HTRANS Signal Types}
 	\label{tab:HTRANS}
@@ -96,17 +96,17 @@ indicates a write transfer.
 
 \begin{longtable}[c]{@{\extracolsep{\fill}}ccl}	
 	\toprule 
-	\textbf{HSIZE} & \textbf{Size} & \textbf{Description}\\
+	\textbf{{\tt HSIZE}} & \textbf{Size} & \textbf{Description}\\
 	\midrule
 	\endhead 
-	000 & 8 bit    & Byte\\
-	001 & 16 bit   & Half Word\\
-	010 & 32 bit   & Word\\
-	011 & 64 bits  & Double Word\\
-	100 & 128 bit  &\\
-	101 & 256 bit  &\\
-	110 & 512 bit  &\\
-	111 & 1024 bit &\\
+	{\tt 000} & 8 bit    & Byte\\
+	{\tt 001} & 16 bit   & Half Word\\
+	{\tt 010} & 32 bit   & Word\\
+	{\tt 011} & 64 bits  & Double Word\\
+	{\tt 100} & 128 bit  &\\
+	{\tt 101} & 256 bit  &\\
+	{\tt 110} & 512 bit  &\\
+	{\tt 111} & 1024 bit &\\
 	\bottomrule 	
 	\caption{HSIZE Values}
 	\label{tab:HSIZE}
@@ -119,17 +119,17 @@ of a burst.
 
 \begin{longtable}[c]{@{\extracolsep{\fill}}ccl}	
 	\toprule 
-	\textbf{HBURST} & \textbf{Type} & \textbf{Description}\\
+	\textbf{{\tt HBURST}} & \textbf{Type} & \textbf{Description}\\
 	\midrule
 	\endhead 
-	000 & \texttt{SINGLE} & Single access**\\
-	001 & \texttt{INCR}   & Continuous incremental burst\\
-	010 & \texttt{WRAP4}  & 4-beat wrapping burst\\
-	011 & \texttt{INCR4}  & 4-beat incrementing burst\\
-	100 & \texttt{WRAP8}  & 8-beat wrapping burst\\
-	101 & \texttt{INCR8}  & 8-beat incrementing burst\\
-	110 & \texttt{WRAP16} & 16-beat wrapping burst\\
-	111 & \texttt{INCR16} & 16-beat incrementing burst\\
+	{\tt 000} & \texttt{SINGLE} & Single access**\\
+	{\tt 001} & \texttt{INCR}   & Continuous incremental burst\\
+	{\tt 010} & \texttt{WRAP4}  & 4-beat wrapping burst\\
+	{\tt 011} & \texttt{INCR4}  & 4-beat incrementing burst\\
+	{\tt 100} & \texttt{WRAP8}  & 8-beat wrapping burst\\
+	{\tt 101} & \texttt{INCR8}  & 8-beat incrementing burst\\
+	{\tt 110} & \texttt{WRAP16} & 16-beat wrapping burst\\
+	{\tt 111} & \texttt{INCR16} & 16-beat incrementing burst\\
 	\bottomrule 	
 	\caption{HBURST Types}
 	\label{tab:HBURST}
@@ -582,7 +582,7 @@ The order of the registers in the memory map is defined as Table \ref{tab:REGMAP
 Registers are mapped to consecutive addresses based on this order and the
 number of registers required. 
 
-\subsection{Register Address Map Example}
+\subsubsection{Address Map Example}
 
 Using the example of a 32 bit system supporting 48 interrupt sources, 4 targets and 8 priority levels as shown in Table \ref{tab:REGMAPEX}:
 
@@ -663,7 +663,7 @@ defined in Table \ref{tab:REGMAP}:
 Note: When simulating the PLIC, the simulator will print a detailed Register Address
 Mapping showing explicitly how each interrupt source and target maps to the register fields. A Microsoft Excel worksheet is also available from the Roa Logic web site showing the same Address Map.
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 \includegraphics{../assets/graphics/AHB-Lite_PLIC_Worksheet.png}
 \caption{Register Mapping Worksheet}
 \label{fig:WORKSHEET}
