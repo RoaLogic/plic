@@ -10,3 +10,5 @@ docs/.texpadtmp
 *.toc
 *.txss
 *.toc
+*.bbl
+*.blg

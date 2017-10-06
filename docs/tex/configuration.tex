@@ -5,23 +5,22 @@
 The size and implementation style of the PLIC module is defined via HDL
 parameters as specified below:
 
-
 \begin{longtable}[c]{@{\extracolsep{\fill}}lccl@{}}	
 	\toprule 
-	\textbf{Parameter} & \textbf{Type} & \textbf{Default} & \textbf{Description}\\
+	\textbf{Parameter}           & \textbf{Type} & \textbf{Default} & \textbf{Description}\\
 	\midrule
 	\endhead
 	\emph{\textbf{AHB Interface:}}\\
-	\texttt{HADDR\_SIZE} & Integer & 32 & Width of AHB Address Bus\\
-	\texttt{HDATA\_SIZE} & Integer & 32 & Width of AHB Data Buses\\
+	\texttt{HADDR\_SIZE}         & Integer & 32 & Width of AHB Address Bus\\
+	\texttt{HDATA\_SIZE}         & Integer & 32 & Width of AHB Data Buses\\
 	\\
 	\emph{\textbf{PLIC Configuration:}}\\
-	\texttt{SOURCES} & Integer & 16 & Number of Interrupt Sources\\
-	\texttt{TARGETS} & Integer & 4 & Number of Interrupt Targets\\
-	\texttt{PRIORITIES} & Integer & 8 & Number of Priority Levels\\
+	\texttt{SOURCES}             & Integer & 16 & Number of Interrupt Sources\\
+	\texttt{TARGETS}             & Integer & 4 & Number of Interrupt Targets\\
+	\texttt{PRIORITIES}          & Integer & 8 & Number of Priority Levels\\
 	\texttt{MAX\_PENDING\_COUNT} & Integer & 8 & Max number of pending events\\
-	\texttt{HAS\_THRESHOLD} & Integer & 1 & Is Threshold Implemented\\
-	\texttt{HAS\_CONFIG\_REG} & Integer & 1 & Is Config Reg. Implemented\\
+	\texttt{HAS\_THRESHOLD}      & Integer & 1 & Is Threshold Implemented\\
+	\texttt{HAS\_CONFIG\_REG}    & Integer & 1 & Is Config Reg. Implemented\\
 	\bottomrule 	
 	\caption{Core Parameters}
 	\label{tab:CoreParams}
@@ -52,12 +51,10 @@ by the PLIC IP. The default value is 4. The minimum value is 1.
 
 \subsection{PRIORITIES}
 
-\sloppy
 The PLIC IP supports prioritisation of individual interrupt sources. The \texttt{PRIORITIES} parameter defines the number of priority levels supported by the PLIC IP. The default value is 8. The minimum value is 1.
 
 \subsection{MAX\_PENDING\_COUNT}
 
-\sloppy
 The PLIC module supports multiple concurrently arriving interrupt
 requests. The maximum number of requests that are supported is defined
 by the \texttt{MAX\_PENDING\_COUNT} parameter.\todo{Expand MAX\_PENDING\_COUNT explanation}
