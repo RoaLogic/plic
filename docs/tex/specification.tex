@@ -3,30 +3,30 @@
 \section{Functional Description}
 
 The AHB-Lite PLIC IP core is a fully parameterised Platform-Level Interrupt
-Controller, featuring a single AHB-Lite Slave interface and interfaces
-to a user-defined number of both Interrupt Sources and Targets.
+Controller, featuring a single AHB-Lite Slave interface and support for a user-defined number of both Interrupt Sources and Targets.
 
 The purpose of the PLIC core is to connect multiple interrupt sources to
 one or more interrupt targets. The core supports a programmable number
-of simultaneous pending interrupt requests per source and routing of
-those interrupt requests to individual targets.
+of simultaneous pending interrupt requests per source and individual routing of those interrupt requests to each target.
 
-Per the \href{https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.9.1.pdf}{RISC-V Privileged Architecture Instruction Set specification (v1.9.1)}, the core performs full interrupt prioritisation of each interrupt source; each may be assigned a separate priority and enabled per target via a matrix of interrupt enable bits. Further, an optional threshold per target may be defined to mask lower priority interrupts.
+Per the \href{https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.9.1.pdf}{RISC-V Privileged Architecture Instruction Set specification (v1.9.1)}, the core performs full interrupt prioritisation of each interrupt source; each may be assigned a separate priority and enabled per target via a matrix of interrupt enable bits. Further, an optional priority threshold per target may be defined to mask lower priority interrupts.
 
-To reduce latency, the PLIC core presents all asserted interrupts to the target in priority order, queuing them so that a software interrupt handler can service all interrupts without the need to restore the interrupted context.
+To reduce latency, the PLIC core presents all asserted interrupts to the target in priority order, queuing them so that a software interrupt handler can service all pending interrupts without the need to restore the interrupted context.
 
-An example use of the PLIC core is shown below:
+For illustration, a simplified example system using the PLIC core is shown below:
 
 \begin{figure}[!htb]
-\includegraphics{img/plic-system.png}
-\caption{PLIC System Diagram}
+
+	\includegraphics{img/plic-system.png}
+	\caption{PLIC System Diagram}
+	\label{fig:SYSDIAG}
 \end{figure}
 
 \section{Interrupt Handling Handshake}
 
 The Roa Logic implementation of the handshake between Interrupt source,
 target and PLIC is illustrated below, and described in further detail in
-the following sections:
+the subsequent sections:
 
 \begin{figure}[!htb]
 
@@ -41,7 +41,7 @@ A matrix of Interrupt Enable vectors -- one IE register per target --
 determines which target processes the interrupts from which source.
 
 Each Interrupt Source attached to the PLIC is then assigned a Priority
-Level -- an unsigned integer that determines the relative priority of
+Level - an unsigned integer that determines the relative priority of
 the interrupt source. The greater the integer, the greater the priority
 level. A Priority Threshold per target may also be defined to mask lower
 priority interrupts such that interrupts will only be presented to a
