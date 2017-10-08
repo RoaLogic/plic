@@ -2,14 +2,14 @@
 
 Fully Parameterized & Programmable Platform Level Interrupt Controller (PLIC) for RISC-V based Processor Systems supporting a user-defined number of interrupt sources and targets.
 
-![Example PLIC System Diagram](./assets/graphics/AHB-Lite_PLIC_System_Diagram.png)
+![Example PLIC System Diagram](./IMG/AHB-Lite_PLIC_System_Diagram.png)
 
 ## Documentation
 
-- [Product Brief](docs/AHB-Lite_PLIC_Datasheet.md)
-- [Datasheet]()
-- [User Guide]()
-- [Register Mapping Worksheet]()
+- [Product Brief]
+- [Datasheet](DATASHEET)
+- [User Guide]
+- [Register Mapping Worksheet]
 
 ## Features
 

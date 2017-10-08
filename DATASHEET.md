@@ -4,7 +4,7 @@ category: Datasheet
 author: Roa Logic
 ---
 
-![RoaLogicLogo](../assets/graphics/RoaLogicLogo.png)
+![RoaLogicLogo](assets/img/RoaLogicLogo.png)
 
 # AHB-Lite PLIC Datasheet
 
@@ -14,7 +14,7 @@ The IP features an AHB-Lite Slave interface, with all signals defined in the *[A
 
 The controller further supports user defined priority levels and pending events, in addition to interrupt masking via programmable priority thresholds
 
-![AHB-Lite PLIC Block Diagram](../assets/graphics/AHB-Lite_PLIC_Port_Diagram.png)
+![AHB-Lite PLIC Block Diagram](assets/img/AHB-Lite_PLIC_Port_Diagram.png)
 
 
 
@@ -28,7 +28,7 @@ The controller further supports user defined priority levels and pending events,
 
 # Contents
 
-Specifications](#specifications)
+[Specifications](#specifications)
 
 [Configurations](#configurations)
 
@@ -56,7 +56,7 @@ An example use of the PLIC core is shown below:
 
 
 
-![AHB-Lite_PLIC_System_Diagram](../assets/graphics/AHB-Lite_PLIC_System_Diagram.png)
+![AHB-Lite_PLIC_System_Diagram](assets/img/AHB-Lite_PLIC_System_Diagram.png)
 
 
 
@@ -66,7 +66,7 @@ The Roa Logic implementation of the handshake between Interrupt source, target a
 
 
 
-![AHB-Lite_PLIC_Handshake](../assets/graphics/AHB-Lite_PLIC_Handshake.png)
+![AHB-Lite_PLIC_Handshake](assets/img/AHB-Lite_PLIC_Handshake.png)
 
 
 
@@ -329,9 +329,7 @@ The `CONFIG` register is a Read-Only register that enables a software routine to
 
 When enabled via the `HAS_CONFIG_REG` hardware parameter, the `CONFIG` register returns a 64 bit value constructed as follows:
 
-| Bit Position | 63   |               | 49         | 48      | 47      |      | 32   | 31   |      | 16   | 15   |      | 0    |
-| ------------ | ---- | ------------- | ---------- | ------- | ------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| Value        | 0    | HAS_THRESHOLD | PRIORITIES | TARGETS | SOURCES |      |      |      |      |      |      |      |      |
+![Config Register](assets/img/CONFIG.png)
 
 The values, `HAS_THRESHOLD`, `PRIORITIES`, `TARGETS` and `SOURCES` correspond to the hardware parameters documented in section 3.1.
 
@@ -542,7 +540,7 @@ These registers will be then mapped as follows according to the order defined be
 
 Note: A spreadsheet exists that can calculate the above Register Address Mapping and is downloadable from the Roa Logic web site.
 
-![Register Mapping Worksheet](../assets/graphics/AHB-Lite_PLIC_Worksheet.png)
+![Register Mapping Worksheet](assets/img/AHB-Lite_PLIC_Worksheet.png)
 
 # Resources
 
