@@ -1,0 +1,43 @@
+\documentclass[oneside,11pt]{book}
+% \usepackage{showframe}
+
+% Document Setup
+\input{build/preamble}
+\input{build/setup.tex}
+
+\begin{document}
+
+%\layout{}
+
+\maketitle
+
+\frontmatter
+
+\tableofcontents
+
+\mainmatter
+
+\input{build/introduction.tex}
+	\pagebreak
+
+\input{build/specification.tex}
+	\pagebreak
+
+\input{build/configuration.tex}
+	\pagebreak
+
+\input{build/interfaces.tex}
+	\clearpage
+
+\input{build/resources.tex}
+	\pagebreak
+
+\input{build/references.tex}
+	\pagebreak
+	
+\input{build/history.tex}
+	\pagebreak
+
+\listoftodos % Temporary list of ToDo items
+
+\end{document}

@@ -12,3 +12,4 @@ docs/.texpadtmp
 *.toc
 *.bbl
 *.blg
+docs/build

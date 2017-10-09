@@ -22,6 +22,7 @@
 
 % Overload \maketitle with new layout
 \renewcommand*{\maketitle}{%
+\hypersetup{pageanchor=false}
 \begin{titlepage}
 \par
 \vspace{3cm}
@@ -42,5 +43,6 @@
 \vfill
 
 \end{titlepage}
+\hypersetup{pageanchor=true}
 }
 \endinput

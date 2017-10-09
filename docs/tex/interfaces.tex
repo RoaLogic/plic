@@ -55,13 +55,13 @@ HTRANS indicates the type of the current transfer as shown in Table \ref{tab:HTR
 
 \begin{longtable}[c]{@{\extracolsep{\fill}}ccp{7cm}}	
 	\toprule 
-	\textbf{{\tt HTRANS}} & \textbf{Type} & \textbf{Description}\\
+	\textbf{\texttt{HTRANS}} & \textbf{Type} & \textbf{Description}\\
 	\midrule
 	\endhead 
-	{\tt 00} & \texttt{IDLE}   & No transfer required\\
-	{\tt 01} & \texttt{BUSY}   & Connected master is not ready to accept data, but intents to continue the current burst.\\
-	{\tt 10} & \texttt{NONSEQ} & First transfer of a burst or a single transfer\\
-	{\tt 11} & \texttt{SEQ}    & Remaining transfers of a burst\\
+	\texttt{00} & \texttt{IDLE}   & No transfer required\\
+	\texttt{01} & \texttt{BUSY}   & Connected master is not ready to accept data, but intents to continue the current burst.\\
+	\texttt{10} & \texttt{NONSEQ} & First transfer of a burst or a single transfer\\
+	\texttt{11} & \texttt{SEQ}    & Remaining transfers of a burst\\
 	\bottomrule 	
 	\caption{HTRANS Signal Types}
 	\label{tab:HTRANS}
@@ -96,17 +96,17 @@ indicates a write transfer.
 
 \begin{longtable}[c]{@{\extracolsep{\fill}}ccl}	
 	\toprule 
-	\textbf{{\tt HSIZE}} & \textbf{Size} & \textbf{Description}\\
+	\textbf{\texttt{HSIZE}} & \textbf{Size} & \textbf{Description}\\
 	\midrule
 	\endhead 
-	{\tt 000} & 8 bit    & Byte\\
-	{\tt 001} & 16 bit   & Half Word\\
-	{\tt 010} & 32 bit   & Word\\
-	{\tt 011} & 64 bits  & Double Word\\
-	{\tt 100} & 128 bit  &\\
-	{\tt 101} & 256 bit  &\\
-	{\tt 110} & 512 bit  &\\
-	{\tt 111} & 1024 bit &\\
+	\texttt{000} & 8 bit    & Byte\\
+	\texttt{001} & 16 bit   & Half Word\\
+	\texttt{010} & 32 bit   & Word\\
+	\texttt{011} & 64 bits  & Double Word\\
+	\texttt{100} & 128 bit  &\\
+	\texttt{101} & 256 bit  &\\
+	\texttt{110} & 512 bit  &\\
+	\texttt{111} & 1024 bit &\\
 	\bottomrule 	
 	\caption{HSIZE Values}
 	\label{tab:HSIZE}
@@ -119,17 +119,17 @@ of a burst.
 
 \begin{longtable}[c]{@{\extracolsep{\fill}}ccl}	
 	\toprule 
-	\textbf{{\tt HBURST}} & \textbf{Type} & \textbf{Description}\\
+	\textbf{\texttt{HBURST}} & \textbf{Type} & \textbf{Description}\\
 	\midrule
 	\endhead 
-	{\tt 000} & \texttt{SINGLE} & Single access**\\
-	{\tt 001} & \texttt{INCR}   & Continuous incremental burst\\
-	{\tt 010} & \texttt{WRAP4}  & 4-beat wrapping burst\\
-	{\tt 011} & \texttt{INCR4}  & 4-beat incrementing burst\\
-	{\tt 100} & \texttt{WRAP8}  & 8-beat wrapping burst\\
-	{\tt 101} & \texttt{INCR8}  & 8-beat incrementing burst\\
-	{\tt 110} & \texttt{WRAP16} & 16-beat wrapping burst\\
-	{\tt 111} & \texttt{INCR16} & 16-beat incrementing burst\\
+	\texttt{000} & \texttt{SINGLE} & Single access**\\
+	\texttt{001} & \texttt{INCR}   & Continuous incremental burst\\
+	\texttt{010} & \texttt{WRAP4}  & 4-beat wrapping burst\\
+	\texttt{011} & \texttt{INCR4}  & 4-beat incrementing burst\\
+	\texttt{100} & \texttt{WRAP8}  & 8-beat wrapping burst\\
+	\texttt{101} & \texttt{INCR8}  & 8-beat incrementing burst\\
+	\texttt{110} & \texttt{WRAP16} & 16-beat wrapping burst\\
+	\texttt{111} & \texttt{INCR16} & 16-beat incrementing burst\\
 	\bottomrule 	
 	\caption{HBURST Types}
 	\label{tab:HBURST}
@@ -252,7 +252,7 @@ When enabled via the \texttt{HAS\_CONFIG\_REG} hardware parameter, the
 \texttt{CONFIG} register returns a 64 bit value constructed as follows:
 
 \begin{figure}[h] 
-	\includegraphics[width=\linewidth]{assets/img/config} 
+	\includegraphics[width=\linewidth]{assets/img/CONFIG} 
 	\caption[Configuration Register]{Configuration Register}
 	\label{fig:configreg}
 \end{figure}
@@ -664,7 +664,7 @@ Note: When simulating the PLIC, the simulator will print a detailed Register Add
 Mapping showing explicitly how each interrupt source and target maps to the register fields. A Microsoft Excel worksheet is also available from the Roa Logic web site showing the same Address Map.
 
 \begin{figure}[!ht]
-\includegraphics{../assets/img/AHB-Lite_PLIC_Worksheet.png}
+\includegraphics{assets/img/AHB-Lite_PLIC_Worksheet.png}
 \caption{Register Mapping Worksheet}
 \label{fig:WORKSHEET}
 \end{figure}
