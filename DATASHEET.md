@@ -4,8 +4,7 @@ Category: Product Brief
 Author: Roa Logic
 ---
 
-AHB-Lite PLIC
-=============
+# AHB-Lite PLIC
 
 The Roa Logic AHB-Lite PLIC (Platform Level Interrupt Controller) IP is a fully parameterised soft IP implementing the Interrupt Controller defined in the *[RISC-V Privileged v1.9.1 specification](https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.9.1.pdf)*[1].
 
@@ -17,8 +16,7 @@ The controller further supports user configurable priority levels and pending ev
 
 ![PLIC Port Diagram<span data-label="fig:PORTDIAG"></span>](assets/img/plic-ports.png)
 
-Features
---------
+## Features
 
 -   AHB-Lite Interface with parameterised address and data width
 
@@ -30,11 +28,28 @@ Features
 
 -   User defined Interrupt Pending queue depth per source
 
-Specifications
-==============
+# Contents
 
-Functional Description
-----------------------
+<!-- MarkdownTOC -->
+
+- [Specifications](#specifications)
+	- [Functional Description](#functional-description)
+	- [Interrupt Handling Handshake](#interrupt-handling-handshake)
+- [Configurations](#configurations)
+- [Interfaces](#interfaces)
+	- [AHB-Lite Interface](#ahb-lite-interface)
+	- [Interrupt Interface](#interrupt-interface)
+	- [Register Interface](#register-interface)
+- [Resources](#resources)
+- [References](#references)
+- [Revision History](#revision-history)
+
+<!-- /MarkdownTOC -->
+
+
+# Specifications
+
+## Functional Description
 
 The AHB-Lite PLIC IP core is a fully parameterised Platform-Level Interrupt Controller, featuring a single AHB-Lite Slave interface and support for a user-defined number of both Interrupt Sources and Targets.
 
@@ -48,8 +63,7 @@ For illustration, a simplified example system using the PLIC core is shown below
 
 ![PLIC System Diagram<span data-label="fig:SYSDIAG"></span>](assets/img/plic-system.png)
 
-Interrupt Handling Handshake
-----------------------------
+## Interrupt Handling Handshake
 
 The Roa Logic implementation of the handshake between Interrupt source, target and PLIC is illustrated below, and described in further detail in the subsequent sections:
 
@@ -93,8 +107,7 @@ On receiving the completion notification the PLIC will again allow interrupts to
 
 The Interrupt Handler may then exit, however it is possible a new interrupt request may have been asserted while the handler was running. To reduce latency the handler may instead determine if a new interrupt has been received and if so again claim the interrupt (See earlier). In this way the interrupt handler can service all interrupts without the need to restore the interrupted context.
 
-Configurations
-==============
+# Configurations
 
 The size and implementation style of the PLIC module is defined via HDL parameters as specified below:
 
@@ -148,13 +161,11 @@ The PLIC module supports an optional Configuration Register, which is documented
 
 The default value is enabled (1’). To disable this parameter should be set to ‘0’.
 
-Interfaces
-==========
+# Interfaces
 
 ![PLIC Interfaces<span data-label="fig:PLICIF"></span>](assets/img/plic-if.png)
 
-AHB-Lite Interface
-------------------
+## AHB-Lite Interface
 
 The AHB-Lite interface is a regular AHB-Lite slave port. All signals are supported. See the *[AMBA 3 AHB-Lite Specification](https://www.arm.com/products/system-ip/amba-specifications)* for a complete description of the signals.
 
@@ -271,8 +282,7 @@ The `HPROT` signals provide additional information about the bus transfer and ar
 
 `HRESP` is the instruction transfer response and indicates OKAY (‘0’) or ERROR (‘1’).
 
-Interrupt Interface
--------------------
+## Interrupt Interface
 
 The PLIC provides a single input bus to which all interrupt sources must connect, one bit of the bus per source. A single output bus similarly connects to all interrupt targets, one bit per target. The width of each of these interface buses is specified as a core parameter.
 
@@ -289,8 +299,7 @@ Interrupt sources connect to the `SRC[SOURCES-1..0]` input of the PLIC module. T
 
 Interrupt targets are sourced by the `IRQ[TARGETS-1..0]` output of the PLIC module. The width of this interface is defined by the `TARGETS` parameter.
 
-Register Interface
-------------------
+## Register Interface
 
 The operation and run-time configuration of the PLIC is managed via a memory mapped register interface consisting of the following registers:
 
@@ -463,34 +472,21 @@ The resulting number of registers is:
 
 These registers will be then mapped as follows per the order defined previously.
 
-| **Reg** | **Parameter** |  **Value**  |
-|:-------:|:-------------:|:-----------:|
-|  **0**  |      0x0      |   `CONFIG`  |
-|  **1**  |      0x4      |   `CONFIG`  |
-|  **2**  |      0x8      |     `EL`    |
-|  **3**  |      0xC      |     `EL`    |
-|  **4**  |      0x10     |  `PRIORITY` |
-|  **5**  |      0x14     |  `PRIORITY` |
-|  **6**  |      0x18     |  `PRIORITY` |
-|  **7**  |      0x1C     |  `PRIORITY` |
-|  **8**  |      0x20     |  `PRIORITY` |
-|  **9**  |      0x24     |  `PRIORITY` |
-|  **10** |      0x28     |     `IE`    |
-|  **11** |      0x2C     |     `IE`    |
-|  **12** |      0x30     |     `IE`    |
-|  **13** |      0x34     |     `IE`    |
-|  **14** |      0x38     |     `IE`    |
-|  **15** |      0x3C     |     `IE`    |
-|  **16** |      0x40     |     `IE`    |
-|  **17** |      0x44     |     `IE`    |
-|  **18** |      0x48     | `THRESHOLD` |
-|  **19** |      0x4C     | `THRESHOLD` |
-|  **20** |      0x50     | `THRESHOLD` |
-|  **21** |      0x54     | `THRESHOLD` |
-|  **22** |      0x58     |     `ID`    |
-|  **23** |      0x5C     |     `ID`    |
-|  **24** |      0x60     |     `ID`    |
-|  **25** |      0x64     |     `ID`    |
+| **Reg** | **Parameter** |  **Value** | **Reg** | **Parameter** |  **Value**  |
+|:-------:|:-------------:|:----------:|:-------:|:-------------:|:-----------:|
+|  **0**  |      0x0      |  `CONFIG`  |  **13** |      0x34     |     `IE`    |
+|  **1**  |      0x4      |  `CONFIG`  |  **14** |      0x38     |     `IE`    |
+|  **2**  |      0x8      |    `EL`    |  **15** |      0x3C     |     `IE`    |
+|  **3**  |      0xC      |    `EL`    |  **16** |      0x40     |     `IE`    |
+|  **4**  |      0x10     | `PRIORITY` |  **17** |      0x44     |     `IE`    |
+|  **5**  |      0x14     | `PRIORITY` |  **18** |      0x48     | `THRESHOLD` |
+|  **6**  |      0x18     | `PRIORITY` |  **19** |      0x4C     | `THRESHOLD` |
+|  **7**  |      0x1C     | `PRIORITY` |  **20** |      0x50     | `THRESHOLD` |
+|  **8**  |      0x20     | `PRIORITY` |  **21** |      0x54     | `THRESHOLD` |
+|  **9**  |      0x24     | `PRIORITY` |  **22** |      0x58     |     `ID`    |
+|  **10** |      0x28     |    `IE`    |  **23** |      0x5C     |     `ID`    |
+|  **11** |      0x2C     |    `IE`    |  **24** |      0x60     |     `ID`    |
+|  **12** |      0x30     |    `IE`    |  **25** |      0x64     |     `ID`    |
 
 **Note:** A Microsoft Excel worksheet is available from the Roa Logic web site showing the same Address Map.
 
@@ -579,8 +575,7 @@ When simulating the PLIC, the simulator will print a detailed Register Address M
       0x0088   ID                     57'h0, ID[3][6:0]
     - End Configuration Report ---------------------------------------------------
 
-Resources
----------
+# Resources
 
 Below are some example implementations for various platforms.
 
@@ -592,8 +587,7 @@ All implementations are push button, no effort has been undertaken to reduce are
 |              |         |                 |            |                       |
 |              |         |                 |            |                       |
 
-References
-----------
+# References
 
 The PLIC is designed to be compliant with the following specifications, as licensed under the Creative Commons Attribution 4.0 International License:
 
@@ -601,8 +595,7 @@ The PLIC is designed to be compliant with the following specifications, as licen
 
 > “The [RISC-VInstruction Set Manual, Volume II: Privileged Architecture, Version 1.9.1](https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.9.1.pdf)",Editors Andrew Waterman and Krste Asanović, RISC-V Foundation, November 2016
 
-Revision History
-----------------
+# Revision History
 
 |    **Date**   | **Rev.** | **Comments**    |
 |:-------------:|:--------:|:----------------|
