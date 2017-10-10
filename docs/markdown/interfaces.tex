@@ -632,40 +632,28 @@ The resulting number of registers is:
 These registers will be then mapped as follows per the order defined 
 previously.
 
-\begin{longtable}[c]{ccc}	
+\begin{longtable}[c]{ccc|ccc}	
 	\toprule 
-		\textbf{Reg} & \textbf{Parameter} & \textbf{Value}\\
+		\textbf{Reg} & \textbf{Parameter} & \textbf{Value} & \textbf{Reg} & \textbf{Parameter} & \textbf{Value}\\
 	\midrule 
 
 	\endhead
 
-		\textbf{0}  & 0x0  & \texttt{CONFIG}\\
-		\textbf{1}  & 0x4  & \texttt{CONFIG}\\
-		\textbf{2}  & 0x8  & \texttt{EL}\\
-		\textbf{3}  & 0xC  & \texttt{EL}\\
-		\textbf{4}  & 0x10 & \texttt{PRIORITY}\\
-		\textbf{5}  & 0x14 & \texttt{PRIORITY}\\
-		\textbf{6}  & 0x18 & \texttt{PRIORITY}\\
-		\textbf{7}  & 0x1C & \texttt{PRIORITY}\\
-		\textbf{8}  & 0x20 & \texttt{PRIORITY}\\
-		\textbf{9}  & 0x24 & \texttt{PRIORITY}\\
-		\textbf{10} & 0x28 & \texttt{IE}\\
-		\textbf{11} & 0x2C & \texttt{IE}\\
-		\textbf{12} & 0x30 & \texttt{IE}\\
-		\textbf{13} & 0x34 & \texttt{IE}\\
-		\textbf{14} & 0x38 & \texttt{IE}\\
-		\textbf{15} & 0x3C & \texttt{IE}\\
-		\textbf{16} & 0x40 & \texttt{IE}\\
-		\textbf{17} & 0x44 & \texttt{IE}\\
-		\textbf{18} & 0x48 & \texttt{THRESHOLD}\\
-		\textbf{19} & 0x4C & \texttt{THRESHOLD}\\
-		\textbf{20} & 0x50 & \texttt{THRESHOLD}\\
-		\textbf{21} & 0x54 & \texttt{THRESHOLD}\\
-		\textbf{22} & 0x58 & \texttt{ID}\\
-		\textbf{23} & 0x5C & \texttt{ID}\\
-		\textbf{24} & 0x60 & \texttt{ID}\\
-		\textbf{25} & 0x64 & \texttt{ID}\\
-		\bottomrule 	
+		\textbf{0}  & 0x0  & \texttt{CONFIG}&\textbf{13} & 0x34 & \texttt{IE}\\
+		\textbf{1}  & 0x4  & \texttt{CONFIG}&\textbf{14} & 0x38 & \texttt{IE}\\
+		\textbf{2}  & 0x8  & \texttt{EL}&\textbf{15} & 0x3C & \texttt{IE}\\
+		\textbf{3}  & 0xC  & \texttt{EL}&\textbf{16} & 0x40 & \texttt{IE}\\
+		\textbf{4}  & 0x10 & \texttt{PRIORITY}&\textbf{17} & 0x44 & \texttt{IE}\\
+		\textbf{5}  & 0x14 & \texttt{PRIORITY}&\textbf{18} & 0x48 & \texttt{THRESHOLD}\\
+		\textbf{6}  & 0x18 & \texttt{PRIORITY}&\textbf{19} & 0x4C & \texttt{THRESHOLD}\\
+		\textbf{7}  & 0x1C & \texttt{PRIORITY}&\textbf{20} & 0x50 & \texttt{THRESHOLD}\\
+		\textbf{8}  & 0x20 & \texttt{PRIORITY}&\textbf{21} & 0x54 & \texttt{THRESHOLD}\\
+		\textbf{9}  & 0x24 & \texttt{PRIORITY}&\textbf{22} & 0x58 & \texttt{ID}\\
+		\textbf{10} & 0x28 & \texttt{IE}&\textbf{23} & 0x5C & \texttt{ID}\\
+		\textbf{11} & 0x2C & \texttt{IE}&\textbf{24} & 0x60 & \texttt{ID}\\
+		\textbf{12} & 0x30 & \texttt{IE}&\textbf{25} & 0x64 & \texttt{ID}\\
+	
+	\bottomrule 	
 	\caption{Example Address Map}
 	\label{tab:REGMAPRES}
 \end{longtable}

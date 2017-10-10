@@ -11,4 +11,4 @@ done
 cd ../markdown
 
 # Generate new Markdown
-pandoc --default-image-extension=png -t markdown_github -B frontmatter.md -o ../../DATASHEET.md "AHB-Lite_PLIC_Markdown.tex"
+pandoc --atx-headers --default-image-extension=png -t markdown_github -B frontmatter.md -o ../../DATASHEET.md "AHB-Lite_PLIC_Markdown.tex"
