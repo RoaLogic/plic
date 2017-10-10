@@ -1,6 +1,6 @@
-    ---
-    title: BSD License Agreement
-    ---
+---
+title: PLIC Datasheet
+---
 
 AHB-Lite PLIC
 =============
