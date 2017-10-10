@@ -1,3 +1,7 @@
+    ---
+    title: BSD License Agreement
+    ---
+
 AHB-Lite PLIC
 =============
 
@@ -266,6 +270,7 @@ Interfaces
 ==========
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ## AHB-Lite Interface
 
 <<<<<<< HEAD
@@ -289,6 +294,10 @@ The AHB-Lite interface is a regular AHB-Lite slave port. All signals are support
 | `HREADY`    |      1       |     Input     | Transfer Ready Input          |
 | `HRESP`     |      1       |    Output     | Transfer Response             |
 =======
+=======
+![PLIC Interfaces<span data-label="fig:PLICIF"></span>](assets/img/plic-if.png)
+
+>>>>>>> 5ec56ee... Formatting Fixes & Updated License
 AHB-Lite Interface
 ------------------
 >>>>>>> a373584... Support for optimised builds for PDF & Markdown
@@ -539,8 +548,8 @@ HREADY indicates whether or not the addressed peripheral is ready to transfer da
 HRESP is the instruction transfer response and indicates OKAY (‘0’) or ERROR (‘1’).
 >>>>>>> 2d44129... Added First Draft of Datasheet
 
-PLIC Interface
---------------
+Interrupt Interface
+-------------------
 
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -559,10 +568,11 @@ The PLIC provides a single input bus to which all interrupt sources must connect
 
 ### SRC
 
-Interrupt sources connect to the `SRC[SOURCES-1..0]` input of the PLIC module. The width of this interface is defined by the `` parameter.
+Interrupt sources connect to the `SRC[SOURCES-1..0]` input of the PLIC module. The width of this interface is defined by the `SOURCES` parameter.
 
 ### IRQ
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 Interrupt targets are sourced by the `IRQ[TARGETS-1..0]` output of the PLIC module. The width of this interface is defined by the [TARGETS](#targets) parameter.
 =======
@@ -622,6 +632,9 @@ The `CONFIG` register is a Read-Only register that enables a software routine to
 When enabled via the `HAS_CONFIG_REG` hardware parameter, the `CONFIG` register returns a 64 bit value constructed as follows:
 =======
 Interrupt targets are sourced by the `IRQ[TARGETS-1..0]` output of the PLIC module. The width of this interface is defined by the `` parameter.
+=======
+Interrupt targets are sourced by the `IRQ[TARGETS-1..0]` output of the PLIC module. The width of this interface is defined by the `TARGETS` parameter.
+>>>>>>> 5ec56ee... Formatting Fixes & Updated License
 
 Register Interface
 ------------------
@@ -863,16 +876,16 @@ The following sections describe the calculations performed during generation of 
 
 A spreadsheet in Microsoft Excel format is available to perform these calculations based on user-defined parameters to show the registers and memory mapping. Further, simulation of the PLIC will also shows the registers and memory mapping.
 
-The order of the registers in the memory map is defined as Table \[tab:REGMAP\].
+The order of the registers in the memory map is defined below.
 
-| **Order** | **Registers**       |
-|:---------:|:--------------------|
-|     1     | CONFIG Register(s)  |
-|     2     | EL Registers        |
-|     3     | PRIORITY Registers  |
-|     4     | IE Registers        |
-|     5     | THRESHOLD Registers |
-|     6     | ID Registers        |
+| **Order** | **Registers**         |
+|:---------:|:----------------------|
+|     1     | `CONFIG` Register(s)  |
+|     2     | `EL` Registers        |
+|     3     | `PRIORITY` Registers  |
+|     4     | `IE` Registers        |
+|     5     | `THRESHOLD` Registers |
+|     6     | `ID` Registers        |
 
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -886,27 +899,28 @@ Registers are mapped to consecutive addresses based on this order and the number
 #### Address Map Example
 >>>>>>> a373584... Support for optimised builds for PDF & Markdown
 
-Using the example of a 32 bit system supporting 48 interrupt sources, 4 targets and 8 priority levels as shown in Table \[tab:REGMAPEX\]:
+Using the example of a 32 bit system supporting 48 interrupt sources, 4 targets and 8 priority levels as shown below.
 
 | **Parameter** | **Number** |
 |:-------------:|:----------:|
-|  HDATA\_WIDTH |     32     |
-|    SOURCES    |     48     |
-|    TARGETS    |      4     |
-|   PRIORITIES  |      8     |
+| `HDATA_WIDTH` |     32     |
+|   `SOURCES`   |     48     |
+|   `TARGETS`   |      4     |
+|  `PRIORITIES` |      8     |
 
 The resulting number of registers is:
 
 | **Registers** | **Number** |
 |:-------------:|:----------:|
-|     CONFIG    |      2     |
-|       EL      |      2     |
-|    PRIORITY   |      6     |
-|       IE      |      8     |
-|   THRESHOLD   |      4     |
-|       ID      |      4     |
+|    `CONFIG`   |      2     |
+|      `EL`     |      2     |
+|   `PRIORITY`  |      6     |
+|      `IE`     |      8     |
+|  `THRESHOLD`  |      4     |
+|      `ID`     |      4     |
 |   **Total**   |   **26**   |
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 These registers will be then mapped as follows according to the order defined below:
@@ -989,6 +1003,40 @@ These registers will be then mapped as follows according to the order defined in
 |  **25** |      0x64     |     ID    |
 
 Note: When simulating the PLIC, the simulator will print a detailed Register Address Mapping showing explicitly how each interrupt source and target maps to the register fields. A Microsoft Excel worksheet is also available from the Roa Logic web site showing the same Address Map.
+=======
+These registers will be then mapped as follows according to the order defined previously.
+
+| **Reg** | **Parameter** |  **Value**  |
+|:-------:|:-------------:|:-----------:|
+|  **0**  |      0x0      |   `CONFIG`  |
+|  **1**  |      0x4      |   `CONFIG`  |
+|  **2**  |      0x8      |     `EL`    |
+|  **3**  |      0xC      |     `EL`    |
+|  **4**  |      0x10     |  `PRIORITY` |
+|  **5**  |      0x14     |  `PRIORITY` |
+|  **6**  |      0x18     |  `PRIORITY` |
+|  **7**  |      0x1C     |  `PRIORITY` |
+|  **8**  |      0x20     |  `PRIORITY` |
+|  **9**  |      0x24     |  `PRIORITY` |
+|  **10** |      0x28     |     `IE`    |
+|  **11** |      0x2C     |     `IE`    |
+|  **12** |      0x30     |     `IE`    |
+|  **13** |      0x34     |     `IE`    |
+|  **14** |      0x38     |     `IE`    |
+|  **15** |      0x3C     |     `IE`    |
+|  **16** |      0x40     |     `IE`    |
+|  **17** |      0x44     |     `IE`    |
+|  **18** |      0x48     | `THRESHOLD` |
+|  **19** |      0x4C     | `THRESHOLD` |
+|  **20** |      0x50     | `THRESHOLD` |
+|  **21** |      0x54     | `THRESHOLD` |
+|  **22** |      0x58     |     `ID`    |
+|  **23** |      0x5C     |     `ID`    |
+|  **24** |      0x60     |     `ID`    |
+|  **25** |      0x64     |     `ID`    |
+
+**Note:** When simulating the PLIC, the simulator will print a detailed Register Address Mapping showing explicitly how each interrupt source and target maps to the register fields. A Microsoft Excel worksheet is also available from the Roa Logic web site showing the same Address Map.
+>>>>>>> 5ec56ee... Formatting Fixes & Updated License
 
 ![Register Mapping Worksheet<span data-label="fig:WORKSHEET"></span>](assets/img/AHB-Lite_PLIC_Worksheet.png)
 

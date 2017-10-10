@@ -1,5 +1,11 @@
 \chapter{Interfaces}
 
+\begin{figure}[!htb]
+  \includegraphics{assets/img/plic-if}
+  \caption{PLIC Interfaces}
+  \label{fig:PLICIF}
+\end{figure}
+
 \section{AHB-Lite Interface}
 
 The AHB-Lite interface is a regular AHB-Lite slave port. All signals are
@@ -177,9 +183,7 @@ asserted (`1') the peripheral is ready and the transfer completed.
 \texttt{HRESP} is the instruction transfer response and indicates OKAY
 (`0') or ERROR (`1').
 
-\pagebreak
-
-\section{PLIC Interface} 
+\section{Interrupt Interface} 
 
 \todo[author=SPH, color=red]{Add PLIC Interface Intro}
 
@@ -203,13 +207,13 @@ Note: Width of PLIC interface buses are defined by
 \subsection{SRC}
 
 Interrupt sources connect to the \texttt{SRC{[}SOURCES-1..0{]}} input of
-the PLIC module. The width of this interface is defined by the \texttt{\nameref{sec:SOURCES}} parameter. 
+the PLIC module. The width of this interface is defined by the \texttt{SOURCES} parameter. 
 
 \subsection{IRQ}
 
 Interrupt targets are sourced by the \texttt{IRQ{[}TARGETS-1..0{]}}
 output of the PLIC module. The width of this interface is defined by the
-\texttt{\nameref{sec:TARGETS}} parameter.
+\texttt{TARGETS} parameter.
 
 \section{Register Interface}
 
@@ -217,9 +221,25 @@ The following registers are user accessible in the PLIC module:
 
 \begin{longtable}[c]{@{\extracolsep{\fill}}ccccp{5cm}@{\extracolsep{\fill}}}	
 	\toprule 
-	\textbf{Register}  & \textbf{Registers} & \textbf{Width (bits)} & \textbf{Mode} & \textbf{Function} \\
+		\textbf{Register}  & \textbf{Registers} & \textbf{Width (bits)} & \textbf{Mode} & \textbf{Function} \\
 	\midrule 
+
+\ifdefined\MARKDOWN
 	\endhead
+\else
+	\endfirsthead
+
+	\multicolumn{5}{c}{{(Continued from previous page)}} \\
+	\toprule
+		\textbf{Register}  & \textbf{Registers} & \textbf{Width (bits)} & \textbf{Mode} & \textbf{Function} \\
+	\midrule
+	\endhead
+
+	\midrule \multicolumn{5}{c}{{\tablename\ \thetable{} continued on next page\ldots}} \\
+	\endfoot
+	\endlastfoot
+\fi	
+
 	\texttt{CONFIG}    & 1 & 64 & RO & Configuration\\
 	\texttt{EL}        & 1 & \texttt{SOURCES} & RW & Edge/Level Trigger\\
 	\texttt{IE}        & \texttt{TARGETS} & \texttt{SOURCES} & RW & Interrupt Enable\\
@@ -477,19 +497,24 @@ implements 1 register per threshold.
 
 \subsection{Register Address Ordering}
 
-The order of the registers in the memory map is defined as Table \ref{tab:REGMAP}.
+The order of the registers in the memory map is defined 
+\ifdefined\MARKDOWN
+below.
+\else
+as Table \ref{tab:REGMAP}.
+\fi
 
 \begin{longtable}[]{@{}cl@{}}	
 	\toprule 
 	\textbf{Order} & \textbf{Registers}\\
 	\midrule
 	\endhead 
-	1 & CONFIG Register(s)\\
-	2 & EL Registers\\
-	3 & PRIORITY Registers\\
-	4 & IE Registers\\
-	5 & THRESHOLD Registers\\
-	6 & ID Registers\\
+	1 & \texttt{CONFIG} Register(s)\\
+	2 & \texttt{EL} Registers\\
+	3 & \texttt{PRIORITY} Registers\\
+	4 & \texttt{IE} Registers\\
+	5 & \texttt{THRESHOLD} Registers\\
+	6 & \texttt{ID} Registers\\
 	\bottomrule 	
 	\caption{Register Address Order}
 	\label{tab:REGMAP}
@@ -500,17 +525,26 @@ number of registers required. \todo[author=SPH]{Expand register address map sect
 
 \subsubsection{Address Map Example}
 
+<<<<<<< HEAD
 Using the previous example of a 32 bit system supporting 48 interrupt sources, 4 targets and 8 priority levels as shown in Table \ref{tab:REGMAPEX}:
+=======
+Using the example of a 32 bit system supporting 48 interrupt sources, 4 targets and 8 priority levels as shown 
+\ifdefined\MARKDOWN
+below.
+\else
+in Table \ref{tab:REGMAPEX}:
+\fi
+>>>>>>> 5ec56ee... Formatting Fixes & Updated License
 
 \begin{longtable}[c]{@{}cc@{}}	
 		\toprule 
-		\textbf{Parameter} & \textbf{Number}\\
+		\textbf{Parameter}    & \textbf{Number}\\
 		\midrule 
 		\endhead
-		HDATA\_WIDTH & 32\\
-		SOURCES & 48\\
-		TARGETS & 4\\
-		PRIORITIES & 8\\
+		\texttt{HDATA\_WIDTH} & 32\\
+		\texttt{SOURCES}      & 48\\
+		\texttt{TARGETS}      & 4\\
+		\texttt{PRIORITIES}   & 8\\
 		\bottomrule 	
  
 	\caption{Register Map Example}
@@ -524,14 +558,14 @@ The resulting number of registers is:
 		\textbf{Registers} & \textbf{Number}\\
 		\midrule 
 		\endhead
-		CONFIG & 2\\
-		EL & 2\\
-		PRIORITY & 6\\
-		IE & 8\\
-		THRESHOLD & 4\\
-		ID & 4\\
+		\texttt{CONFIG}    & 2\\
+		\texttt{EL}        & 2\\
+		\texttt{PRIORITY}  & 6\\
+		\texttt{IE}        & 8\\
+		\texttt{THRESHOLD} & 4\\
+		\texttt{ID}        & 4\\
 		\midrule
-		\textbf{Total} & \textbf{26}\\
+		\textbf{Total}     & \textbf{26}\\
 		\bottomrule 	
 	\caption{Calculated Registers}
 	\label{tab:REGMAPNUM}
@@ -539,45 +573,66 @@ The resulting number of registers is:
 
 
 These registers will be then mapped as follows according to the order
-defined in Table \ref{tab:REGMAP}:
+defined 
+\ifdefined\MARKDOWN
+previously.
+\else
+in Table \ref{tab:REGMAP}:
+\fi
 
 \begin{longtable}[c]{ccc}	
-		\toprule 
+	\toprule 
 		\textbf{Reg} & \textbf{Parameter} & \textbf{Value}\\
-		\midrule 
-		\endhead
-		\textbf{0}  & 0x0  & CONFIG\\
-		\textbf{1}  & 0x4  & CONFIG\\
-		\textbf{2}  & 0x8  & EL\\
-		\textbf{3}  & 0xC  & EL\\
-		\textbf{4}  & 0x10 & PRIORITY\\
-		\textbf{5}  & 0x14 & PRIORITY\\
-		\textbf{6}  & 0x18 & PRIORITY\\
-		\textbf{7}  & 0x1C & PRIORITY\\
-		\textbf{8}  & 0x20 & PRIORITY\\
-		\textbf{9}  & 0x24 & PRIORITY\\
-		\textbf{10} & 0x28 & IE\\
-		\textbf{11} & 0x2C & IE\\
-		\textbf{12} & 0x30 & IE\\
-		\textbf{13} & 0x34 & IE\\
-		\textbf{14} & 0x38 & IE\\
-		\textbf{15} & 0x3C & IE\\
-		\textbf{16} & 0x40 & IE\\
-		\textbf{17} & 0x44 & IE\\
-		\textbf{18} & 0x48 & THRESHOLD\\
-		\textbf{19} & 0x4C & THRESHOLD\\
-		\textbf{20} & 0x50 & THRESHOLD\\
-		\textbf{21} & 0x54 & THRESHOLD\\
-		\textbf{22} & 0x58 & ID\\
-		\textbf{23} & 0x5C & ID\\
-		\textbf{24} & 0x60 & ID\\
-		\textbf{25} & 0x64 & ID\\
+	\midrule 
+
+\ifdefined\MARKDOWN
+	\endhead
+\else
+	\endfirsthead
+
+	\multicolumn{3}{c}{{(Continued from previous page)}} \\
+	\toprule
+		\textbf{Reg} & \textbf{Parameter} & \textbf{Value}\\
+	\midrule
+	\endhead
+
+	\midrule \multicolumn{3}{c}{{\tablename\ \thetable{} continued on next page\ldots}} \\
+	\endfoot
+	\endlastfoot
+\fi	
+
+		\textbf{0}  & 0x0  & \texttt{CONFIG}\\
+		\textbf{1}  & 0x4  & \texttt{CONFIG}\\
+		\textbf{2}  & 0x8  & \texttt{EL}\\
+		\textbf{3}  & 0xC  & \texttt{EL}\\
+		\textbf{4}  & 0x10 & \texttt{PRIORITY}\\
+		\textbf{5}  & 0x14 & \texttt{PRIORITY}\\
+		\textbf{6}  & 0x18 & \texttt{PRIORITY}\\
+		\textbf{7}  & 0x1C & \texttt{PRIORITY}\\
+		\textbf{8}  & 0x20 & \texttt{PRIORITY}\\
+		\textbf{9}  & 0x24 & \texttt{PRIORITY}\\
+		\textbf{10} & 0x28 & \texttt{IE}\\
+		\textbf{11} & 0x2C & \texttt{IE}\\
+		\textbf{12} & 0x30 & \texttt{IE}\\
+		\textbf{13} & 0x34 & \texttt{IE}\\
+		\textbf{14} & 0x38 & \texttt{IE}\\
+		\textbf{15} & 0x3C & \texttt{IE}\\
+		\textbf{16} & 0x40 & \texttt{IE}\\
+		\textbf{17} & 0x44 & \texttt{IE}\\
+		\textbf{18} & 0x48 & \texttt{THRESHOLD}\\
+		\textbf{19} & 0x4C & \texttt{THRESHOLD}\\
+		\textbf{20} & 0x50 & \texttt{THRESHOLD}\\
+		\textbf{21} & 0x54 & \texttt{THRESHOLD}\\
+		\textbf{22} & 0x58 & \texttt{ID}\\
+		\textbf{23} & 0x5C & \texttt{ID}\\
+		\textbf{24} & 0x60 & \texttt{ID}\\
+		\textbf{25} & 0x64 & \texttt{ID}\\
 		\bottomrule 	
 	\caption{Example Register Map}
 	\label{tab:REGMAPRES}
 \end{longtable}
 
-Note: When simulating the PLIC, the simulator will print a detailed Register Address
+\textbf{Note:} When simulating the PLIC, the simulator will print a detailed Register Address
 Mapping showing explicitly how each interrupt source and target maps to the register fields. A Microsoft Excel worksheet is also available from the Roa Logic web site showing the same Address Map.
 
 \begin{figure}[!ht]
