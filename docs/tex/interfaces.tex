@@ -723,14 +723,18 @@ in Table \ref{tab:REGMAP}:
 \subsection{Dynamic Register Examples}
 
 When simulating the PLIC, the simulator will print a detailed Register Address
-Mapping showing explicitly how each interrupt source and target maps to the register fields. Below are 2 examples showing this output.
+Mapping showing explicitly how each interrupt source and target maps to the register fields. Below are 2 examples illustrating this capability.
 
 \subsubsection{Dynamic Register Example 1:}\label{example-1}
 
 \begin{longtable}[]{@{}lc@{}}
 	\toprule
-		\textbf{Paramter} & \textbf{Value} \\
+		\textbf{Parameter} & \textbf{Value} \\
 	\midrule
+
+\ifdefined\MARKDOWN
+	\endhead
+\else
 	\endfirsthead
 
 	\multicolumn{2}{c}{{(Continued from previous page)}} \\
@@ -742,6 +746,7 @@ Mapping showing explicitly how each interrupt source and target maps to the regi
 	\midrule \multicolumn{2}{c}{{\tablename\ \thetable{} continued on next page\ldots}} \\
 	\endfoot
 	\endlastfoot
+\fi	
 
 		HDATA\_SIZE       & 32 \\
 		SOURCES           & 16 \\
@@ -787,8 +792,12 @@ Mapping showing explicitly how each interrupt source and target maps to the regi
 
 \begin{longtable}[]{@{}lc@{}}
 	\toprule
-		\textbf{Paramter} & \textbf{Value} \\
+		\textbf{Parameter} & \textbf{Value} \\
 	\midrule
+
+\ifdefined\MARKDOWN
+	\endhead
+\else
 	\endfirsthead
 
 	\multicolumn{2}{c}{{(Continued from previous page)}} \\
@@ -800,6 +809,7 @@ Mapping showing explicitly how each interrupt source and target maps to the regi
 	\midrule \multicolumn{2}{c}{{\tablename\ \thetable{} continued on next page\ldots}} \\
 	\endfoot
 	\endlastfoot
+\fi	
 
 		SOURCES           & 64 \\
 		TARGETS           & 4 \\
