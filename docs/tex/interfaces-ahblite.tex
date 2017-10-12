@@ -49,11 +49,12 @@ the exception of the global asynchronous reset signal \texttt{HRESETn}
 
 \subsubsection{HTRANS}
 
-HTRANS indicates the type of the current transfer as shown in Table \ref{tab:HTRANS}
-\being{comment}
-This shows as [tab:HTRANS]: on screen (DATASHEET.md)
-\end{comment}
-
+HTRANS indicates the type of the current transfer as shown in 
+\ifdefined\MARKDOWN
+Table \ref{tab:HTRANS}
+\else
+the table below:
+\fi
 
 \begin{longtable}[c]{@{\extracolsep{\fill}}ccp{7cm}}	
 		\toprule 
@@ -94,11 +95,13 @@ indicates a write transfer.
 
 \subsubsection{HSIZE}
 
-\texttt{HSIZE} indicates the size of the current transfer as shown in table \ref{tab:HSIZE}:
+\texttt{HSIZE} indicates the size of the current transfer as shown in
+\ifdefined\MARKDOWN
+Table \ref{tab:HSIZE}
+\else
+the table below:
+\fi
 
-\being{comment}
-This shows as [tab:HSIZE]: on screen (DATASHEET.md)
-\end{comment}
 
 \begin{longtable}[c]{@{\extracolsep{\fill}}ccl}	
 		\toprule 

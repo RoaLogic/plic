@@ -1,21 +1,18 @@
 ---
-title: Non-Commercial License Agreement
+title: BSD License Agreement
 ---
-# Non-Commercial License Agreement
+# BSD License Agreement
 
-PLEASE CAREFULLY REVIEW THE FOLLOWING TERMS AND CONDITIONS BEFORE DOWNLOADING AND USING THE LICENSED MATERIALS. THIS LICENSE AGREEMENT (“AGREEMENT”) IS A LEGAL AGREEMENT BETWEEN YOU (EITHER A SINGLE INDIVIDUAL, OR A SINGLE LEGAL ENTITY)(“YOU”) AND ROA LOGIC BV (“ROA LOGIC”) COVERING THE PRODUCTS OR SERVICES YOU PURCHASE FROM ROA LOGIC.
+PLEASE CAREFULLY REVIEW THE FOLLOWING TERMS AND CONDITIONS BEFORE DOWNLOADING AND USING THE LICENSED MATERIALS. THIS LICENSE AGREEMENT (“AGREEMENT”) IS A LEGAL AGREEMENT BETWEEN YOU (EITHER A SINGLE INDIVIDUAL, OR A SINGLE LEGAL ENTITY) (“YOU”) AND ROA LOGIC BV (“ROA LOGIC”) COVERING THE PRODUCTS OR SERVICES YOU PURCHASE FROM ROA LOGIC.
 
 By downloading and/or using or installing products from Roa Logic you automatically agree to and are bound by the terms and conditions of this agreement.
-
-PLEASE NOTE THAT THIS AGREEMENT IS INTENDED FOR NON-COMMERCIAL USE OF THE PRODUCT. IF YOU INTENT TO USE ROA LOGIC PRODUCTS FOR COMMERCIAL PURPOSES, THEN PLEASE CONTACT info@roalogic.com TO ARRANGE AN AGREEMENT WITH US BASED ON OUR COMMERCIAL LICENSE TERMS
 
 ## 1. DEFINITIONS
 
 “Intellectual Property” means any or all of the following and all rights in, arising out of, or associated with:
 
-
-1. all inventions (whether patentable or not), invention disclosures, improvements, trade secrets, proprietary information, know how, technology, algorithms, techniques, methods, devices, technical data, customer lists, and all documentation embodying or evidencing any of the foregoing;
-2. all computer software, source codes, object codes, firmware, development tools, files, records, data, and all media on which any of the foregoing is recorded
+1. All inventions (whether patentable or not), invention disclosures, improvements, trade secrets, proprietary information, know how, technology, algorithms, techniques, methods, devices, technical data, customer lists, and all documentation embodying or evidencing any of the foregoing;
+2. All computer software, source codes, object codes, firmware, development tools, files, records, data, and all media on which any of the foregoing is recorded
 
 “Product” means an Intellectual Property block consisting of, but not limited to, Verilog, VHDL, and/or SystemVerilog design files, specifications, block diagrams and documentation.
 
@@ -27,54 +24,37 @@ PLEASE NOTE THAT THIS AGREEMENT IS INTENDED FOR NON-COMMERCIAL USE OF THE PRODUC
 
 ## 2. LICENSE TO USE
 
-Roa Logic hereby grants you the following limited, non-exclusive, non-transferable, no-charge, and royalty-free licenses to use, modify, and distribute the Product provided you do so for non-commercial (personal, educational, research and development, demonstration) purposes:
+Roa Logic hereby grants you the following limited, non-exclusive, no-charge, and royalty-free licenses to use, modify, and distribute the Product:
 
-1. Copyright license
+1. Copyright license   
 2. Patent license, where such license only applies to those patent claims licensable by Roa Logic.
 
 Specifically you are allowed to:
 
-1. Use the Product in your design to create, simulate, implement, manufacture, and use a Silicon Device provided you don’t do so to make a profit
-2. Distribute the Product, provided the original disclaimer and copyright notice are retained and this Agreement is part of the distribution.
-
-Specifically you are allowed to:
-
-1. Use the Product in your design to create, simulate, implement, manufacture, and use a Silicon Device provided you don’t do so to make a profit
-2. Distribute the Product, provided the original disclaimer and copyright notice are retained and this Agreement is part of the distribution.
+1. Use the Product in your design to create, simulate, implement, manufacture, use, and sell a Silicon Device;
+2. Distribute the Product and/or Silicon Device, provided the original disclaimer and copyright notice are retained and this Agreement is part of the distribution.
 
 ## 3. OWNERSHIP
 
 The Product, its documentation, and any associated material is owned by Roa Logic and is protected by copyright and other intellectual property right laws.
 
-Any modification or addition to the Product, documentation, and any associated materials or derivatives thereof, that You intentionally submit to Roa Logic for inclusion in the Product will become part of the Product and thus owned and copyrighted by Roa Logic.
+Any modification or addition to the Product, documentation, and any associated materials or derivatives thereof, that You intentionally submit to Roa Logic for inclusion in the Product will become part of the Product and thus owned and copyrighted by Roa Logic. By submitting any material for inclusion you wave any ownership, copyright, and patent rights and claims for the use of the submitted material in the Product.
 
-By submitting any material for inclusion you wave any ownership, copyright, and patent rights and claims for the use of the submitted material in the Product. “Submitting” means any form of electronic, verbal, or written communication sent to Roa Logic or its representatives, including, but not limited to, email, mailing lists, source repositories, and issue tracking systems for the purpose of discussing and improving the Product.
+“Submitting” means any form of electronic, verbal, or written communication sent to Roa Logic or its representatives, including, but not limited to, email, mailing lists, source repositories, and issue tracking systems for the purpose of discussing and improving the Product.
 
 You shall not remove any copyright, disclaimers, or other notices from any parts of the Product.
 
-## 4. RIGHT OF EQUITABLE RELIEF
-
-You acknowledge and agree that violation of this agreement may cause Roa Logic irreparable injury for which an adequate remedy at law may not be available. Therefore Roa Logic shall be entitled to seek all remedies that may be available under equity, including immediate injunctive relief, in addition to whatever remedies may be available at law.
-
-## 5. DISCLAIMER OF WARRANTY
+## 4. DISCLAIMER OF WARRANTY
 
 The Product is provided “AS IS”. Roa Logic has no obligation to provide maintenance or support services in connection with the Product.
 
 ROA LOGIC DISCLAIMS ALL WARRANTIES, CONDITIONS AND REPRESENTATIONS, EXPRESS, IMPLIED, OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, THOSE RELATED TO MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, SATISFACTORY QUALITY, ACCURACY OR COMPLETENESS OR RESULTS, CONFORMANCE WITH DESCRIPTION, AND NON-INFRINGEMENT.
 
-## 6. LIMITATION OF LIABILITY
+## 5. LIMITATION OF LIABILITY
 
-TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL ROA LOGIC BE LIABLE TO YOU OR ANY THIRD PARTY FOR ANY INDIRECT, SPECIAL, CONSEQUENTIAL OR INCIDENTAL DAMAGES WHATSOEVER (INCLUDING, BUT NOT LIMITED TO, DAMAGES FOR LOSS OF PROFIT, BUSINESS INTERRUPTIONS OR LOSS OF INFORMATION) ARISING OUT OF THE USE OR INABILITY TO USE THE PRODUCT WHETHER BASED ON A CLAIM UNDER CONTRACT, TORT OR OTHER LEGAL THEORY, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL ROA LOGIC BE LIABLE TO YOU OR ANY THIRD PARTY FOR ANY INDIRECT, SPECIAL, CONSEQUENTIAL OR INCIDENTAL DAMAGES WHATSOEVER (INCLUDING, BUT NOT LIMITED TO, DAMAGES FOR LOSS OF PROFIT, BUSINESS INTERRUPTIONS OR LOSS OF INFORMATION) ARISING OUT OF THE USE OR INABILITY TO USE THE PRODUCT WHETHER BASED ON A CLAIM UNDER CONTRACT, TORT OR OTHER LEGAL THEORY, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.  
 
-## 7. EXPORT RESTRICTIONS
-
-The Product may be subject to U.S. or E.U. export laws and may be subject to export or import regulations in other countries. You agree to comply fully with all laws and regulations of the United States, European Union, and other countries to ensure that the product is not:
-
-
-1. exported directly, or indirectly, in violation of export laws;
-2. intended to be used for any purposes prohibited by export laws, including, but not limited to, nuclear, chemical, or biological weapons proliferation.
-
-## 8. APPLICABLE LAW AND CHOICE OF FORUM
+## 6. APPLICABLE LAW AND CHOICE OF FORUM
 
 All agreements and contracts between you and Roa Logic, which these conditions are applicable to, shall be governed by Dutch law with the exclusion of the uniform UN Convention on Contracts for the International Sale of Goods (CISG) and other bilateral or multilateral treaties for the purpose of unifying international sales.
 
