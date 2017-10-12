@@ -380,11 +380,7 @@ A \texttt{THRESHOLD[]} value of 0 means that no interrupts will be masked.
 
 \subsection{Register Address Mapping}
 
-<<<<<<< HEAD
-The PLIC supports a wide variety of options and unlimited user-definable number of both interrupt sources and targets. A memory-mapped register interface is used to configure and control the PLIC. This interface is defined according to the specific PLIC Configuration.
-=======
 The PLIC supports a wide variety of options and unlimited user-definable number of both interrupt sources and targets. A regsiter interface is used to configure and control the PLIC. This interface is specific to the implementation.
->>>>>>> 09c42428a2dc64a54dab1ef71b84f36f822d116e
 
 To ease the development of PLIC based systems, the Roa Logic PLIC implements a dynamic register interface, based on the IP's parameters.
 The PLIC packs multiple bit-fields into registers where feasible to minimise the required address space.
@@ -392,70 +388,7 @@ The PLIC packs multiple bit-fields into registers where feasible to minimise the
 The following sections describe the calculations performed during generation of the dynamic register interface so that the user may
 determine the registers available and the memory mapping of those registers for a given implementation.
 
-A spreadsheet in Microsoft Excel format is available to perform these calculations based on user-defined parameters to show the registers and
-memory mapping.
-Further, simulation of the PLIC will also shows the registers and memory mapping.
-<<<<<<< HEAD
-
-\subsubsection{Itemising Register Requirements}
-
-The section "\protect\hyperlink{register-interface}{Register Interface}" provides a summary of the registers required to control and configure
-the PLIC.
-The following is a more detailed summary of those requirements.
-
-\paragraph{CONFIG Register:} ~\\
-
-The \texttt{CONFIG} register is always 64 bits.
-For 32 bit implementations this means 2 physical registers are required, 1 each for the upper and lower word.
-For 64 bit implementations a single register will be implemented.
-
-\paragraph{EL Registers:} ~\\
-
-Each interrupt source requires a single bit in the \texttt{EL} register to define if the source is level or edge triggered.
-These bits will be packed into the minimum number of registers.
-
-The physical number of registers implemented can be calculated as follows:
-
-\begin{quote}
-\texttt{No.\ of\ Registers\ =\ ROUNDUP(SOURCES/HDATA\_SIZE)}
-\end{quote}
-
-Example: For a 32 bit system supporting 48 interrupt sources
-
-\begin{verbatim}
-No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)   
-                 = ROUNDUP(48/32)
-                 = ROUNDUP(1.5)
-                 = 2
-\end{verbatim}
-
-\paragraph{IE Registers:} ~\\
-
-Interrupt sources may be enabled or disabled per target requiring single bit per target.
-These bits will be packed into the fewest registers possible and the resulting number of registers calculated as follows:
-
-\begin{quote}
-\texttt{No.\ of\ Registers\ =\ ROUNDUP(SOURCES/HDATA\_SIZE)*TARGETS}
-\end{quote}
-
-Example: For a 32 bit system supporting 48 interrupt sources and 4 targets
-
-\begin{verbatim}
-No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)*TARGETS
-                 = ROUNDUP(48/32)*4
-                 = ROUNDUP(1.5)*4
-                 = 2*4
-                 = 8
-\end{verbatim}
-
-\paragraph{ID Registers:} ~\\
-
-The \texttt{ID[]} Read/Write register identifies the ID of the highest priority pending interrupt request, with one ID register required per target.
-\begin{comment}
-Should we again reiterate that reading ID is an interrupt claim, and writing is an interrupt-complete?
-\end{comment}
-
-=======
+A spreadsheet in Microsoft Excel format is available to perform these calculations based on user-defined parameters to show the registers and memory mapping. Further, simulation of the PLIC will also shows the registers and memory mapping in the simulator output log.
 
 \subsubsection{Itemising Register Requirements}
 
@@ -513,7 +446,6 @@ No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)*TARGETS
 The \texttt{ID[]} Read/Write register identifies the ID of the highest priority pending interrupt request, with one ID register required per target. 
 
 The \texttt{ID[]} register also functions as part of the interrupt claim and completion process. A target claims the identified interrupt by the action of reading the register. The target then indicates servicing the interrupt is complete by the action of writing to the regsiter. Any value may be written to indicate completion.
->>>>>>> 09c42428a2dc64a54dab1ef71b84f36f822d116e
 
 \begin{quote}
 \texttt{No.\ of\ Registers\ =\ TARGETS}
@@ -521,14 +453,7 @@ The \texttt{ID[]} register also functions as part of the interrupt claim and com
 
 \paragraph{PRIORITY Registers:} ~\\
 
-<<<<<<< HEAD
-=======
-The \texttt{PRIORITY[]} Read/Write registers define the priority level of each interrupt source. Interrupt priority increases with larger values of \texttt{PRIORITY}.
-
->>>>>>> 09c42428a2dc64a54dab1ef71b84f36f822d116e
-Each interrupt source can be assigned a priority, which is defined as positive integer.
-The PLIC parameter \texttt{PRIORITIES} defines the number of priority levels for a specific implementation, which then
-allows a source to be assigned a priority between 1 and \texttt{PRIORITIES}.
+Each interrupt source may be assigned a priority, which is defined as a positive integer value and the higher the value the greater the priority. The PLIC parameter \texttt{PRIORITIES} defines the number of priority levels for a specific implementation, which then allows a source to be assigned a priority between 1 and \texttt{PRIORITIES}.
 
 These priority levels are packed into \texttt{HDATA\_SIZE} bit registers, as fields aligned to 4-bit nibble boundaries
 
@@ -601,131 +526,6 @@ A spreadsheet in Microsoft Excel format is available to perform these
 calculations based on user-defined parameters to show the registers and
 memory mapping. Further, simulation of the PLIC will also shows the
 registers and memory mapping.
-
-%\subsubsection{Itemising Register Requirements}
-%
-%The section "\protect\hyperlink{register-interface}{Register Interface}"
-%provides a summary of the registers required to control and configure
-%the PLIC. The following is a more detailed summary of those
-%requirements.
-%
-%\paragraph{CONFIG Register:} ~\\
-%
-%The \texttt{CONFIG} register is always 64 bits. For 32 bit
-%implementations this means 2 physical registers are required, 1 each for
-%the upper and lower word. For 64 bit implementations a single register
-%will be implemented.
-%
-%\paragraph{EL Registers:} ~\\
-%
-%Each interrupt source requires a single bit in the \texttt{EL} register
-%to define if the source is level or edge triggered. These bits will be
-%packed into the minimum number of registers.
-%
-%The physical number of registers implemented can be calculated as
-%follows:
-%
-%\begin{quote}
-%\texttt{No.\ of\ Registers\ =\ ROUNDUP(SOURCES/HDATA\_SIZE)}
-%\end{quote}
-%
-%Example: For a 32 bit system supporting 48 interrupt sources
-%
-%\begin{verbatim}
-%No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)   
-%                 = ROUNDUP(48/32)
-%                 = ROUNDUP(1.5)
-%                 = 2
-%\end{verbatim}
-%
-%\paragraph{IE Registers:} ~\\
-%
-%Interrupt sources may be enabled or disabled per target requiring single
-%bit per target. These bits will be packed into the fewest registers
-%possible and the resulting number of registers calculated as follows:
-%
-%\begin{quote}
-%\texttt{No.\ of\ Registers\ =\ ROUNDUP(SOURCES/HDATA\_SIZE)*TARGETS}
-%\end{quote}
-%
-%Example: For a 32 bit system supporting 48 interrupt sources and 4
-%targets
-%
-%\begin{verbatim}
-%No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)*TARGETS
-%                 = ROUNDUP(48/32)*4
-%                 = ROUNDUP(1.5)*4
-%                 = 2*4
-%                 = 8
-%\end{verbatim}
-%
-%\paragraph{ID Registers:} ~\\
-%
-%The \texttt{ID[]} Read/Write
-%register identifies the ID of the highest priority pending interrupt
-%request, with one ID register required per target.
-%
-%\begin{quote}
-%\texttt{No.\ of\ Registers\ =\ TARGETS}
-%\end{quote}
-%
-%\paragraph{PRIORITY Registers:} ~\\
-%
-%Each interrupt source can be assigned a priority, which is defined as
-%positive integer. The PLIC parameter \texttt{PRIORITIES} defines the
-%number of priority levels for a specific implementation, which then
-%allows a source to be assigned a priority between 1 and
-%\texttt{PRIORITIES}.
-%
-%These priority levels are packed into
-%\texttt{HDATA\_SIZE} bit registers, as fields aligned to
-%4-bit nibble boundaries
-%
-%\begin{quote}
-%\texttt{No.\ of\ Registers\ =\ ROUNDUP(SOURCES/FPR)}
-%\end{quote}
-%where:
-%\indent
-%\begin{verbatim}
-%    FPR = FIELDS_PER_REGISTER    
-%        = HDATA_SIZE/(4*NPP)
-%
-%    NPP = NIBBLES_PER_PRIORITY
-%        = ROUNDUP($clog2(PRIORITIES+1)/4)
-%\end{verbatim}
-%
-%Example: For a 32 bit system supporting 48 interrupt sources and 8
-%priority levels
-%
-%\begin{verbatim}
-%    NPP = NIBBLES_PER_PRIORITY
-%        = ROUNDUP($clog2(PRIORITIES+1)/4)
-%        = ROUNDUP($clog2(8+1)/4)
-%        = ROUNDUP(4/4)
-%        = 1
-%
-%    FPR = FIELDS_PER_REGISTER
-%        = HDATA_SIZE/(4*NPP)
-%        = 32/(4*1)
-%        = 8
-%
-%    No. of Registers = ROUNDUP(SOURCES/FPR)
-%                     = ROUNDUP(48/8)
-%                     = 6
-%\end{verbatim}
-%
-%Note: clog\textsubscript{2}() refers to the System Verilog function by
-%the same name and calculates the number of binary bits required to
-%represent a given integer.
-%
-%\paragraph{THRESHOLD Registers:} ~\\
-%
-%Each target may be assigned a priority threshold and therefore the PLIC
-%implements 1 register per threshold.
-%
-%\begin{quote}
-%\texttt{No.\ of\ Registers\ =\ TARGETS}
-%\end{quote}
 
 The order of the registers in the memory map is defined 
 \ifdefined\MARKDOWN

@@ -67,7 +67,7 @@ The figure above provides an overview of PLIC operation, showing the first two o
 
 #### Overview
 
-The following figure shows the logical flow of the handshake and the following sections describe the stages referenced: Interrupt Request, Interrupt Notification, Interrupt CLaim Response, Processing the Interrupt and Interrupt Completion.
+The following figure shows the logical flow of the handshake and the following sections describe the stages referenced: Interrupt Request, Interrupt Notification, Interrupt Claim Response, Processing the Interrupt and Interrupt Completion.
 
 ![Interrupt Handling Handshake<span data-label="fig:HANDSHAKE"></span>](assets/img/plic-handshake.png)
 
@@ -163,7 +163,7 @@ The default value is enabled (‘1’). To disable, this parameter should be set
 
 The PLIC module supports an optional Configuration Register, which is documented in section 0. The `HAS_CONFIG_REG` parameter defines if this capability is enabled.
 
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD The default value is enabled (‘1’). To disable, this parameter should be set to ‘0’. ======= The default value is enabled (‘1’). To disable, this parameter should be set to ‘0’. &gt;&gt;&gt;&gt;&gt;&gt;&gt; 09c42428a2dc64a54dab1ef71b84f36f822d116e
+The default value is enabled (‘1’). To disable, this parameter should be set to ‘0’.
 
 ## Interfaces
 
@@ -395,13 +395,13 @@ Each target may be assigned a priority threshold via the `THRESHOLD[]` registers
 
 #### Register Address Mapping
 
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD The PLIC supports a wide variety of options and unlimited user-definable number of both interrupt sources and targets. A memory-mapped register interface is used to configure and control the PLIC. This interface is defined according to the specific PLIC Configuration. ======= The PLIC supports a wide variety of options and unlimited user-definable number of both interrupt sources and targets. A regsiter interface is used to configure and control the PLIC. This interface is specific to the implementation. &gt;&gt;&gt;&gt;&gt;&gt;&gt; 09c42428a2dc64a54dab1ef71b84f36f822d116e
+The PLIC supports a wide variety of options and unlimited user-definable number of both interrupt sources and targets. A regsiter interface is used to configure and control the PLIC. This interface is specific to the implementation.
 
 To ease the development of PLIC based systems, the Roa Logic PLIC implements a dynamic register interface, based on the IP’s parameters. The PLIC packs multiple bit-fields into registers where feasible to minimise the required address space.
 
 The following sections describe the calculations performed during generation of the dynamic register interface so that the user may determine the registers available and the memory mapping of those registers for a given implementation.
 
-A spreadsheet in Microsoft Excel format is available to perform these calculations based on user-defined parameters to show the registers and memory mapping. Further, simulation of the PLIC will also shows the registers and memory mapping. &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+A spreadsheet in Microsoft Excel format is available to perform these calculations based on user-defined parameters to show the registers and memory mapping. Further, simulation of the PLIC will also shows the registers and memory mapping in the simulator output log.
 
 ##### Itemising Register Requirements
 
@@ -448,63 +448,14 @@ Example: For a 32 bit system supporting 48 interrupt sources and 4 targets
  
 The `ID[]` Read/Write register identifies the ID of the highest priority pending interrupt request, with one ID register required per target.
 
-=======
-
-##### Itemising Register Requirements
-
-The section “” provides a summary of the registers required to control and configure the PLIC. The following is a more detailed summary of those requirements.
-
-###### CONFIG Register:
-
- 
-The `CONFIG` register is always 64 bits. For 32 bit implementations this means 2 physical registers are required, 1 each for the upper and lower word. For 64 bit implementations a single register will be implemented.
-
-###### EL Registers:
-
- 
-Each interrupt source requires a single bit in the `EL` register to define if the source is level or edge triggered. These bits will be packed into the minimum number of registers.
-
-The physical number of registers implemented can be calculated as follows:
-
-> `No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)`
-
-Example: For a 32 bit system supporting 48 interrupt sources
-
-    No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)   
-                     = ROUNDUP(48/32)
-                     = ROUNDUP(1.5)
-                     = 2
-
-###### IE Registers:
-
- 
-Interrupt sources may be enabled or disabled per target requiring single bit per target. These bits will be packed into the fewest registers possible and the resulting number of registers calculated as follows:
-
-> `No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)*TARGETS`
-
-Example: For a 32 bit system supporting 48 interrupt sources and 4 targets
-
-    No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)*TARGETS
-                     = ROUNDUP(48/32)*4
-                     = ROUNDUP(1.5)*4
-                     = 2*4
-                     = 8
-
-###### ID Registers:
-
- 
-The `ID[]` Read/Write register identifies the ID of the highest priority pending interrupt request, with one ID register required per target.
-
-The `ID[]` register also functions as part of the interrupt claim and completion process. A target claims the identified interrupt by the action of reading the register. The target then indicates servicing the interrupt is complete by the action of writing to the regsiter. Any value may be written to indicate completion. &gt;&gt;&gt;&gt;&gt;&gt;&gt; 09c42428a2dc64a54dab1ef71b84f36f822d116e
+The `ID[]` register also functions as part of the interrupt claim and completion process. A target claims the identified interrupt by the action of reading the register. The target then indicates servicing the interrupt is complete by the action of writing to the regsiter. Any value may be written to indicate completion.
 
 > `No. of Registers = TARGETS`
 
 ###### PRIORITY Registers:
 
  
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD ======= The `PRIORITY[]` Read/Write registers define the priority level of each interrupt source. Interrupt priority increases with larger values of `PRIORITY`.
-
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; 09c42428a2dc64a54dab1ef71b84f36f822d116e Each interrupt source can be assigned a priority, which is defined as positive integer. The PLIC parameter `PRIORITIES` defines the number of priority levels for a specific implementation, which then allows a source to be assigned a priority between 1 and `PRIORITIES`.
+Each interrupt source may be assigned a priority, which is defined as a positive integer value and the higher the value the greater the priority. The PLIC parameter `PRIORITIES` defines the number of priority levels for a specific implementation, which then allows a source to be assigned a priority between 1 and `PRIORITIES`.
 
 These priority levels are packed into `HDATA_SIZE` bit registers, as fields aligned to 4-bit nibble boundaries
 
