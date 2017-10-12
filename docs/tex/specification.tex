@@ -36,6 +36,12 @@ the subsequent sections:
 
 \subsection{PLIC Configuration}
 
+\begin{comment}
+It is not clear that the user needs to program these values.
+Also a diagram (like in the PLIC spec) helps to visualise where these register/values are used.
+And to visualise the flow of the interrupts
+\end{comment}
+
 A matrix of Interrupt Enable vectors -- one IE register per target --
 determines which target processes the interrupts from which source.
 
@@ -60,13 +66,10 @@ target and if the priority of the interrupt source exceeds any defined
 Interrupt Priority Threshold. If these conditions do not hold, the
 Interrupt Request is deemed invalid and stalled pending updates to the interrupt enable and/or priority threshold bits. 
 
-The PLIC also determines if a previous interrupt request has been made
-by the same source. If an interrupt is defined as level triggered and
-has already been asserted but not yet serviced, the request is ignored.
-If an interrupt is defined as edge triggered and has already been
-asserted but not yet serviced, the request is queued by incrementing a
-Interrupt Pending counter by one. The depth of this counter is
-parameterised.
+The PLIC also determines if a previous interrupt request has been made by the same source.
+If an interrupt is defined as level triggered and has already been asserted but not yet serviced, the request is ignored.
+If an interrupt is defined as edge triggered and has already been asserted but not yet serviced, the request is queued by incrementing its Interrupt Pending counter.
+The depth of this counter is parameterised.
 
 If the request is deemed valid the request is forwarded to the
 appropriate target. In the case of queued edge-triggered requests, the
@@ -74,13 +77,11 @@ interrupt pending counter is decremented by one immediately upon claim of the in
 
 \subsection{Interrupt Notification}
 
-A target is notified of an interrupt request by the assertion of the IRQ
-output for the relevant target. The PLIC also blocks the forwarding of
-any further requests from the interrupt source until the asserted
-request is serviced.
+A target is notified of an interrupt request by asserting the IRQ output for that target.
+The PLIC blocks forwarding any further requests from the interrupt source until the current request is serviced.
 
-On each clock cycle the ID register is loaded with the unique identifier
-of the highest priority interrupt to be processed.
+On each clock cycle the ID register is loaded with the unique identifier of the highest priority interrupt to be processed.
+This ensures that the Interrupt Service Routine always reads the highest pending interrupt request.
 
 \subsection{Claim Response} \label{sec:claim-response}
 
@@ -91,18 +92,19 @@ unless another, lower priority, interrupt is still pending.
 
 \subsection{Interrupt Handler}
 
-If the ID read is greater than zero, the target services the identified
-interrupt source. If the ID read is zero, this indicates no outstanding
-pending interrupts remain and the handler may terminate.
+If the ID read is greater than zero, the target services the identified interrupt source.
+If the ID read is zero, this indicates no outstanding pending interrupts remain and the handler may terminate.
+
+\begin{comment}
+ID might be '0' after receiving an IRQ when another hard/privilege-level already serviced the interrupt.
+\end{comment}
 
 \subsection{Interrupt Completion}
 
-Once an interrupt has been serviced, completion is signalled to the PLIC
-by writing to the ID register. The act of writing to the register is the
-completion notification; the value written is irrelevant.
+Once an interrupt has been serviced, completion is signalled to the PLIC by writing to the ID register.
+The act of writing to the register is the completion notification; the value written is irrelevant.
 
-On receiving the completion notification the PLIC will again allow
-interrupts to be forwarded from the corresponding source.
+On receiving the completion notification the PLIC will again allow interrupts to be forwarded from the corresponding source.
 
 The Interrupt Handler may then exit, however it is possible a new
 interrupt request may have been asserted while the handler was running.

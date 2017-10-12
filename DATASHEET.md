@@ -73,15 +73,15 @@ In addition each source is automatically assigned an Interrupt Identifier (`ID`)
 
 A source asserts an interrupt request to the PLIC. The PLIC validates the request by first checking if an interrupt enable bit is set for each target and if the priority of the interrupt source exceeds any defined Interrupt Priority Threshold. If these conditions do not hold, the Interrupt Request is deemed invalid and stalled pending updates to the interrupt enable and/or priority threshold bits.
 
-The PLIC also determines if a previous interrupt request has been made by the same source. If an interrupt is defined as level triggered and has already been asserted but not yet serviced, the request is ignored. If an interrupt is defined as edge triggered and has already been asserted but not yet serviced, the request is queued by incrementing a Interrupt Pending counter by one. The depth of this counter is parameterised.
+The PLIC also determines if a previous interrupt request has been made by the same source. If an interrupt is defined as level triggered and has already been asserted but not yet serviced, the request is ignored. If an interrupt is defined as edge triggered and has already been asserted but not yet serviced, the request is queued by incrementing its Interrupt Pending counter. The depth of this counter is parameterised.
 
 If the request is deemed valid the request is forwarded to the appropriate target. In the case of queued edge-triggered requests, the interrupt pending counter is decremented by one immediately upon claim of the interrupt by the target.
 
 #### Interrupt Notification
 
-A target is notified of an interrupt request by the assertion of the IRQ output for the relevant target. The PLIC also blocks the forwarding of any further requests from the interrupt source until the asserted request is serviced.
+A target is notified of an interrupt request by asserting the IRQ output for that target. The PLIC blocks forwarding any further requests from the interrupt source until the current request is serviced.
 
-On each clock cycle the ID register is loaded with the unique identifier of the highest priority interrupt to be processed.
+On each clock cycle the ID register is loaded with the unique identifier of the highest priority interrupt to be processed. This ensures that the Interrupt Service Routine always reads the highest pending interrupt request.
 
 #### Claim Response
 
@@ -151,7 +151,7 @@ The default value is enabled (‘1’). To disable, this parameter should be set
 
 The PLIC module supports an optional Configuration Register, which is documented in section 0. The `HAS_CONFIG_REG` parameter defines if this capability is enabled.
 
-The default value is enabled (1’). To disable this parameter should be set to ‘0’.
+The default value is enabled (‘1’). To disable, this parameter should be set to ‘0’.
 
 ## Interfaces
 
@@ -326,9 +326,7 @@ The `CONFIG` register is always 64 bits. For 32 bit implementations this means 2
 
 ##### EL
 
-The `EL` Read/Write register defines if an interrupt source is Edge or Level Triggered.
-
-The number of interrupt sources, as defined by the `SOURCES` parameter, determines the width of the `EL` register. One bit within the register corresponds to an interrupt source, where a logic high (‘1’) defines a rising-edge triggered interrupt and a logic low (‘0’) defines a level triggered interrupt. These bits will be packed into the minimum number of registers.
+The `EL` Read/Write register defines if an interrupt source is Edge or Level Triggered. The number of interrupt sources, as defined by the `SOURCES` parameter, determines the width of the `EL` register. One bit within the register corresponds to an interrupt source, where a logic high (‘1’) defines a rising-edge triggered interrupt and a logic low (‘0’) defines a level triggered interrupt. These bits will be packed into the minimum number of registers.
 
 The physical number of registers implemented can be calculated as follows:
 
@@ -367,14 +365,82 @@ The `ID[]` Read/Write register identifies to each target the ID of the highest p
 
 This register indicates to the target which of potentially multiple pending interrupts should be serviced rather than relying on this being resolved by the software Interrupt Service Routine.
 
-When a target reads this register, this also indicates the target has claimed the interrupt for the defined source and will service then service the interrupt source.
+When a target reads this register, this also indicates the target has claimed the interrupt for the defined source and will service the interrupt source.
 
-A target then writes to this register to indicate completion of servicing the interrupt source. It is the action of writing to this register which generates the interrupt completion notification – the value written will not update the register which continues to identify the highest priority interrupt source to be serviced.
+A target then writes to this register to indicate completion of servicing the interrupt source. It is the action of writing to this register which generates the interrupt completion notification – the value written will be ignored. Instead the register continues to identify the highest priority interrupt source to be serviced.
 
 ##### PRIORITY\[\]
 
 The `PRIORITY[]` Read/Write registers define the priority level of each interrupt source. Interrupt priority increases with larger values of `PRIORITY`.
 
+There is one `PRIORITY[]` register per interrupt source as defined by the `SOURCES` parameter (see ), identified as `PRIORITY[SOURCES-1:0]`. The width of each register is derived from the number of priority levels as defined by the `PRIORITIES` parameter (see ).
+
+Interrupt priority increases with larger values of `PRIORITY`.
+
+##### THRESHOLD\[\]
+
+Each target may be assigned a priority threshold via the `THRESHOLD[]` registers. Only pending interrupts that have a priority strictly greater than the threshold will cause an interrupt notification to be sent to the target. A `THRESHOLD[]` value of 0 means that no interrupts will be masked.
+
+#### Register Address Mapping
+
+The PLIC supports a wide variety of options and unlimited user-definable number of both interrupt sources and targets. A memory-mapped register interface is used to configure and control the PLIC. This interface is defined according to the specific PLIC Configuration.
+
+To ease the development of PLIC based systems, the Roa Logic PLIC implements a dynamic register interface, based on the IP’s parameters. The PLIC packs multiple bit-fields into registers where feasible to minimise the required address space.
+
+The following sections describe the calculations performed during generation of the dynamic register interface so that the user may determine the registers available and the memory mapping of those registers for a given implementation.
+
+A spreadsheet in Microsoft Excel format is available to perform these calculations based on user-defined parameters to show the registers and memory mapping. Further, simulation of the PLIC will also shows the registers and memory mapping.
+
+##### Itemising Register Requirements
+
+The section “” provides a summary of the registers required to control and configure the PLIC. The following is a more detailed summary of those requirements.
+
+###### CONFIG Register:
+
+ 
+The `CONFIG` register is always 64 bits. For 32 bit implementations this means 2 physical registers are required, 1 each for the upper and lower word. For 64 bit implementations a single register will be implemented.
+
+###### EL Registers:
+
+ 
+Each interrupt source requires a single bit in the `EL` register to define if the source is level or edge triggered. These bits will be packed into the minimum number of registers.
+
+The physical number of registers implemented can be calculated as follows:
+
+> `No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)`
+
+Example: For a 32 bit system supporting 48 interrupt sources
+
+    No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)   
+                     = ROUNDUP(48/32)
+                     = ROUNDUP(1.5)
+                     = 2
+
+###### IE Registers:
+
+ 
+Interrupt sources may be enabled or disabled per target requiring single bit per target. These bits will be packed into the fewest registers possible and the resulting number of registers calculated as follows:
+
+> `No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)*TARGETS`
+
+Example: For a 32 bit system supporting 48 interrupt sources and 4 targets
+
+    No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)*TARGETS
+                     = ROUNDUP(48/32)*4
+                     = ROUNDUP(1.5)*4
+                     = 2*4
+                     = 8
+
+###### ID Registers:
+
+ 
+The `ID[]` Read/Write register identifies the ID of the highest priority pending interrupt request, with one ID register required per target.
+
+> `No. of Registers = TARGETS`
+
+###### PRIORITY Registers:
+
+ 
 Each interrupt source can be assigned a priority, which is defined as positive integer. The PLIC parameter `PRIORITIES` defines the number of priority levels for a specific implementation, which then allows a source to be assigned a priority between 1 and `PRIORITIES`.
 
 These priority levels are packed into `HDATA_SIZE` bit registers, as fields aligned to 4-bit nibble boundaries
