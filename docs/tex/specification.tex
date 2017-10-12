@@ -36,6 +36,10 @@ the subsequent sections:
 
 \subsection{PLIC Configuration}
 
+<<<<<<< HEAD
+=======
+\todo{Review IE matrix diagram}
+>>>>>>> 09c42428a2dc64a54dab1ef71b84f36f822d116e
 \begin{comment}
 It is not clear that the user needs to program these values.
 Also a diagram (like in the PLIC spec) helps to visualise where these register/values are used.
@@ -85,19 +89,21 @@ This ensures that the Interrupt Service Routine always reads the highest pending
 
 \subsection{Claim Response} \label{sec:claim-response}
 
-A target makes an interrupt claim response by reading the ID register,
-which also notifies the target of the interrupt source to service. The
-PLIC de-asserts the IRQ output for the target in response to the claim.
-unless another, lower priority, interrupt is still pending.
+A target makes an interrupt claim response by reading its ID register.
+This notifies the target of the interrupt source to service.
+If the target has other interrupt sources pending, the IRQ output remains asserted, otherwise the IRQ output is negated.
 
-\subsection{Interrupt Handler}
+\subsubsection{Interrupt Handler}
 
 If the ID read is greater than zero, the target services the identified interrupt source.
 If the ID read is zero, this indicates no outstanding pending interrupts remain and the handler may terminate.
+<<<<<<< HEAD
 
 \begin{comment}
 ID might be '0' after receiving an IRQ when another hard/privilege-level already serviced the interrupt.
 \end{comment}
+=======
+>>>>>>> 09c42428a2dc64a54dab1ef71b84f36f822d116e
 
 \subsection{Interrupt Completion}
 
