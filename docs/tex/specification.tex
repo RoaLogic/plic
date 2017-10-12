@@ -47,18 +47,17 @@ A matrix of Interrupt Enable vectors -- one IE register per target --
 determines which target processes the interrupts from which source.
 
 Each Interrupt Source attached to the PLIC is then assigned a Priority
-
-Level -- an unsigned integer that determines the relative priority of
-the interrupt source; a larger value means a higher priority
-level. A Priority Threshold per target may also be defined to mask lower
-priority interrupts such that only interrupts from those sources with a 
-priority level higher than the Priority Threshold will be presented to the target.
+Level by the user - an unsigned integer value that determines the relative priority of
+the interrupt source. Larger values have higher priority. A Priority Threshold 
+per target set by the user may also be defined to mask lower priority interrupts such that 
+interrupts will only be presented to a target if the assigned Priority Level 
+is greater than the Priority Threshold.
 
 In addition each source is automatically assigned an Interrupt Identifier
 (\texttt{ID}) -- an unique unsigned integer. This identifier determines
 interrupt priority when 2 or more interrupts with the same priority
-level are asserted. The lower the \texttt{ID} assigned to the source,
-the greater the interrupt priority.
+level are asserted. The \emph{lower} the \texttt{ID} assigned to the source,
+the \emph{greater} the interrupt priority.
 
 \subsection{Interrupt Request}
 
