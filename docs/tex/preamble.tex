@@ -37,18 +37,13 @@
 
 % Setup margins & page style
 
-% Paragraph formatting
+%\setlength{\topmargin}{-0.5in}
+%\setlength{\textheight}{9in}
+%\setlength{\oddsidemargin}{0in}
+%\setlength{\evensidemargin}{0in}
+%\setlength{\textwidth}{6.5in}
 
-%\setlength{\parindent}{1em}
-\setlength{\parskip}{0.5em}
-
-
-% Long table formatting
-
-\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}                  
-\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}                        
-\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
-
+% Page Layout Control
 
 % Hyperlink formatting
 
@@ -94,17 +89,6 @@
 %\setlength{\parindent}{1em}
 \setlength{\parskip}{0.5em}
 
-% Table Numbering
-\makeatletter
-\renewcommand{\thetable}{\thesection.\@arabic\c@table}
-\@addtoreset{table}{section}
-\makeatother
-
-% Figure Numbering
-\usepackage{amsmath}
-\numberwithin{figure}{section}
-\numberwithin{table}{section}
-
 % Long table formatting
 % \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}                  
 % \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}                        
@@ -113,23 +97,6 @@
 % Pad All Table Rows
 % \renewcommand{\arraystretch}{1.2}
 
-
-% Center all Floats (Figs & Tables)
-\makeatletter
-\g@addto@macro\@floatboxreset\centering
-\makeatother
-
-% Pad All Table Rows
-\renewcommand{\arraystretch}{1.2}
-
-% Define think table lines
-\makeatletter
-\newcommand{\thickhline}{%
-	\noalign {\ifnum 0=`}\fi \hrule height 1pt
-	\futurelet \reserved@a \@xhline
-}
-\newcolumntype{"}{@{\hskip\tabcolsep\vrule width 1pt\hskip\tabcolsep}}
-\makeatother
 
 % Center all Floats (Figs & Tables)
 \makeatletter
