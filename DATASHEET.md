@@ -41,7 +41,7 @@ The controller further supports user configurable priority levels and pending ev
 
 ## Specifications
 
-### Functional Description
+### Overview
 
 The AHB-Lite PLIC IP core is a fully parameterised Platform-Level Interrupt Controller, featuring a single AHB-Lite Slave interface and support for a user-defined number of both Interrupt Sources and Targets.
 
@@ -55,21 +55,33 @@ For illustration, a simplified example system using the PLIC core is shown below
 
 ![PLIC System Diagram<span data-label="fig:SYSDIAG"></span>](assets/img/plic-system.png)
 
+### PLIC Operation
+
+The PLIC connects global *interrupt sources*, which are usually I/O devices, to *interrupt targets*, which are usually *hart contexts*. The PLIC contains multiple *interrupt gateways*, one per interrupt source, together with a *PLIC core* that performs interrupt prioritization and routing. Global interrupts are sent from their source to an *interrupt gateway* that processes the interrupt signal from each source and sends a single *interrupt request* to the PLIC core, which latches these in the core interrupt pending bits (IP). Each interrupt source is assigned a separate priority. The PLIC core contains a matrix of interrupt enable (IE) bits to select the interrupts that are enabled for each target. The PLIC core forwards an *interrupt notification* to one or more targets if the targets have any pending interrupts enabled, and the priority of the pending interrupts exceeds a per-target threshold. When the target takes the external interrupt, it sends an *interrupt claim* request to retrieve the identifier of the highest-priority global interrupt source pending for that target from the PLIC core, which then clears the corresponding interrupt source pending bit. After the target has serviced the interrupt, it sends the associated interrupt gateway an *interrupt completion* message and the interrupt gateway can now forward another interrupt request for the same source to the PLIC. The rest of this chapter describes each of these components in detail, though many details are necessarily platform specific.
+
+<img src="assets/img/PLIC-block-diagram.png" alt="Platform-Level Interrupt Controller (PLIC) conceptual block diagram." />
+
+The figure above provides an overview of PLIC operation, showing the first two of potentially many interrupt sources, and the first two of potentially many interrupt targets.
+
 ### Interrupt Handling Handshake
 
-The Roa Logic implementation of the handshake between Interrupt source, target and PLIC is illustrated below, and described in further detail in the subsequent sections:
+#### Overview
 
-![Interrupt Handling handshake<span data-label="fig:HANDSHAKE"></span>](assets/img/plic-handshake.png)
+The following figure shows the logical flow of the handshake and the following sections describe the stages referenced: Interrupt Request, Interrupt Notification, Interrupt CLaim Response, Processing the Interrupt and Interrupt Completion.
 
-#### PLIC Configuration
+![Interrupt Handling Handshake<span data-label="fig:HANDSHAKE"></span>](assets/img/plic-handshake.png)
 
-A matrix of Interrupt Enable vectors – one IE register per target – determines which target processes the interrupts from which source.
+Prior to operation, the PLIC system must be defined and configured as follows:
 
-Each Interrupt Source attached to the PLIC is then assigned a Priority Level by the user - an unsigned integer value that determines the relative priority of the interrupt source. Larger values have higher priority. A Priority Threshold per target set by the user may also be defined to mask lower priority interrupts such that interrupts will only be presented to a target if the assigned Priority Level is greater than the Priority Threshold.
+-   Each source must be assigned an Interrupt Identifier (`ID`) - a unique unsigned integer. This identifier will determine interrupt priority when 2 or more interrupts with the same priority level are asserted; The *lower* the `ID` assigned to the source, the *greater* the interrupt priority
 
-In addition each source is automatically assigned an Interrupt Identifier (`ID`) – an unique unsigned integer. This identifier determines interrupt priority when 2 or more interrupts with the same priority level are asserted. The *lower* the `ID` assigned to the source, the *greater* the interrupt priority.
+-   A matrix of Interrupt Enable vectors - one IE register per target - must be set to determine which target processes the interrupts from which source.
 
-#### Interrupt Request
+-   Each Interrupt Source attached to the PLIC assigned a Priority Level - an unsigned integer value - that determines the relative priority of the interrupt source. Larger values have higher priority.
+
+-   Optionally, a Priority Threshold per target set to mask lower priority interrupts such that interrupts will only be presented to a target if the assigned Priority Level is greater than the Priority Threshold.
+
+#### Interrupt Request Stage
 
 A source asserts an interrupt request to the PLIC. The PLIC validates the request by first checking if an interrupt enable bit is set for each target and if the priority of the interrupt source exceeds any defined Interrupt Priority Threshold. If these conditions do not hold, the Interrupt Request is deemed invalid and stalled pending updates to the interrupt enable and/or priority threshold bits.
 
@@ -77,23 +89,21 @@ The PLIC also determines if a previous interrupt request has been made by the sa
 
 If the request is deemed valid the request is forwarded to the appropriate target. In the case of queued edge-triggered requests, the interrupt pending counter is decremented by one immediately upon claim of the interrupt by the target.
 
-#### Interrupt Notification
+#### Interrupt Notification Stage
 
 A target is notified of an interrupt request by asserting the IRQ output for that target. The PLIC blocks forwarding any further requests from the interrupt source until the current request is serviced.
 
 On each clock cycle the ID register is loaded with the unique identifier of the highest priority interrupt to be processed. This ensures that the Interrupt Service Routine always reads the highest pending interrupt request.
 
-#### Claim Response
+#### Claim Response Stage
 
 A target makes an interrupt claim response by reading its ID register. This notifies the target of the interrupt source to service. If the target has other interrupt sources pending, the IRQ output remains asserted, otherwise the IRQ output is negated.
 
-##### Interrupt Handler
+#### Interrupt Handler Stage
 
-If the ID read is greater than zero, the target services the identified interrupt source. If the ID read is zero, this indicates no outstanding pending interrupts remain and the handler may terminate. &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+If the ID read is greater than zero, the target services the identified interrupt source. If the ID read is zero, this indicates no outstanding pending interrupts remain and the handler may terminate.
 
-======= &gt;&gt;&gt;&gt;&gt;&gt;&gt; 09c42428a2dc64a54dab1ef71b84f36f822d116e
-
-#### Interrupt Completion
+#### Interrupt Completion Stage
 
 Once an interrupt has been serviced, completion is signalled to the PLIC by writing to the ID register. The act of writing to the register is the completion notification; the value written is irrelevant.
 
