@@ -49,15 +49,21 @@ the following sections:
 
 \paragraph{}
 
+\begin{comment}
+It is not clear that the user needs to program these values.
+Also a diagram (like in the PLIC spec) helps to visualise where these register/values are used.
+And to visualise the flow of the interrupts
+\end{comment}
+
 A matrix of Interrupt Enable vectors -- one IE register per target --
 determines which target processes the interrupts from which source.
 
 Each Interrupt Source attached to the PLIC is then assigned a Priority
 Level -- an unsigned integer that determines the relative priority of
-the interrupt source. The greater the integer, the greater the priority
+the interrupt source; a larger value means a higher priority
 level. A Priority Threshold per target may also be defined to mask lower
-priority interrupts such that interrupts will only be presented to a
-target if the assigned Priority Level is greater than the Priority Threshold.
+priority interrupts such that only interrupts from those sources with a 
+priority level higher than the Priority Threshold will be presented to the target.
 
 In addition each source is automatically assigned an Interrupt Identifier
 (\texttt{ID}) -- an unique unsigned integer. This identifier determines
@@ -67,74 +73,58 @@ the greater the interrupt priority.
 
 \subsubsection{Interrupt Request}
 
-A source asserts an interrupt request to the PLIC. The PLIC validates
-the request by first checking if an interrupt enable bit is set for each
-target and if the priority of the interrupt source exceeds any defined
-Interrupt Priority Threshold. If these conditions do not hold, the
-Interrupt Request is deemed invalid and ignored.
-\comment
-Not entirely true. When a source asserts an interrupt request, the request is latched and the (internal) Interrupt Pending (IP) bit is asserted.
+A source asserts an interrupt request to the PLIC. The PLIC receives the interrupt request and sets an internal Interrupt Pending bit. The PLIC then validates the request by first checking if the Interrupt Enable bit for a target is set, if there are any pending higher priority interrupts, and if the priority of the interrupt source exceeds the defined Interrupt Priority Threshold for that target. If these conditions do not hold, the Interrupt Request is deemed invalid and kept pending.
+\begin{comment}
+The initial text was not entirely true. When a source asserts an interrupt request, the request is latched and the (internal) Interrupt Pending (IP) bit is asserted.
 The PLIC then checks is an interrupt enable bit is set for a target (IP && IE). Finally it determines the priority.
 The main difference here that the interrupt is not 'ignored'. If IE is not set or the priority is not high enough, the interrupt is not lost, merely 'stalled' or 'parked'.
 If, later, the IE bit is set and/or the Priority Threshold is changed, the interrupt will progress to the target.
-\endcomment
+\end{comment}
 
-The PLIC also determines if a previous interrupt request has been made
-by the same source. If an interrupt is defined as level triggered and
-has already been asserted but not yet serviced, the request is ignored.
-If an interrupt is defined as edge triggered and has already been
-asserted but not yet serviced, the request is queued by incrementing a
-Interrupt Pending counter by one. The depth of this counter is
-parameterised.
+The PLIC also determines if a previous interrupt request has been made by the same source.
+If an interrupt is defined as level triggered and has already been asserted but not yet serviced, the request is ignored.
+If an interrupt is defined as edge triggered and has already been asserted but not yet serviced, the request is queued by incrementing its Interrupt Pending counter.
+The depth of this counter is parameterised.
 
-If the request is deemed valid the request is forwarded to the
-appropriate target. In the case of queued edge-triggered requests, the
-interrupt pending counter is decremented by one.
+If the request is deemed valid the request is forwarded to the appropriate target.
+In the case of queued edge-triggered requests, the source's interrupt pending counter is decremented.
 
-\comment
+\begin{comment}
 The pending counter is decremented as soon as the target claims the interrupt
-\endcomment
+\end{comment}
 
 \subsubsection{Interrupt Notification}
 
-A target is notified of an interrupt request by the assertion of the IRQ
-output for the relevant target. The PLIC also blocks the forwarding of
-any further requests from the interrupt source until the asserted
-request is serviced.
+A target is notified of an interrupt request by asserting the IRQ output for that target.
+The PLIC blocks forwarding any further requests from the interrupt source until the current request is serviced.
 
-On each clock cycle the ID register is loaded with the unique identifier
-of the highest priority interrupt to be processed.
+On each clock cycle the ID register is loaded with the unique identifier of the highest priority interrupt to be processed.
+This ensures that the Interrupt Service Routine always reads the highest pending interrupt request.
 
 \subsubsection{Claim Response} \label{sec:claim-response}
 
-A target makes an interrupt claim response by reading the ID register,
-which also notifies the target of the interrupt source to service. The
-PLIC de-asserts the IRQ output for the target in response to the claim.
-
-\comment
-The IRQ line may remain asserted if another, lower priority, interrupt is still pending.
-\endcomment
+A target makes an interrupt claim response by reading its ID register.
+This notifies the target of the interrupt source to service.
+If the target has other interrupt sources pending, the IRQ output remains asserted, otherwise the IRQ output is negated.
 
 
 \subsubsection{Interrupt Handler}
 
-If the ID read is greater than zero, the target services the identified
-interrupt source. If the ID read is zero, this indicates no outstanding
-pending interrupts remain and the handler may terminate.
+If the ID read is greater than zero, the target services the identified interrupt source.
+If the ID read is zero, this indicates no outstanding pending interrupts remain and the handler may terminate.
+
+\begin{comment}
+ID might be '0' after receiving an IRQ when another hard/privilege-level already serviced the interrupt.
+\end{comment}
 
 \subsubsection{Interrupt Completion}
 
-Once an interrupt has been serviced, completion is signalled to the PLIC
-by writing to the ID register. The act of writing to the register is the
-completion notification; the value written is irrelevant.
+Once an interrupt has been serviced, completion is signalled to the PLIC by writing to the ID register.
+The act of writing to the register is the completion notification; the value written is irrelevant.
 
-On receiving the completion notification the PLIC will again allow
-interrupts to be forwarded from the corresponding source.
+On receiving the completion notification the PLIC will again allow interrupts to be forwarded from the corresponding source.
 
-The Interrupt Handler may then exit, however it is possible a new
-interrupt request may have been asserted while the handler was running.
-To reduce latency the handler may instead determine if a new interrupt
-has been received and if so again claim the interrupt as described in
-section \emph{\ref{sec:claim-response} \nameref{sec:claim-response}}. In this
-way the interrupt handler can service all interrupts without the need to
-restore the interrupted context.
+The Interrupt Handler may then exit, however it is possible a new interrupt request may have been asserted while the handler was running.
+To reduce latency the handler may instead determine if a new interrupt has been received and if so again claim the interrupt as described in
+section \emph{\ref{sec:claim-response} \nameref{sec:claim-response}}.
+In this way the interrupt handler can service all interrupts without the need to restore the interrupted context.
