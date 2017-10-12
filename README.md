@@ -7,6 +7,7 @@ Fully Parameterized & Programmable Platform Level Interrupt Controller (PLIC) fo
 ## Documentation
 
 - [Datasheet](DATASHEET.md)
+- [Register Map Worksheet](docs/assets/csv/RegisterMapping.xlsx)
 
 ## Features
 
