@@ -128,7 +128,7 @@ of a burst.
 	\textbf{\texttt{HBURST}} & \textbf{Type} & \textbf{Description}\\
 	\midrule
 	\endhead 
-	\texttt{000} & \texttt{SINGLE} & Single access**\\
+	\texttt{000} & \texttt{SINGLE} & Single access\\
 	\texttt{001} & \texttt{INCR}   & Continuous incremental burst\\
 	\texttt{010} & \texttt{WRAP4}  & 4-beat wrapping burst\\
 	\texttt{011} & \texttt{INCR4}  & 4-beat incrementing burst\\
@@ -284,7 +284,12 @@ When enabled via the \texttt{HAS\_CONFIG\_REG} hardware parameter, the
 
 The values, \texttt{HAS\_THRESHOLD}, \texttt{PRIORITIES},
 \texttt{TARGETS} and \texttt{SOURCES} correspond to the hardware
-parameters documented in section \ref{sec:core-parameters} \nameref{sec:core-parameters}.
+parameters documented in the section
+\ifdefined\MARKDOWN
+[Core Parameters].
+\else
+\ref{sec:core-parameters} \nameref{sec:core-parameters}.
+\fi
 
 \subsubsection{EL}
 
@@ -320,104 +325,10 @@ value written will be ignored. Instead the register continues to identify the hi
 
 \subsubsection{PRIORITY[]}
 
-The \texttt{PRIORITY[]} Read/Write registers define the priority level of each interrupt source.
+The \texttt{PRIORITY[]} Read/Write registers define the priority level of each interrupt source. Interrupt priority increases with larger values of \texttt{PRIORITY}.
 
-There is one \texttt{PRIORITY[]} register per interrupt source as defined by the \texttt{SOURCES} parameter, identified as \texttt{PRIORITY[SOURCES-1:0]}. The width of each register is derived from the number of priority levels as defined by the \texttt{PRIORITIES} parameter.
-
-Interrupt priority increases with larger values of \texttt{PRIORITY}.
-
-\subsubsection{THRESHOLD[]}
-
-Each target may be assigned a priority threshold via the \texttt{THRESHOLD[]} registers.
-Only pending interrupts that have a priority strictly greater than the threshold will cause an interrupt notification to be sent to the target.
-A \texttt{THRESHOLD[]} value of 0 means that no interrupts will be masked.
-
-\subsection{Register Address Mapping}
-
-The PLIC supports a wide variety of options and unlimited user-definable number of both interrupt sources and targets.
-To configure and control the PLIC requires a memory-mapped register interface that must be defined according to the specific implementation.
-\being{comment}
-the above is a funny sentence
-\end{comment}
-
-
-To ease the development of PLIC based systems, the Roa Logic PLIC implements a dynamic register interface, based on the IP's parameters.
-The PLIC packs multiple bit-fields into registers where feasible to minimise the required address space.
-
-The following sections describe the calculations performed during generation of the dynamic register interface so that the user may
-determine the registers available and the memory mapping of those registers for a given implementation.
-
-A spreadsheet in Microsoft Excel format is available to perform these calculations based on user-defined parameters to show the registers and
-memory mapping.
-Further, simulation of the PLIC will also shows the registers and memory mapping.
-
-\subsection{Itemising Register Requirements}
-
-The section "\protect\hyperlink{register-interface}{Register Interface}" provides a summary of the registers required to control and configure
-the PLIC.
-The following is a more detailed summary of those requirements.
-
-\subsubsection{CONFIG Register:}
-
-The \texttt{CONFIG} register is always 64 bits.
-For 32 bit implementations this means 2 physical registers are required, 1 each for the upper and lower word.
-For 64 bit implementations a single register will be implemented.
-
-\subsubsection{EL Registers:}
-
-Each interrupt source requires a single bit in the \texttt{EL} register to define if the source is level or edge triggered.
-These bits will be packed into the minimum number of registers.
-
-The physical number of registers implemented can be calculated as follows:
-
-\begin{quote}
-\texttt{No.\ of\ Registers\ =\ ROUNDUP(SOURCES/HDATA\_SIZE)}
-\end{quote}
-
-Example: For a 32 bit system supporting 48 interrupt sources
-
-\begin{verbatim}
-No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)   
-                 = ROUNDUP(48/32)
-                 = ROUNDUP(1.5)
-                 = 2
-\end{verbatim}
-
-\subsubsection{IE Registers:}
-
-Interrupt sources may be enabled or disabled per target requiring single bit per target.
-These bits will be packed into the fewest registers possible and the resulting number of registers calculated as follows:
-
-\begin{quote}
-\texttt{No.\ of\ Registers\ =\ ROUNDUP(SOURCES/HDATA\_SIZE)*TARGETS}
-\end{quote}
-
-Example: For a 32 bit system supporting 48 interrupt sources and 4 targets
-
-\begin{verbatim}
-No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)*TARGETS
-                 = ROUNDUP(48/32)*4
-                 = ROUNDUP(1.5)*4
-                 = 2*4
-                 = 8
-\end{verbatim}
-
-\subsubsection{ID Registers:}
-
-The \texttt{ID[]} Read/Write register identifies the ID of the highest priority pending interrupt request, with one ID register required per target.
-\begin{comment}
-Should we again reiterate that reading ID is an interrupt claim, and writing is an interrupt-complete?
-\end{comment}
-
-
-\begin{quote}
-\texttt{No.\ of\ Registers\ =\ TARGETS}
-\end{quote}
-
-\subsubsection{PRIORITY Registers:}
-
-There is one \texttt{PRIORITY[]} register per interrupt source as defined by the \texttt{SOURCES} parameter (see \protect\hyperlink{SOURCES}{\texttt{SOURCES}}), identified as \texttt{PRIORITY[SOURCES-1:0]}.
-The width of each register is derived from the number of priority levels as defined by the \texttt{PRIORITIES} parameter (see \protect\hyperlink{TARGETS}{\texttt{TARGETS}}).
+There is one \texttt{PRIORITY[]} register per interrupt source as defined by the \texttt{SOURCES} parameter, identified as \texttt{PRIORITY[SOURCES-1:0]}.
+The width of each register is derived from the number of priority levels as defined by the \texttt{PRIORITIES} parameter.
 
 Interrupt priority increases with larger values of \texttt{PRIORITY}.
 
@@ -429,7 +340,8 @@ A \texttt{THRESHOLD[]} value of 0 means that no interrupts will be masked.
 
 \subsection{Register Address Mapping}
 
-The PLIC supports a wide variety of options and unlimited user-definable number of both interrupt sources and targets. A memory-mapped register interface is used to configure and control the PLIC. This interface is defined according to the specific PLIC Configuration.
+
+The PLIC supports a wide variety of options and unlimited user-definable number of both interrupt sources and targets. A regsiter interface is used to configure and control the PLIC. This interface is specific to the implementation.
 
 To ease the development of PLIC based systems, the Roa Logic PLIC implements a dynamic register interface, based on the IP's parameters.
 The PLIC packs multiple bit-fields into registers where feasible to minimise the required address space.
@@ -437,15 +349,12 @@ The PLIC packs multiple bit-fields into registers where feasible to minimise the
 The following sections describe the calculations performed during generation of the dynamic register interface so that the user may
 determine the registers available and the memory mapping of those registers for a given implementation.
 
-A spreadsheet in Microsoft Excel format is available to perform these calculations based on user-defined parameters to show the registers and
-memory mapping.
-Further, simulation of the PLIC will also shows the registers and memory mapping.
+A spreadsheet in Microsoft Excel format is available to perform these calculations based on user-defined parameters to show the registers and memory mapping. Further, simulation of the PLIC will also shows the registers and memory mapping in the simulator output log.
 
 \subsubsection{Itemising Register Requirements}
 
-The section "\protect\hyperlink{register-interface}{Register Interface}" provides a summary of the registers required to control and configure
-the PLIC.
-The following is a more detailed summary of those requirements.
+The section \emph{Register Interface} provides a summary of the registers required to control and configure the PLIC.
+The following sections provide more details of those requirements.
 
 \paragraph{CONFIG Register:} ~\\
 
@@ -495,10 +404,8 @@ No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)*TARGETS
 \paragraph{ID Registers:} ~\\
 
 The \texttt{ID[]} Read/Write register identifies the ID of the highest priority pending interrupt request, with one ID register required per target.
-\begin{comment}
-Should we again reiterate that reading ID is an interrupt claim, and writing is an interrupt-complete?
-\end{comment}
 
+The \texttt{ID[]} register also functions as part of the interrupt claim and completion process. A target claims the identified interrupt by the action of reading the register. The target then indicates servicing the interrupt is complete by the action of writing to the regsiter. Any value may be written to indicate completion.
 
 \begin{quote}
 \texttt{No.\ of\ Registers\ =\ TARGETS}
@@ -506,9 +413,8 @@ Should we again reiterate that reading ID is an interrupt claim, and writing is 
 
 \paragraph{PRIORITY Registers:} ~\\
 
-Each interrupt source can be assigned a priority, which is defined as positive integer.
-The PLIC parameter \texttt{PRIORITIES} defines the number of priority levels for a specific implementation, which then
-allows a source to be assigned a priority between 1 and \texttt{PRIORITIES}.
+
+Each interrupt source may be assigned a priority, which is defined as a positive integer value and the higher the value the greater the priority. The PLIC parameter \texttt{PRIORITIES} defines the number of priority levels for a specific implementation, which then allows a source to be assigned a priority between 1 and \texttt{PRIORITIES}.
 
 These priority levels are packed into \texttt{HDATA\_SIZE} bit registers, as fields aligned to 4-bit nibble boundaries
 
@@ -546,7 +452,7 @@ Example: For a 32 bit system supporting 48 interrupt sources and 8 priority leve
 
 Note: clog\textsubscript{2}() refers to the System Verilog function by the same name and calculates the number of binary bits required to represent a given integer.
 
-\subsubsection{THRESHOLD Registers:}
+\paragraph{THRESHOLD Registers} ~\\
 
 Each target may be assigned a priority threshold and therefore the PLIC implements 1 register per threshold.
 
@@ -555,6 +461,7 @@ Each target may be assigned a priority threshold and therefore the PLIC implemen
 \end{quote}
 
 \subsection{Register Address Ordering}
+
 
 The order of the registers in the memory map is defined 
 \ifdefined\MARKDOWN

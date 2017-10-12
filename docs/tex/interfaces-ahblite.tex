@@ -94,11 +94,12 @@ indicates a write transfer.
 
 \subsection{HSIZE}
 
-\texttt{HSIZE} indicates the size of the current transfer as shown in table \ref{tab:HSIZE}:
-
-\being{comment}
-This shows as [tab:HSIZE]: on screen (DATASHEET.md)
-\end{comment}
+\texttt{HSIZE} indicates the size of the current transfer as shown in
+\ifdefined\MARKDOWN
+Table \ref{tab:HSIZE}
+\else
+the table below:
+\fi
 
 \begin{longtable}[c]{@{\extracolsep{\fill}}ccl}	
 		\toprule 

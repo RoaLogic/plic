@@ -23,7 +23,11 @@ For illustration, a simplified example system using the PLIC core is shown below
 
 \section{PLIC Operation}
 
-The PLIC connects global \emph{interrupt sources}, which are usually
+As stated in the \href{https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.9.1.pdf}{RISC-V Privileged Architecture Instruction Set specification (v1.9.1)}: 
+
+\begin{quote}
+
+PLIC connects global \emph{interrupt sources}, which are usually
 I/O devices, to \emph{interrupt targets}, which are usually \emph{hart
   contexts}.  The PLIC contains multiple \emph{interrupt gateways}, one
 per interrupt source, together with a \emph{PLIC core} that performs
@@ -44,9 +48,9 @@ the PLIC core, which then clears the corresponding interrupt source
 pending bit.  After the target has serviced the interrupt, it sends
 the associated interrupt gateway an \emph{interrupt completion} message
 and the interrupt gateway can now forward another interrupt request
-for the same source to the PLIC.  The rest of this chapter describes
-each of these components in detail, though many details are
-necessarily platform specific. 
+for the same source to the PLIC.
+
+\end{quote}  
 
 \begin{figure}[tb]
 \centering
@@ -71,7 +75,7 @@ The following figure
 \else
 Figure \ref{fig:HANDSHAKE} 
 \fi
-shows the logical flow of the handshake and the following sections describe the stages referenced: Interrupt Request, Interrupt Notification, Interrupt CLaim Response, Processing the Interrupt and Interrupt Completion.
+shows the logical flow of the Interrupt Handling Handshake as implemented byt the Roa Logic PLIC core. The following sections describe the stages depicted: Interrupt Request, Interrupt Notification, Interrupt Claim Response, Processing the Interrupt and Interrupt Completion.
 
 \begin{figure}[!htb]
 
