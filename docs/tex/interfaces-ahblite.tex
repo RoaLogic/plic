@@ -1,0 +1,184 @@
+\section{AHB-Lite Interface}
+
+The AHB-Lite interface is a regular AHB-Lite slave port. All signals are
+supported. See the
+\emph{\href{https://www.arm.com/products/system-ip/amba-specifications}{AMBA
+3 AHB-Lite Specification}} for a complete description of the signals.
+
+\begin{longtable}[c]{@{\extracolsep{\fill}}cccl@{}}	
+		\toprule 
+		\textbf{Port} & \textbf{Size} & \textbf{Direction} & \textbf{Description}\\
+		\midrule
+		\endhead 
+		\texttt{HRESETn} & 1 & Input & Asynchronous active low reset\\
+		\texttt{HCLK} & 1 & Input & Clock Input\\
+		\texttt{HSEL} & 1 & Input & Bus Select\\
+		\texttt{HTRANS} & 2 & Input & Transfer Type\\
+		\texttt{HADDR} & \texttt{HADDR\_SIZE} & Input & Address Bus\\
+		\texttt{HWDATA} & \texttt{HDATA\_SIZE} & Input & Write Data Bus\\
+		\texttt{HRDATA} & \texttt{HDATA\_SIZE} & Output & Read Data Bus\\
+		\texttt{HWRITE} & 1 & Input & Write Select\\
+		\texttt{HSIZE} & 3 & Input & Transfer Size\\
+		\texttt{HBURST} & 3 & Input & Transfer Burst Size\\
+		\texttt{HPROT} & 4 & Input & Transfer Protection Level\\
+		\texttt{HREADYOUT} & 1 & Output & Transfer Ready Output\\
+		\texttt{HREADY} & 1 & Input & Transfer Ready Input\\
+		\texttt{HRESP} & 1 & Output & Transfer Response\\
+		\bottomrule 	
+	\caption{PLIC Interface Signals}
+	\label{tab:AHBIF}
+\end{longtable}
+
+\subsection{HRESETn}
+
+When the active low asynchronous \texttt{HRESETn} input is asserted
+(`0'), the interface is put into its initial reset state.
+
+\subsection{HCLK}
+
+\texttt{HCLK} is the interface system clock. All internal logic for the
+AHB-Lite interface operates at the rising edge of this system clock and
+AHB bus timings are related to the rising edge of \texttt{HCLK}.
+
+\subsection{HSEL}
+
+The AHB-Lite interface only responds to other signals on its bus -- with
+the exception of the global asynchronous reset signal \texttt{HRESETn}
+-- when \texttt{HSEL} is asserted (`1'). When \texttt{HSEL} is negated
+(`0') the interface considers the bus \texttt{IDLE}.
+
+\subsection{HTRANS}
+
+HTRANS indicates the type of the current transfer as shown in Table \ref{tab:HTRANS}
+\being{comment}
+This shows as [tab:HTRANS]: on screen (DATASHEET.md)
+\end{comment}
+
+
+\begin{longtable}[c]{@{\extracolsep{\fill}}ccp{7cm}}	
+		\toprule 
+		\textbf{HTRANS} & \textbf{Type} & \textbf{Description}\\
+		\midrule
+		\endhead 
+		00 & \texttt{IDLE} & No transfer required\\
+		01 & \texttt{BUSY} & Connected master is not ready to accept data, but intents to continue the current burst.\\
+		10 & \texttt{NONSEQ} & First transfer of a burst or a single transfer\\
+		11 & \texttt{SEQ} & Remaining transfers of a burst\\
+		\bottomrule 	
+	\caption{HTRANS Signal Types}
+	\label{tab:HTRANS}
+\end{longtable}
+
+\subsection{HADDR}
+
+\texttt{HADDR} is the address bus. Its size is determined by the
+\texttt{HADDR\_SIZE} parameter and is driven to the connected
+peripheral.
+
+\subsection{HWDATA}
+
+\texttt{HWDATA} is the write data bus. Its size is determined by the
+\texttt{HDATA\_SIZE} parameter and is driven to the connected
+peripheral.
+
+\subsection{HRDATA}
+
+\texttt{HRDATA} is the read data bus. Its size is determined by the
+\texttt{HDATA\_SIZE} parameter and is sourced by the connected
+peripheral.
+
+\subsection{HWRITE}
+
+\texttt{HWRITE} is the read/write signal. \texttt{HWRITE} asserted (`1')
+indicates a write transfer.
+
+\subsection{HSIZE}
+
+\texttt{HSIZE} indicates the size of the current transfer as shown in
+\ifdefined\MARKDOWN
+Table \ref{tab:HSIZE}
+\else
+the table below:
+\fi
+
+\begin{longtable}[c]{@{\extracolsep{\fill}}ccl}	
+		\toprule 
+		\textbf{HSIZE} & \textbf{Size} & \textbf{Description}\\
+		\midrule
+		\endhead 
+		000 & 8 bit & Byte\\
+		001 & 16 bit & Half Word\\
+		010 & 32 bit & Word\\
+		011 & 64 bits & Double Word\\
+		100 & 128 bit &\\
+		101 & 256 bit &\\
+		110 & 512 bit &\\
+		111 & 1024 bit &\\
+		\bottomrule 	
+	\caption{HSIZE Values}
+	\label{tab:HSIZE}
+\end{longtable}
+
+\subsection{HBURST}
+
+HBURST indicates the transaction burst type -- a single transfer or part
+of a burst.
+
+\begin{longtable}[c]{@{\extracolsep{\fill}}ccl}	
+		\toprule 
+		\textbf{HBURST} & \textbf{Type} & \textbf{Description}\\
+		\midrule
+		\endhead 
+		000 & \texttt{SINGLE} & Single access**\\
+		001 & \texttt{INCR} & Continuous incremental burst\\
+		010 & \texttt{WRAP4} & 4-beat wrapping burst\\
+		011 & \texttt{INCR4} & 4-beat incrementing burst\\
+		100 & \texttt{WRAP8} & 8-beat wrapping burst\\
+		101 & \texttt{INCR8} & 8-beat incrementing burst\\
+		110 & \texttt{WRAP16} & 16-beat wrapping burst\\
+		111 & \texttt{INCR16} & 16-beat incrementing burst\\
+		\bottomrule 	
+	\caption{HBURST Types}
+	\label{tab:HBURST}
+\end{longtable}
+
+\subsection{HPROT}
+
+The \texttt{HPROT} signals provide additional information about the bus
+transfer and are intended to implement a level of protection.
+
+\begin{longtable}[c]{@{}lccl}	
+		\toprule 
+		& \textbf{Bit\#} & \textbf{Value} & \textbf{Description}\\
+		\midrule
+		\endhead 
+		& 3 & 1 & Cacheable region addressed\\
+		& & 0 & Non-cacheable region addressed\\
+		& 2 & 1 & Bufferable\\
+		& 0 & Non-bufferable\\
+		& 1 & 1 & Privileged Access\\
+		& & 0 & User Access\\
+		& 0 & 1 & Data Access\\
+		& & 0 & Opcode fetch\\
+		\bottomrule 	
+	\caption{HPROT Indicators}
+	\label{tab:HPROT}
+\end{longtable}
+
+\subsection{HREADYOUT}
+
+\texttt{HREADYOUT} indicates that the current transfer has finished.
+Note, for the AHB-Lite PLIC this signal is constantly asserted as the
+core is always ready for data access.
+
+\subsection{HREADY}
+
+\texttt{HREADY} indicates whether or not the addressed peripheral is
+ready to transfer data. When \texttt{HREADY} is negated (`0') the
+peripheral is not ready, forcing wait states. When \texttt{HREADY} is
+asserted (`1') the peripheral is ready and the transfer completed.
+
+\subsection{HRESP}
+
+\texttt{HRESP} is the instruction transfer response and indicates OKAY
+(`0') or ERROR (`1').
