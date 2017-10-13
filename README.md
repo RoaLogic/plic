@@ -1,8 +1,4 @@
----
-Title: AHB-Lite Platform-Level Interrupt Controller (PLIC)
-Category: README
-Author: Roa Logic
----
+# AHB-Lite Platform-Level Interrupt Controller (PLIC)
 ## Overview
 
 Fully Parameterized & Programmable Platform Level Interrupt Controller (PLIC) for RISC-V based Processor Systems supporting a user-defined number of interrupt sources and targets.
