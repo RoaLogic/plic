@@ -419,10 +419,10 @@ The physical number of registers implemented can be calculated as follows:
 Example: For a 32 bit system supporting 48 interrupt sources
 
 \begin{verbatim}
-No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)   
-                 = ROUNDUP(48/32)
-                 = ROUNDUP(1.5)
-                 = 2
+     No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)   
+                      = ROUNDUP(48/32)
+                      = ROUNDUP(1.5)
+                      = 2
 \end{verbatim}
 
 \paragraph{IE Registers:} ~\\
@@ -437,11 +437,11 @@ These bits will be packed into the fewest registers possible and the resulting n
 Example: For a 32 bit system supporting 48 interrupt sources and 4 targets
 
 \begin{verbatim}
-No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)*TARGETS
-                 = ROUNDUP(48/32)*4
-                 = ROUNDUP(1.5)*4
-                 = 2*4
-                 = 8
+     No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)*TARGETS
+                      = ROUNDUP(48/32)*4
+                      = ROUNDUP(1.5)*4
+                      = 2*4
+                      = 8
 \end{verbatim}
 
 \paragraph{ID Registers:} ~\\
@@ -496,16 +496,6 @@ Note: clog\textsubscript{2}() refers to the System Verilog function by the same 
 
 \paragraph{THRESHOLD Registers} ~\\
 
-<<<<<<< HEAD
-Each target may be assigned a priority threshold and therefore the PLIC implements 1 register per threshold.
-
-\begin{quote}
-\texttt{No.\ of\ Registers\ =\ TARGETS}
-\end{quote}
-
-\subsection{Register Address Ordering}
-
-=======
 Each target may be assigned a priority threshold via the
 \texttt{THRESHOLD[]} registers and therefore the PLIC
 implements 1 register per threshold. 
@@ -518,28 +508,7 @@ Only active interrupts that have a priority strictly greater than the
 threshold will cause an interrupt notification to be sent to the target.
 A \texttt{THRESHOLD[]} value of 0 means that no interrupts will be masked.
 
-\subsection{Register Address Map}
-
-The PLIC supports a wide variety of options and unlimited user-definable
-number of both interrupt sources and targets. To configure and control
-the PLIC requires a memory-mapped register interface that must be
-defined according to the specific implementation.
-
-To ease the development of PLIC based systems, the Roa Logic PLIC
-implements a dynamic register interface based on the hardware parameters
-set during generation of the implementation, packing multiple bit-fields
-into registers where feasible to minimise the required address space.
-
-The following sections describe the calculations performed during
-generation of the dynamic register interface so that the user may
-determine the registers available and the memory mapping of those
-registers for a given implementation.
-
-A spreadsheet in Microsoft Excel format is available to perform these
-calculations based on user-defined parameters to show the registers and
-memory mapping. Further, simulation of the PLIC will also shows the
-registers and memory mapping.
->>>>>>> 3093316baade763c41997aa7a2dc6439d41a171d
+\subsubsection{Register Address Ordering}
 
 The order of the registers in the memory map is defined 
 \ifdefined\MARKDOWN
