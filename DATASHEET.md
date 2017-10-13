@@ -97,6 +97,7 @@ On each clock cycle the ID register is loaded with the unique identifier of the 
 
 #### Claim Response Stage
 
+<<<<<<< HEAD
 A target makes an interrupt claim response by reading the ID register, which also notifies the target of the interrupt source to service. The PLIC de-asserts the IRQ output for the target in response to the claim. unless another, lower priority, interrupt is still pending.
 
 <<<<<<< HEAD
@@ -106,6 +107,11 @@ If the ID read is greater than zero, the target services the identified interrup
 =======
 #### Interrupt Handler Stage
 >>>>>>> 7c7ebb5... Added overview of PLIC operation and clarified handshake language
+=======
+A target makes an interrupt claim response by reading its ID register. This notifies the target of the interrupt source to service. If the target has other interrupt sources pending, the IRQ output remains asserted, otherwise the IRQ output is negated.
+
+#### Interrupt Handler Stage
+>>>>>>> 3093316baade763c41997aa7a2dc6439d41a171d
 
 If the ID read is greater than zero, the target services the identified interrupt source. If the ID read is zero, this indicates no outstanding pending interrupts remain and the handler may terminate.
 
@@ -407,6 +413,7 @@ Each target may be assigned a priority threshold via the `THRESHOLD[]` registers
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 The PLIC supports a wide variety of options and unlimited user-definable number of both interrupt sources and targets. A memory-mapped register interface is used to configure and control the PLIC. This interface is defined according to the specific PLIC Configuration.
 =======
 &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD The PLIC supports a wide variety of options and unlimited user-definable number of both interrupt sources and targets. A memory-mapped register interface is used to configure and control the PLIC. This interface is defined according to the specific PLIC Configuration. ======= The PLIC supports a wide variety of options and unlimited user-definable number of both interrupt sources and targets. A regsiter interface is used to configure and control the PLIC. This interface is specific to the implementation. &gt;&gt;&gt;&gt;&gt;&gt;&gt; 09c42428a2dc64a54dab1ef71b84f36f822d116e
@@ -414,11 +421,15 @@ The PLIC supports a wide variety of options and unlimited user-definable number 
 =======
 The PLIC supports a wide variety of options and unlimited user-definable number of both interrupt sources and targets. A regsiter interface is used to configure and control the PLIC. This interface is specific to the implementation.
 >>>>>>> f9a119d... Fixed more remnants of bad merges
+=======
+The PLIC supports a wide variety of options and unlimited user-definable number of both interrupt sources and targets. A regsiter interface is used to configure and control the PLIC. This interface is specific to the implementation.
+>>>>>>> 3093316baade763c41997aa7a2dc6439d41a171d
 
 To ease the development of PLIC based systems, the Roa Logic PLIC implements a dynamic register interface, based on the IP’s parameters. The PLIC packs multiple bit-fields into registers where feasible to minimise the required address space.
 
 The following sections describe the calculations performed during generation of the dynamic register interface so that the user may determine the registers available and the memory mapping of those registers for a given implementation.
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 A spreadsheet in Microsoft Excel format is available to perform these calculations based on user-defined parameters to show the registers and memory mapping. Further, simulation of the PLIC will also shows the registers and memory mapping. &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 
@@ -473,6 +484,9 @@ The `ID[]` Read/Write register identifies the ID of the highest priority pending
 =======
 A spreadsheet in Microsoft Excel format is available to perform these calculations based on user-defined parameters to show the registers and memory mapping. Further, simulation of the PLIC will also shows the registers and memory mapping in the simulator output log.
 >>>>>>> f9a119d... Fixed more remnants of bad merges
+=======
+A spreadsheet in Microsoft Excel format is available to perform these calculations based on user-defined parameters to show the registers and memory mapping. Further, simulation of the PLIC will also shows the registers and memory mapping in the simulator output log.
+>>>>>>> 3093316baade763c41997aa7a2dc6439d41a171d
 
 ##### Itemising Register Requirements
 
@@ -521,12 +535,16 @@ The `ID[]` Read/Write register identifies the ID of the highest priority pending
 
 The `ID[]` register also functions as part of the interrupt claim and completion process. A target claims the identified interrupt by the action of reading the register. The target then indicates servicing the interrupt is complete by the action of writing to the regsiter. Any value may be written to indicate completion.
 
+<<<<<<< HEAD
 >>>>>>> befac1b... Fix bad update to Markdown top source
+=======
+>>>>>>> 3093316baade763c41997aa7a2dc6439d41a171d
 > `No. of Registers = TARGETS`
 
 ###### PRIORITY Registers:
 
  
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 Each interrupt source can be assigned a priority, which is defined as positive integer. The PLIC parameter `PRIORITIES` defines the number of priority levels for a specific implementation, which then allows a source to be assigned a priority between 1 and `PRIORITIES`.
@@ -538,6 +556,9 @@ Each interrupt source can be assigned a priority, which is defined as positive i
 =======
 Each interrupt source may be assigned a priority, which is defined as a positive integer value and the higher the value the greater the priority. The PLIC parameter `PRIORITIES` defines the number of priority levels for a specific implementation, which then allows a source to be assigned a priority between 1 and `PRIORITIES`.
 >>>>>>> f9a119d... Fixed more remnants of bad merges
+=======
+Each interrupt source may be assigned a priority, which is defined as a positive integer value and the higher the value the greater the priority. The PLIC parameter `PRIORITIES` defines the number of priority levels for a specific implementation, which then allows a source to be assigned a priority between 1 and `PRIORITIES`.
+>>>>>>> 3093316baade763c41997aa7a2dc6439d41a171d
 
 These priority levels are packed into `HDATA_SIZE` bit registers, as fields aligned to 4-bit nibble boundaries
 

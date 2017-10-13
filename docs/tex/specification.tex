@@ -105,7 +105,6 @@ target and if the priority of the interrupt source exceeds any defined
 Interrupt Priority Threshold. If these conditions do not hold, the
 Interrupt Request is deemed invalid and stalled pending updates to the interrupt enable and/or priority threshold bits. 
 
-
 The PLIC also determines if a previous interrupt request has been made by the same source.
 If an interrupt is defined as level triggered and has already been asserted but not yet serviced, the request is ignored.
 If an interrupt is defined as edge triggered and has already been asserted but not yet serviced, the request is queued by incrementing its Interrupt Pending counter.
@@ -148,4 +147,3 @@ To reduce latency the handler may instead determine if a new interrupt
 has been received and if so again claim the interrupt (See earlier). In this
 way the interrupt handler can service all interrupts without the need to
 restore the interrupted context.
-
