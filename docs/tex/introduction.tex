@@ -1,12 +1,10 @@
-\chapter{AHB-Lite PLIC}
+\chapter{Introduction}
 
 The Roa Logic AHB-Lite PLIC (Platform Level Interrupt Controller) IP is a fully parameterised soft IP implementing the Interrupt Controller defined in the \emph{\href{https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.9.1.pdf}{RISC-V Privileged v1.9.1 specification}}\footnote{Full specification details are provided in the References section}.
 
 The IP features an AHB-Lite Slave interface, fully compliant with the \emph{\href{https://www.arm.com/products/system-ip/amba-specifications}{AMBA 3 AHB-Lite v1.0}} specifications. 
 
-Bus address and data widths as well as the number of Interrupt Sources and Targets supported are configurable via compile-time parameters.
-
-The controller further supports user configurable priority levels and pending events, in addition to interrupt masking via programmable priority thresholds.
+Bus address and data widths as well as the number of Interrupt Sources and Targets supported are configurable via compile-time parameters. The controller further supports user configurable priority levels and pending events, in addition to interrupt masking via programmable priority thresholds.
 
 \begin{figure}[!htb]
   \includegraphics{assets/img/plic-ports}

@@ -128,7 +128,7 @@ of a burst.
 	\textbf{\texttt{HBURST}} & \textbf{Type} & \textbf{Description}\\
 	\midrule
 	\endhead 
-	\texttt{000} & \texttt{SINGLE} & Single access**\\
+	\texttt{000} & \texttt{SINGLE} & Single access\\
 	\texttt{001} & \texttt{INCR}   & Continuous incremental burst\\
 	\texttt{010} & \texttt{WRAP4}  & 4-beat wrapping burst\\
 	\texttt{011} & \texttt{INCR4}  & 4-beat incrementing burst\\
@@ -279,7 +279,12 @@ When enabled via the \texttt{HAS\_CONFIG\_REG} hardware parameter, the
 
 The values, \texttt{HAS\_THRESHOLD}, \texttt{PRIORITIES},
 \texttt{TARGETS} and \texttt{SOURCES} correspond to the hardware
-parameters documented in section \ref{sec:core-parameters} \nameref{sec:core-parameters}.
+parameters documented in the section
+\ifdefined\MARKDOWN
+[Core Parameters].
+\else
+\ref{sec:core-parameters} \nameref{sec:core-parameters}.
+\fi
 
 The \texttt{CONFIG} register is always 64 bits. For 32 bit
 implementations this means 2 physical registers are required, 1 each for
@@ -367,8 +372,8 @@ value written will be ignored. Instead the register continues to identify the hi
 
 The \texttt{PRIORITY[]} Read/Write registers define the priority level of each interrupt source. Interrupt priority increases with larger values of \texttt{PRIORITY}.
 
-There is one \texttt{PRIORITY[]} register per interrupt source as defined by the \texttt{SOURCES} parameter (see \protect\hyperlink{SOURCES}{\texttt{SOURCES}}), identified as \texttt{PRIORITY[SOURCES-1:0]}.
-The width of each register is derived from the number of priority levels as defined by the \texttt{PRIORITIES} parameter (see \protect\hyperlink{TARGETS}{\texttt{TARGETS}}).
+There is one \texttt{PRIORITY[]} register per interrupt source as defined by the \texttt{SOURCES} parameter, identified as \texttt{PRIORITY[SOURCES-1:0]}.
+The width of each register is derived from the number of priority levels as defined by the \texttt{PRIORITIES} parameter.
 
 Interrupt priority increases with larger values of \texttt{PRIORITY}.
 
@@ -392,9 +397,8 @@ A spreadsheet in Microsoft Excel format is available to perform these calculatio
 
 \subsubsection{Itemising Register Requirements}
 
-The section "\protect\hyperlink{register-interface}{Register Interface}" provides a summary of the registers required to control and configure
-the PLIC.
-The following is a more detailed summary of those requirements.
+The section \emph{Register Interface} provides a summary of the registers required to control and configure the PLIC.
+The following sections provide more details of those requirements.
 
 \paragraph{CONFIG Register:} ~\\
 
@@ -491,7 +495,7 @@ Example: For a 32 bit system supporting 48 interrupt sources and 8 priority leve
 
 Note: clog\textsubscript{2}() refers to the System Verilog function by the same name and calculates the number of binary bits required to represent a given integer.
 
-\subsubsection{THRESHOLD[]}
+\paragraph{THRESHOLD Registers} ~\\
 
 Each target may be assigned a priority threshold via the
 \texttt{THRESHOLD[]} registers and therefore the PLIC
