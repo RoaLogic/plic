@@ -1,6 +1,6 @@
 ---
 Title: AHB-Lite Platform-Level Interrupt Controller (PLIC)
-Category: Product Brief
+Category: Datasheet
 Author: Roa Logic
 ---
 # AHB-Lite Platform-Level Interrupt Controller (PLIC) Datasheet
