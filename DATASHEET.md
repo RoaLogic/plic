@@ -7,7 +7,7 @@ Author: Roa Logic
 
 ## Contents
 
--   [Introduction](#introduction)
+-   [Product Brief](#product-brief)
 -   [Specifications](#specifications)
 -   [Configurations](#configurations)
 -   [Interfaces](#interfaces)
@@ -15,7 +15,7 @@ Author: Roa Logic
 -   [References](#references)
 -   [Revision History](#revision-history)
 
-## Introduction
+## Product Brief
 
 The Roa Logic AHB-Lite PLIC (Platform Level Interrupt Controller) IP is a fully parameterised soft IP implementing the Interrupt Controller defined in the *[RISC-V Privileged v1.9.1 specification](https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.9.1.pdf)*[1].
 
@@ -352,7 +352,7 @@ The physical number of registers implemented can be calculated as follows:
 
 Example: For a 32 bit system supporting 48 interrupt sources
 
-         No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)   
+         No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)
                           = ROUNDUP(48/32)
                           = ROUNDUP(1.5)
                           = 2
@@ -429,7 +429,7 @@ The physical number of registers implemented can be calculated as follows:
 
 Example: For a 32 bit system supporting 48 interrupt sources
 
-         No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)   
+         No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)
                           = ROUNDUP(48/32)
                           = ROUNDUP(1.5)
                           = 2
@@ -469,7 +469,7 @@ These priority levels are packed into `HDATA_SIZE` bit registers, as fields alig
 
 where:
 
-         FPR = FIELDS_PER_REGISTER    
+         FPR = FIELDS_PER_REGISTER
              = HDATA_SIZE/(4*NPP)
 
          NPP = NIBBLES_PER_PRIORITY
@@ -487,7 +487,7 @@ Example: For a 32 bit system supporting 48 interrupt sources and 8 priority leve
              = HDATA_SIZE/(4*NPP)
              = 32/(4*1)
              = 8
-        
+
          No. of Registers = ROUNDUP(SOURCES/FPR)
                           = ROUNDUP(48/8)
                           = 6
@@ -561,8 +561,6 @@ These registers will be then mapped as follows per the order defined previously.
 
 **Note:** A Microsoft Excel worksheet is available from the Roa Logic web site showing the same Address Map.
 
-<img src="assets/img/AHB-Lite_PLIC_Worksheet.png" alt="Register Mapping Worksheet" />
-
 #### Dynamic Register Examples
 
 When simulating the PLIC, the simulator will print a detailed Register Address Mapping showing explicitly how each interrupt source and target maps to the register fields. Below are 2 examples illustrating this capability.
@@ -578,25 +576,27 @@ When simulating the PLIC, the simulator will print a detailed Register Address M
 
 ###### Simulator Output:
 
-    - Configuration Report -------------------------------------------------------
+    - Configuration Report ---------------------------------------------------
       Sources | Targets | Priority-lvl | Threshold? | Event-Cnt
          16   |    2    |      7       |    YES     |    8
-    - Register Map ---------------------------------------------------------------
+    - Register Map -----------------------------------------------------------
       Address  Function               Mapping
       0x0000   Edge/Level             16'h0, EL[15:0]
-      0x0004   Interrupt Priority     1'b0,P[7][2:0],1'b0,P[6][2:0],1'b0,P[5][2:0],
-                                      1'b0,P[4][2:0],1'b0,P[3][2:0],1'b0,P[2][2:0],
-                                      1'b0,P[1][2:0],1'b0,P[0][2:0]
+      0x0004   Interrupt Priority     1'b0,P[7][2:0],1'b0,P[6][2:0],1'b0,
+                                      P[5][2:0],1'b0,P[4][2:0],1'b0,P[3][2:0],
+                                      1'b0,P[2][2:0],1'b0,P[1][2:0],1'b0,
+                                      P[0][2:0]
       0x0008   Interrupt Priority     1'b0,P[15][2:0],1'b0,P[14][2:0],1'b0,
-                                      P[13][2:0],1'b0,P[12][2:0],1'b0,P[11][2:0],
-                                      1'b0,P[10][2:0],1'b0,P[9][2:0],1'b0,P[8][2:0]
+                                      P[13][2:0],1'b0,P[12][2:0],1'b0,
+                                      P[11][2:0],1'b0,P[10][2:0],1'b0,
+                                      P[9][2:0],1'b0,P[8][2:0]
       0x000c   Interrupt Enable       16'h0, IE[0][15:0]
       0x0010   Interrupt Enable       16'h0, IE[1][15:0]
       0x0014   Priority Threshold     29'h0, Th[0][2:0]
       0x0018   Priority Threshold     29'h0, Th[1][2:0]
       0x001c   ID                     27'h0, ID[0][4:0]
       0x0020   ID                     27'h0, ID[1][4:0]
-    - End Configuration Report ---------------------------------------------------
+    - End Configuration Report -----------------------------------------------
 
 ##### Dynamic Register Example 2:
 
@@ -609,29 +609,36 @@ When simulating the PLIC, the simulator will print a detailed Register Address M
 
 ###### Simulator Output:
 
-    - Configuration Report -------------------------------------------------------
-      Sources | Targets | Priority-lvl | Threshold? | Event-Cnt  
-         64   |    4    |     15       |    YES     |    8       
-    - Register Map ---------------------------------------------------------------
+    - Configuration Report ---------------------------------------------------
+      Sources | Targets | Priority-lvl | Threshold? | Event-Cnt
+         64   |    4    |     15       |    YES     |    8
+    - Register Map -----------------------------------------------------------
       Address  Function               Mapping
       0x0000   Configuration          15'h0,TH,PRIORITES,TARGETS,SOURCES
       0x0008   Edge/Level             EL[63:0]
-      0x0010   Interrupt Priority     P[15][3:0],P[14][3:0],P[13][3:0],P[12][3:0],
-                                      P[11][3:0],P[10][3:0],P[9][3:0],P[8][3:0],
-                                      P[7][3:0],P[6][3:0],P[5][3:0],P[4][3:0],
-                                      P[3][3:0],P[2][3:0],P[1][3:0],P[0][3:0]
-      0x0018   Interrupt Priority     P[31][3:0],P[30][3:0],P[29][3:0],P[28][3:0],
-                                      P[27][3:0],P[26][3:0],P[25][3:0],P[24][3:0],
-                                      P[23][3:0],P[22][3:0],P[21][3:0],P[20][3:0],
-                                      P[19][3:0],P[18][3:0],P[17][3:0],P[16][3:0]
-      0x0020   Interrupt Priority     P[47][3:0],P[46][3:0],P[45][3:0],P[44][3:0],
-                                      P[43][3:0],P[42][3:0],P[41][3:0],P[40][3:0],
-                                      P[39][3:0],P[38][3:0],P[37][3:0],P[36][3:0],
-                                      P[35][3:0],P[34][3:0],P[33][3:0],P[32][3:0]
-      0x0028   Interrupt Priority     P[63][3:0],P[62][3:0],P[61][3:0],P[60][3:0],
-                                      P[59][3:0],P[58][3:0],P[57][3:0],P[56][3:0],
-                                      P[55][3:0],P[54][3:0],P[53][3:0],P[52][3:0],
-                                      P[51][3:0],P[50][3:0],P[49][3:0],P[48][3:0]
+      0x0010   Interrupt Priority     P[15][3:0],P[14][3:0],P[13][3:0],
+                                      P[12][3:0],P[11][3:0],P[10][3:0],
+                                      P[9][3:0],P[8][3:0],P[7][3:0],P[6][3:0],
+                                      P[5][3:0],P[4][3:0],P[3][3:0],P[2][3:0],
+                                      P[1][3:0],P[0][3:0]
+      0x0018   Interrupt Priority     P[31][3:0],P[30][3:0],P[29][3:0],
+                                      P[28][3:0],P[27][3:0],P[26][3:0],
+                                      P[25][3:0],P[24][3:0],P[23][3:0],
+                                      P[22][3:0],P[21][3:0],P[20][3:0],
+                                      P[19][3:0],P[18][3:0],P[17][3:0],
+                                      P[16][3:0]
+      0x0020   Interrupt Priority     P[47][3:0],P[46][3:0],P[45][3:0],
+                                      P[44][3:0],P[43][3:0],P[42][3:0],
+                                      P[41][3:0],P[40][3:0],P[39][3:0],
+                                      P[38][3:0],P[37][3:0],P[36][3:0],
+                                      P[35][3:0],P[34][3:0],P[33][3:0],
+                                      P[32][3:0]
+      0x0028   Interrupt Priority     P[63][3:0],P[62][3:0],P[61][3:0],
+                                      P[60][3:0],P[59][3:0],P[58][3:0],
+                                      P[57][3:0],P[56][3:0],P[55][3:0],
+                                      P[54][3:0],P[53][3:0],P[52][3:0],
+                                      P[51][3:0],P[50][3:0],P[49][3:0],
+                                      P[48][3:0]
       0x0030   Interrupt Enable       IE[0][63:0]
       0x0038   Interrupt Enable       IE[1][63:0]
       0x0040   Interrupt Enable       IE[2][63:0]
@@ -645,6 +652,8 @@ When simulating the PLIC, the simulator will print a detailed Register Address M
       0x0080   ID                     57'h0, ID[2][6:0]
       0x0088   ID                     57'h0, ID[3][6:0]
     - End Configuration Report ---------------------------------------------------
+
+<img src="assets/img/AHB-Lite_PLIC_Worksheet.png" alt="Register Mapping Worksheet" />
 
 ## Resources
 
@@ -668,11 +677,11 @@ The PLIC is designed to be compliant with the following specifications, as licen
 
 ## Revision History
 
-|    **Date**   | **Rev.** | **Comments**    |
-|:-------------:|:--------:|:----------------|
-| October, 2017 |    1.0   | Initial Release |
-|               |          |                 |
-|               |          |                 |
-|               |          |                 |
+|   **Date**  | **Rev.** | **Comments**    |
+|:-----------:|:--------:|:----------------|
+| 13-Oct-2017 |    1.0   | Initial Release |
+|             |          |                 |
+|             |          |                 |
+|             |          |                 |
 
 [1] Full specification details are provided in the References section
