@@ -13,11 +13,11 @@ supported. See the
 \emph{\href{https://www.arm.com/products/system-ip/amba-specifications}{AMBA
 		3 AHB-Lite Specification}} for a complete description of the signals.
 
-\begin{longtable}[c]{@{\extracolsep{\fill}}cccl@{}}	
-	\toprule 
+\begin{longtable}[c]{@{\extracolsep{\fill}}cccl@{}}
+	\toprule
 	\textbf{Port} & \textbf{Size} & \textbf{Direction} & \textbf{Description}\\
 	\midrule
-	\endhead 
+	\endhead
 	\texttt{HRESETn}   & 1 & Input  & Asynchronous active low reset\\
 	\texttt{HCLK}      & 1 & Input  & Clock Input\\
 	\texttt{HSEL}      & 1 & Input  & Bus Select\\
@@ -32,7 +32,7 @@ supported. See the
 	\texttt{HREADYOUT} & 1 & Output & Transfer Ready Output\\
 	\texttt{HREADY}    & 1 & Input  & Transfer Ready Input\\
 	\texttt{HRESP}     & 1 & Output & Transfer Response\\
-	\bottomrule 	
+	\bottomrule
 	\caption{PLIC Interface Signals}
 	\label{tab:AHBIF}
 \end{longtable}
@@ -59,16 +59,16 @@ the exception of the global asynchronous reset signal \texttt{HRESETn}
 
 HTRANS indicates the type of the current transfer as shown in Table \ref{tab:HTRANS}
 
-\begin{longtable}[c]{@{\extracolsep{\fill}}ccp{7cm}}	
-	\toprule 
+\begin{longtable}[c]{@{\extracolsep{\fill}}ccp{7cm}}
+	\toprule
 	\textbf{\texttt{HTRANS}} & \textbf{Type} & \textbf{Description}\\
 	\midrule
-	\endhead 
+	\endhead
 	\texttt{00} & \texttt{IDLE}   & No transfer required\\
 	\texttt{01} & \texttt{BUSY}   & Connected master is not ready to accept data, but intents to continue the current burst.\\
 	\texttt{10} & \texttt{NONSEQ} & First transfer of a burst or a single transfer\\
 	\texttt{11} & \texttt{SEQ}    & Remaining transfers of a burst\\
-	\bottomrule 	
+	\bottomrule
 	\caption{HTRANS Signal Types}
 	\label{tab:HTRANS}
 \end{longtable}
@@ -100,11 +100,11 @@ indicates a write transfer.
 
 \texttt{HSIZE} indicates the size of the current transfer as shown in table \ref{tab:HSIZE}:
 
-\begin{longtable}[c]{@{\extracolsep{\fill}}ccl}	
-	\toprule 
+\begin{longtable}[c]{@{\extracolsep{\fill}}ccl}
+	\toprule
 	\textbf{\texttt{HSIZE}} & \textbf{Size} & \textbf{Description}\\
 	\midrule
-	\endhead 
+	\endhead
 	\texttt{000} & 8 bit    & Byte\\
 	\texttt{001} & 16 bit   & Half Word\\
 	\texttt{010} & 32 bit   & Word\\
@@ -113,7 +113,7 @@ indicates a write transfer.
 	\texttt{101} & 256 bit  &\\
 	\texttt{110} & 512 bit  &\\
 	\texttt{111} & 1024 bit &\\
-	\bottomrule 	
+	\bottomrule
 	\caption{HSIZE Values}
 	\label{tab:HSIZE}
 \end{longtable}
@@ -123,11 +123,11 @@ indicates a write transfer.
 HBURST indicates the transaction burst type -- a single transfer or part
 of a burst.
 
-\begin{longtable}[c]{@{\extracolsep{\fill}}ccl}	
-	\toprule 
+\begin{longtable}[c]{@{\extracolsep{\fill}}ccl}
+	\toprule
 	\textbf{\texttt{HBURST}} & \textbf{Type} & \textbf{Description}\\
 	\midrule
-	\endhead 
+	\endhead
 	\texttt{000} & \texttt{SINGLE} & Single access\\
 	\texttt{001} & \texttt{INCR}   & Continuous incremental burst\\
 	\texttt{010} & \texttt{WRAP4}  & 4-beat wrapping burst\\
@@ -136,7 +136,7 @@ of a burst.
 	\texttt{101} & \texttt{INCR8}  & 8-beat incrementing burst\\
 	\texttt{110} & \texttt{WRAP16} & 16-beat wrapping burst\\
 	\texttt{111} & \texttt{INCR16} & 16-beat incrementing burst\\
-	\bottomrule 	
+	\bottomrule
 	\caption{HBURST Types}
 	\label{tab:HBURST}
 \end{longtable}
@@ -146,11 +146,11 @@ of a burst.
 The \texttt{HPROT} signals provide additional information about the bus
 transfer and are intended to implement a level of protection.
 
-\begin{longtable}[c]{@{}ccl}	
-	\toprule 
+\begin{longtable}[c]{@{}ccl}
+	\toprule
 	\textbf{Bit\#} & \textbf{Value} & \textbf{Description}\\
 	\midrule
-	\endhead 
+	\endhead
 	3 & 1 & Cacheable region addressed\\
 	& 0 & Non-cacheable region addressed\\
 	2 & 1 & Bufferable\\
@@ -159,7 +159,7 @@ transfer and are intended to implement a level of protection.
 	& 0 & User Access\\
 	0 & 1 & Data Access\\
 	& 0 & Opcode fetch\\
-	\bottomrule 	
+	\bottomrule
 	\caption{HPROT Indicators}
 	\label{tab:HPROT}
 \end{longtable}
@@ -183,25 +183,25 @@ asserted (`1') the peripheral is ready and the transfer completed.
 \texttt{HRESP} is the instruction transfer response and indicates OKAY
 (`0') or ERROR (`1').
 
-\section{Interrupt Interface} 
+\section{Interrupt Interface}
 
 The PLIC provides a single input bus to which all interrupt sources must connect, one bit of the bus per source. A single output bus similarly connects to all interrupt targets, one bit per target. The width of each of these interface buses is specified as a core parameter.
-\begin{longtable}[c]{@{\extracolsep{\fill}}lccl@{\extracolsep{\fill}}}	
+\begin{longtable}[c]{@{\extracolsep{\fill}}lccl@{\extracolsep{\fill}}}
 	\toprule
 	\textbf{Port} & \textbf{Size}    & \textbf{Direction} & \textbf{Description}\\
-	\midrule 
+	\midrule
 	\endhead
 	\texttt{SRC}  & \texttt{SOURCES} & Input  & Interrupt Sources\\
 	\texttt{IRQ}  & \texttt{TARGETS} & Output & Interrupt Requests \\
-	\bottomrule 	
-	\caption{PLIC Interface Signals} 
+	\bottomrule
+	\caption{PLIC Interface Signals}
 	\label{tab:PLICIF2}
 \end{longtable}
 
 \subsection{SRC}
 
 Interrupt sources connect to the \texttt{SRC{[}SOURCES-1..0{]}} input of
-the PLIC module. The width of this interface is defined by the \texttt{SOURCES} parameter. 
+the PLIC module. The width of this interface is defined by the \texttt{SOURCES} parameter.
 
 \subsection{IRQ}
 
@@ -213,10 +213,10 @@ output of the PLIC module. The width of this interface is defined by the
 
 The operation and run-time configuration of the PLIC is managed via a memory mapped register interface consisting of the following registers:
 
-\begin{longtable}[c]{@{\extracolsep{\fill}}ccccp{5cm}@{\extracolsep{\fill}}}	
-	\toprule 
+\begin{longtable}[c]{@{\extracolsep{\fill}}ccccp{5cm}@{\extracolsep{\fill}}}
+	\toprule
 		\textbf{Register}  & \textbf{Registers} & \textbf{Width (bits)} & \textbf{Mode} & \textbf{Function} \\
-	\midrule 
+	\midrule
 
 \ifdefined\MARKDOWN
 	\endhead
@@ -232,7 +232,7 @@ The operation and run-time configuration of the PLIC is managed via a memory map
 	\midrule \multicolumn{5}{c}{{\tablename\ \thetable{} continued on next page\ldots}} \\
 	\endfoot
 	\endlastfoot
-\fi	
+\fi
 
 	\texttt{CONFIG}    & 1 & 64 & RO & Configuration\\
 	\texttt{EL}        & 1 & \texttt{SOURCES} & RW & Edge/Level Trigger\\
@@ -240,7 +240,7 @@ The operation and run-time configuration of the PLIC is managed via a memory map
 	\texttt{ID}        & \texttt{TARGETS} & clog\textsubscript{2}(\texttt{SOURCES}) & RW & ID of Highest priority IRQ, \newline Int. Claim (R), \newline Int. Complete (W)\\
 	\texttt{PRIORITY}  & \texttt{SOURCES} & clog\textsubscript{2}(\texttt{PRIORITIES}) & RW & Priority Level\\
 	\texttt{THRESHOLD} & \texttt{TARGETS} & clog\textsubscript{2}(\texttt{PRIORITIES}) & RW & Priority Threshold \\
-	\bottomrule 	
+	\bottomrule
 
 \caption{PLIC Register Interface}
 \label{tab:REGIF2}
@@ -270,8 +270,8 @@ module.
 When enabled via the \texttt{HAS\_CONFIG\_REG} hardware parameter, the
 \texttt{CONFIG} register returns a 64 bit value constructed as follows:
 
-\begin{figure}[h] 
-	\includegraphics[width=\linewidth]{assets/img/CONFIG} 
+\begin{figure}[h]
+	\includegraphics[width=\linewidth]{assets/img/CONFIG}
 	\caption[Configuration Register]{Configuration Register}
 	\label{fig:configreg}
 \end{figure}
@@ -294,9 +294,9 @@ will be implemented.
 \subsubsection{EL}
 
 The \texttt{EL} Read/Write register defines if an interrupt source is Edge or Level Triggered. The number of interrupt sources, as defined by the
-\texttt{SOURCES} parameter, determines the width of the \texttt{EL} register. 
-One bit within the register corresponds to an interrupt source, where a 
-logic high (`1') defines a rising-edge triggered interrupt and a logic 
+\texttt{SOURCES} parameter, determines the width of the \texttt{EL} register.
+One bit within the register corresponds to an interrupt source, where a
+logic high (`1') defines a rising-edge triggered interrupt and a logic
 low (`0') defines a level triggered interrupt. These bits will be
 packed into the minimum number of registers.
 
@@ -310,7 +310,7 @@ follows:
 Example: For a 32 bit system supporting 48 interrupt sources
 
 \begin{verbatim}
-     No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)   
+     No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)
                       = ROUNDUP(48/32)
                       = ROUNDUP(1.5)
                       = 2
@@ -325,8 +325,8 @@ PLIC.
 
 The number of targets determines the number of \texttt{IE[]}
 registers. The number of interrupt sources, as defined by the
-\texttt{SOURCES} parameter, determines the width of each \texttt{IE[]} 
-register. 
+\texttt{SOURCES} parameter, determines the width of each \texttt{IE[]}
+register.
 
 One bit within the register corresponds to an individual interrupt
 source, where a logic high (`1') defines an interrupt source as enabled and a
@@ -419,7 +419,7 @@ The physical number of registers implemented can be calculated as follows:
 Example: For a 32 bit system supporting 48 interrupt sources
 
 \begin{verbatim}
-     No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)   
+     No. of Registers = ROUNDUP(SOURCES/HDATA_SIZE)
                       = ROUNDUP(48/32)
                       = ROUNDUP(1.5)
                       = 2
@@ -466,7 +466,7 @@ These priority levels are packed into \texttt{HDATA\_SIZE} bit registers, as fie
 where:
 \indent
 \begin{verbatim}
-     FPR = FIELDS_PER_REGISTER    
+     FPR = FIELDS_PER_REGISTER
          = HDATA_SIZE/(4*NPP)
 
      NPP = NIBBLES_PER_PRIORITY
@@ -486,7 +486,7 @@ Example: For a 32 bit system supporting 48 interrupt sources and 8 priority leve
          = HDATA_SIZE/(4*NPP)
          = 32/(4*1)
          = 8
-    
+
      No. of Registers = ROUNDUP(SOURCES/FPR)
                       = ROUNDUP(48/8)
                       = 6
@@ -498,7 +498,7 @@ Note: clog\textsubscript{2}() refers to the System Verilog function by the same 
 
 Each target may be assigned a priority threshold via the
 \texttt{THRESHOLD[]} registers and therefore the PLIC
-implements 1 register per threshold. 
+implements 1 register per threshold.
 
 \begin{quote}
 	\texttt{No.\ of\ Registers\ =\ TARGETS}
@@ -508,64 +508,66 @@ Only active interrupts that have a priority strictly greater than the
 threshold will cause an interrupt notification to be sent to the target.
 A \texttt{THRESHOLD[]} value of 0 means that no interrupts will be masked.
 
+\clearpage
+
 \subsubsection{Register Address Ordering}
 
-The order of the registers in the memory map is defined 
+The order of the registers in the memory map is defined
 \ifdefined\MARKDOWN
 below.
 \else
 as Table \ref{tab:REGMAP}.
 \fi
 
-\begin{longtable}[]{@{}cl@{}}	
-	\toprule 
+\begin{longtable}[]{@{}cl@{}}
+	\toprule
 	\textbf{Order} & \textbf{Registers}\\
 	\midrule
-	\endhead 
+	\endhead
 	1 & \texttt{CONFIG} Register(s)\\
 	2 & \texttt{EL} Registers\\
 	3 & \texttt{PRIORITY} Registers\\
 	4 & \texttt{IE} Registers\\
 	5 & \texttt{THRESHOLD} Registers\\
 	6 & \texttt{ID} Registers\\
-	\bottomrule 	
+	\bottomrule
 	\caption{Register Address Order}
 	\label{tab:REGMAP}
 \end{longtable}
 
 Registers are mapped to consecutive addresses based on this order and the
-number of registers required. 
+number of registers required.
 
 \subsubsection{Address Map Example}
 
-Using the example of a 32 bit system supporting 48 interrupt sources, 4 targets and 8 priority levels as shown 
+Using the example of a 32 bit system supporting 48 interrupt sources, 4 targets and 8 priority levels as shown
 \ifdefined\MARKDOWN
 below.
 \else
 in Table \ref{tab:REGMAPEX}:
 \fi
 
-\begin{longtable}[c]{@{}cc@{}}	
-		\toprule 
+\begin{longtable}[c]{@{}cc@{}}
+		\toprule
 		\textbf{Parameter}    & \textbf{Number}\\
-		\midrule 
+		\midrule
 		\endhead
 		\texttt{HDATA\_WIDTH} & 32\\
 		\texttt{SOURCES}      & 48\\
 		\texttt{TARGETS}      & 4\\
 		\texttt{PRIORITIES}   & 8\\
-		\bottomrule 	
- 
+		\bottomrule
+
 	\caption{Example Parameters}
 	\label{tab:REGMAPEX}
 \end{longtable}
 
 The resulting number of registers is:
 
-\begin{longtable}[c]{@{}cc@{}}	
-		\toprule 
+\begin{longtable}[c]{@{}cc@{}}
+		\toprule
 		\textbf{Registers} & \textbf{Number}\\
-		\midrule 
+		\midrule
 		\endhead
 		\texttt{CONFIG}    & 2\\
 		\texttt{EL}        & 2\\
@@ -575,22 +577,22 @@ The resulting number of registers is:
 		\texttt{ID}        & 4\\
 		\midrule
 		\textbf{Total}     & \textbf{26}\\
-		\bottomrule 	
+		\bottomrule
 	\caption{Calculated Registers}
 	\label{tab:REGMAPNUM}
 \end{longtable}
 
-These registers will be then mapped as follows per the order defined 
+These registers will be then mapped as follows per the order defined
 \ifdefined\MARKDOWN
 previously.
 \else
 in Table \ref{tab:REGMAP}:
 \fi
 
-\begin{longtable}[c]{ccc|ccc}	
-	\toprule 
+\begin{longtable}[c]{ccc|ccc}
+	\toprule
 		\textbf{Reg} & \textbf{Parameter} & \textbf{Value} & \textbf{Reg} & \textbf{Parameter} & \textbf{Value}\\
-	\midrule 
+	\midrule
 
 \ifdefined\MARKDOWN
 	\endhead
@@ -606,7 +608,7 @@ in Table \ref{tab:REGMAP}:
 	\midrule \multicolumn{6}{c}{{\tablename\ \thetable{} continued on next page\ldots}} \\
 	\endfoot
 	\endlastfoot
-\fi	
+\fi
 
 		\textbf{0}  & 0x0  & \texttt{CONFIG}&\textbf{13} & 0x34 & \texttt{IE}\\
 		\textbf{1}  & 0x4  & \texttt{CONFIG}&\textbf{14} & 0x38 & \texttt{IE}\\
@@ -621,21 +623,13 @@ in Table \ref{tab:REGMAP}:
 		\textbf{10} & 0x28 & \texttt{IE}&\textbf{23} & 0x5C & \texttt{ID}\\
 		\textbf{11} & 0x2C & \texttt{IE}&\textbf{24} & 0x60 & \texttt{ID}\\
 		\textbf{12} & 0x30 & \texttt{IE}&\textbf{25} & 0x64 & \texttt{ID}\\
-	
-	\bottomrule 	
+
+	\bottomrule
 	\caption{Example Address Map}
 	\label{tab:REGMAPRES}
 \end{longtable}
 
 \textbf{Note:} A Microsoft Excel worksheet is available from the Roa Logic web site showing the same Address Map.
-
-\begin{figure}[!ht]
-\includegraphics[width=\textwidth]{assets/img/AHB-Lite_PLIC_Worksheet.png}
-\caption{Register Mapping Worksheet}
-\label{fig:WORKSHEET}
-\end{figure}
-
-\clearpage
 
 \subsection{Dynamic Register Examples}
 
@@ -670,41 +664,44 @@ Mapping showing explicitly how each interrupt source and target maps to the regi
 	\midrule \multicolumn{6}{c}{{\tablename\ \thetable{} continued on next page\ldots}} \\
 	\endfoot
 	\endlastfoot
-\fi	
+\fi
 
 		HDATA\_SIZE & 32 & SOURCES        & 16 & TARGETS          & 2 \\
 		PRIORITIES  & 7  & HAS\_THRESHOLD & 1  & HAS\_CONFIG\_REG & 0 \\
 
 	\bottomrule
+
 	\caption{Example 1 Parameters}
 	\label{tab:example-1}
 \end{longtable}
 
+\clearpage
+
 \paragraph{Simulator Output:}
 
 \begin{verbatim}
-- Configuration Report -------------------------------------------------------
+- Configuration Report ---------------------------------------------------
   Sources | Targets | Priority-lvl | Threshold? | Event-Cnt
      16   |    2    |      7       |    YES     |    8
-- Register Map ---------------------------------------------------------------
+- Register Map -----------------------------------------------------------
   Address  Function               Mapping
   0x0000   Edge/Level             16'h0, EL[15:0]
-  0x0004   Interrupt Priority     1'b0,P[7][2:0],1'b0,P[6][2:0],1'b0,P[5][2:0],
-                                  1'b0,P[4][2:0],1'b0,P[3][2:0],1'b0,P[2][2:0],
-                                  1'b0,P[1][2:0],1'b0,P[0][2:0]
+  0x0004   Interrupt Priority     1'b0,P[7][2:0],1'b0,P[6][2:0],1'b0,
+                                  P[5][2:0],1'b0,P[4][2:0],1'b0,P[3][2:0],
+                                  1'b0,P[2][2:0],1'b0,P[1][2:0],1'b0,
+                                  P[0][2:0]
   0x0008   Interrupt Priority     1'b0,P[15][2:0],1'b0,P[14][2:0],1'b0,
-                                  P[13][2:0],1'b0,P[12][2:0],1'b0,P[11][2:0],
-                                  1'b0,P[10][2:0],1'b0,P[9][2:0],1'b0,P[8][2:0]
+                                  P[13][2:0],1'b0,P[12][2:0],1'b0,
+                                  P[11][2:0],1'b0,P[10][2:0],1'b0,
+                                  P[9][2:0],1'b0,P[8][2:0]
   0x000c   Interrupt Enable       16'h0, IE[0][15:0]
   0x0010   Interrupt Enable       16'h0, IE[1][15:0]
   0x0014   Priority Threshold     29'h0, Th[0][2:0]
   0x0018   Priority Threshold     29'h0, Th[1][2:0]
   0x001c   ID                     27'h0, ID[0][4:0]
   0x0020   ID                     27'h0, ID[1][4:0]
-- End Configuration Report ---------------------------------------------------
+- End Configuration Report -----------------------------------------------
 \end{verbatim}
-
-\clearpage
 
 \subsubsection{Dynamic Register Example 2:}\label{example-2}
 
@@ -734,7 +731,7 @@ Mapping showing explicitly how each interrupt source and target maps to the regi
 	\midrule \multicolumn{6}{c}{{\tablename\ \thetable{} continued on next page\ldots}} \\
 	\endfoot
 	\endlastfoot
-\fi	
+\fi
 
 		HDATA\_SIZE & 64 & SOURCES        & 64 & TARGETS          & 4 \\
 		PRIORITIES  & 15 & HAS\_THRESHOLD & 1  & HAS\_CONFIG\_REG & 1 \\
@@ -744,32 +741,41 @@ Mapping showing explicitly how each interrupt source and target maps to the regi
 	\label{tab:example-2}
 \end{longtable}
 
+\clearpage
+
 \paragraph{Simulator Output:}
 
 \begin{verbatim}
-- Configuration Report -------------------------------------------------------
-  Sources | Targets | Priority-lvl | Threshold? | Event-Cnt  
-     64   |    4    |     15       |    YES     |    8       
-- Register Map ---------------------------------------------------------------
+- Configuration Report ---------------------------------------------------
+  Sources | Targets | Priority-lvl | Threshold? | Event-Cnt
+     64   |    4    |     15       |    YES     |    8
+- Register Map -----------------------------------------------------------
   Address  Function               Mapping
   0x0000   Configuration          15'h0,TH,PRIORITES,TARGETS,SOURCES
   0x0008   Edge/Level             EL[63:0]
-  0x0010   Interrupt Priority     P[15][3:0],P[14][3:0],P[13][3:0],P[12][3:0],
-                                  P[11][3:0],P[10][3:0],P[9][3:0],P[8][3:0],
-                                  P[7][3:0],P[6][3:0],P[5][3:0],P[4][3:0],
-                                  P[3][3:0],P[2][3:0],P[1][3:0],P[0][3:0]
-  0x0018   Interrupt Priority     P[31][3:0],P[30][3:0],P[29][3:0],P[28][3:0],
-                                  P[27][3:0],P[26][3:0],P[25][3:0],P[24][3:0],
-                                  P[23][3:0],P[22][3:0],P[21][3:0],P[20][3:0],
-                                  P[19][3:0],P[18][3:0],P[17][3:0],P[16][3:0]
-  0x0020   Interrupt Priority     P[47][3:0],P[46][3:0],P[45][3:0],P[44][3:0],
-                                  P[43][3:0],P[42][3:0],P[41][3:0],P[40][3:0],
-                                  P[39][3:0],P[38][3:0],P[37][3:0],P[36][3:0],
-                                  P[35][3:0],P[34][3:0],P[33][3:0],P[32][3:0]
-  0x0028   Interrupt Priority     P[63][3:0],P[62][3:0],P[61][3:0],P[60][3:0],
-                                  P[59][3:0],P[58][3:0],P[57][3:0],P[56][3:0],
-                                  P[55][3:0],P[54][3:0],P[53][3:0],P[52][3:0],
-                                  P[51][3:0],P[50][3:0],P[49][3:0],P[48][3:0]
+  0x0010   Interrupt Priority     P[15][3:0],P[14][3:0],P[13][3:0],
+                                  P[12][3:0],P[11][3:0],P[10][3:0],
+                                  P[9][3:0],P[8][3:0],P[7][3:0],P[6][3:0],
+                                  P[5][3:0],P[4][3:0],P[3][3:0],P[2][3:0],
+                                  P[1][3:0],P[0][3:0]
+  0x0018   Interrupt Priority     P[31][3:0],P[30][3:0],P[29][3:0],
+                                  P[28][3:0],P[27][3:0],P[26][3:0],
+                                  P[25][3:0],P[24][3:0],P[23][3:0],
+                                  P[22][3:0],P[21][3:0],P[20][3:0],
+                                  P[19][3:0],P[18][3:0],P[17][3:0],
+                                  P[16][3:0]
+  0x0020   Interrupt Priority     P[47][3:0],P[46][3:0],P[45][3:0],
+                                  P[44][3:0],P[43][3:0],P[42][3:0],
+                                  P[41][3:0],P[40][3:0],P[39][3:0],
+                                  P[38][3:0],P[37][3:0],P[36][3:0],
+                                  P[35][3:0],P[34][3:0],P[33][3:0],
+                                  P[32][3:0]
+  0x0028   Interrupt Priority     P[63][3:0],P[62][3:0],P[61][3:0],
+                                  P[60][3:0],P[59][3:0],P[58][3:0],
+                                  P[57][3:0],P[56][3:0],P[55][3:0],
+                                  P[54][3:0],P[53][3:0],P[52][3:0],
+                                  P[51][3:0],P[50][3:0],P[49][3:0],
+                                  P[48][3:0]
   0x0030   Interrupt Enable       IE[0][63:0]
   0x0038   Interrupt Enable       IE[1][63:0]
   0x0040   Interrupt Enable       IE[2][63:0]
@@ -784,3 +790,9 @@ Mapping showing explicitly how each interrupt source and target maps to the regi
   0x0088   ID                     57'h0, ID[3][6:0]
 - End Configuration Report ---------------------------------------------------
 \end{verbatim}
+
+\begin{figure}[hb]
+\includegraphics[width=\textwidth]{assets/img/AHB-Lite_PLIC_Worksheet.png}
+\caption{Register Mapping Worksheet}
+\label{fig:WORKSHEET}
+\end{figure}
