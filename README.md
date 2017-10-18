@@ -2,7 +2,11 @@
 
 ## Overview
 
-Fully Parameterized & Programmable Platform Level Interrupt Controller (PLIC) for RISC-V based Processor Systems supporting a user-defined number of interrupt sources and targets.
+Fully Parameterized & Programmable Platform Level Interrupt Controller (PLIC) for RISC-V based Processor Systems supporting a user-defined number of interrupt sources and targets, and featuring a single AHB-Lite Slave interface
+
+The core supports a programmable number of simultaneous pending interrupt requests per source and individual routing of those interrupt requests to each target, full interrupt prioritisation of each interrupt source and separate enables per target via a matrix of interrupt enable bits.
+
+To reduce latency, the PLIC core presents all asserted interrupts to the target in priority order, queuing them so that a software interrupt handler can service all pending interrupts without the need to restore the interrupted context.
 
 ![Example PLIC System Diagram](assets/img/plic-system.png)
 

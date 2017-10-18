@@ -1,4 +1,4 @@
-\documentclass[oneside,11pt]{book}
+\documentclass[twoside,11pt,openany]{book}
 
 % Document Setup
 \input{tex/preamble.tex}
@@ -8,15 +8,16 @@
 
 \begin{document}
 
-\maketitle
+%\frontmatter
 
-\frontmatter
+\maketitle
+%\thispagestyle{empty}
+
+%\mainmatter
 
 \tableofcontents
 
 % \listoftodos % Temporary list of ToDo items
-
-\mainmatter
 
 \input{tex/introduction.tex}
 
@@ -29,7 +30,7 @@
 \input{tex/resources.tex}
 
 \input{tex/references.tex}
-	
+
 \input{tex/history.tex}
 
 \end{document}
