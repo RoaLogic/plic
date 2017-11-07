@@ -1,15 +1,2 @@
-
-docs/test.md
-*.tpbuild
-docs/.texpadtmp
-*.tdo
-*.gz
-*.out
-*.log
-*.aux
-*.toc
-*.txss
-*.toc
-*.bbl
-*.blg
 docs/build
+
