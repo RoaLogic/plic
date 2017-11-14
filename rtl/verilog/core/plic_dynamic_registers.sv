@@ -108,8 +108,8 @@ module plic_dynamic_registers #(
   output reg [PRIORITY_BITS-1:0] th[TARGETS],  //Priority Threshold for each target
 
   input      [SOURCES_BITS -1:0] id[TARGETS],  //Interrupt ID for each target
-  output     [TARGETS      -1:0] claim,        //Interrupt Claim
-  output     [TARGETS      -1:0] complete      //Interrupt Complete
+  output reg [TARGETS      -1:0] claim,        //Interrupt Claim
+  output reg [TARGETS      -1:0] complete      //Interrupt Complete
 );
 
   //////////////////////////////////////////////////////////////////
@@ -274,7 +274,7 @@ module plic_dynamic_registers #(
   endfunction : address2register
 
 
-  function automatic [SOURCES-1:0] gen_claim;
+  function automatic [TARGETS-1:0] gen_claim;
     //generate internal 'claim' signal
     input                  re;
     input [ADDR_SIZE-1:0] address;
@@ -287,7 +287,7 @@ module plic_dynamic_registers #(
     if (register_function(r) == ID && re)
       return (1 << idx);
     else
-      return {SOURCES{1'b0}};
+      return {TARGETS{1'b0}};
   endfunction : gen_claim
 
 
@@ -304,7 +304,7 @@ module plic_dynamic_registers #(
     if (register_function(r) == ID && we)
       return (1 << idx);
     else
-      return {SOURCES{1'b0}};
+      return {TARGETS{1'b0}};
   endfunction : gen_complete
 
 
@@ -588,8 +588,13 @@ module plic_dynamic_registers #(
    *  A read generates a claim strobe
    *  A write doesn't access the register, but generates a complete strobe instead
    */
-  assign claim    = gen_claim(re, raddr);
-  assign complete = gen_complete(we, waddr);
+  always @(posedge clk, negedge rst_n)
+    if (!rst_n) claim <= 0;
+    else        claim <= gen_claim(re, raddr);
+
+  always @(posedge clk, negedge rst_n)
+    if (!rst_n) complete <= 0;
+    else        complete <= gen_complete(we, waddr);
 
 
   /** Decode registers
@@ -638,9 +643,9 @@ generate
           //  TARGET starting at a new register
           IE       : begin
                          if ( ((register_idx(r) % EL_REGS)+1) * DATA_SIZE <= SOURCES )
-                           assign ie[register_idx(r) / EL_REGS][(register_idx(r) % EL_REGS) * EL_REGS +: DATA_SIZE] = registers[r];
+                           assign ie[register_idx(r) / EL_REGS][(register_idx(r) % EL_REGS) * DATA_SIZE +: DATA_SIZE] = registers[r];
                          else
-                           assign ie[register_idx(r) / EL_REGS][SOURCES-1: (register_idx(r) % EL_REGS) * DATA_SIZE] = registers[r];
+                           assign ie[register_idx(r) / EL_REGS][SOURCES-1 : (register_idx(r) % EL_REGS) * DATA_SIZE] = registers[r];
                      end
 
 /*

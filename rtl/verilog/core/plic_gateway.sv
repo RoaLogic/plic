@@ -111,8 +111,8 @@ module plic_gateway #(
   always @(posedge clk,negedge rst_n)
     if (!rst_n)
     begin
-        src_dly  <= 0;
-        src_edge <= 0;
+        src_dly  <= 1'b0;
+        src_edge <= 1'b0;
     end
     else
     begin
@@ -127,11 +127,11 @@ module plic_gateway #(
     case ({decr_pending,src_edge})
       2'b00: nxt_pending_cnt = pending_cnt; //do nothing
       2'b01: if (pending_cnt < SAFE_MAX_PENDING_COUNT)
-               nxt_pending_cnt = pending_cnt +1;
+               nxt_pending_cnt = pending_cnt +'h1;
              else
                nxt_pending_cnt = pending_cnt;
       2'b10: if (pending_cnt > 0)
-               nxt_pending_cnt = pending_cnt -1;
+               nxt_pending_cnt = pending_cnt -'h1;
              else
                nxt_pending_cnt = pending_cnt;
       2'b11: nxt_pending_cnt = pending_cnt; //do nothing

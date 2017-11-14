@@ -33,19 +33,20 @@
 /////////////////////////////////////////////////////////////////////
 
 // +FHDR -  Semiconductor Reuse Standard File Header Section  -------
-// FILE NAME      : plic_target.sv
+// FILE NAME      : plic_priority_index.sv
 // DEPARTMENT     :
 // AUTHOR         : rherveille
 // AUTHOR'S EMAIL :
 // ------------------------------------------------------------------
 // RELEASE HISTORY
 // VERSION DATE        AUTHOR      DESCRIPTION
-// 1.0     2017-07-01  rherveille  initial release
+// 1.0     2017-11-14  rherveille  initial release
 // ------------------------------------------------------------------
 // KEYWORDS : RISC-V PLATFORM LEVEL INTERRUPT CONTROLLER - PLIC
 // ------------------------------------------------------------------
-// PURPOSE  : PLIC Target
-//            Generates Interrupt Request and ID for each target
+// PURPOSE  : PLIC Target - Priority Index
+//            Builds a binary tree to search for the highest priority
+//            and its associated ID
 // ------------------------------------------------------------------
 // PARAMETERS
 //  PARAM NAME        RANGE  DESCRIPTION              DEFAULT UNITS
@@ -53,80 +54,89 @@
 //  PRIORITIES        1+     No. of priority levels   8
 // ------------------------------------------------------------------
 // REUSE ISSUES 
-//   Reset Strategy      : external asynchronous active low; rst_ni
-//   Clock Domains       : 1, clk, rising edge
+//   Reset Strategy      : none
+//   Clock Domains       : none
 //   Critical Timing     :
 //   Test Features       : na
-//   Asynchronous I/F    : no
+//   Asynchronous I/F    : yes
 //   Scan Methodology    : na
-//   Instantiations      : plic_priority_index
+//   Instantiations      : Itself (recursive)
 //   Synthesizable (y/n) : Yes
 //   Other               :                                         
 // -FHDR-------------------------------------------------------------
 
-module plic_target #(
-  parameter SOURCES = 8,
+module plic_priority_index #(
+  parameter SOURCES    = 16,
   parameter PRIORITIES = 7,
+  parameter HI         = 16,
+  parameter LO         = 0,
 
   //These should be localparams, but that's not supported by all tools yet
   parameter SOURCES_BITS  = $clog2(SOURCES +1), //0=reserved
   parameter PRIORITY_BITS = $clog2(PRIORITIES)
 )
 (
-  input                          rst_ni,               //Active low asynchronous reset
-                                 clk_i,                //System clock
-
-  input      [SOURCES_BITS -1:0] id_i       [SOURCES], //Interrupt source
-  input      [PRIORITY_BITS-1:0] priority_i [SOURCES], //Interrupt Priority
-
-  input      [PRIORITY_BITS-1:0] threshold_i,          //Interrupt Priority Threshold
-
-  output reg                     ireq_o,               //Interrupt Request (EIP)
-  output reg [SOURCES_BITS -1:0] id_o                  //Interrupt ID
+  input  [PRIORITY_BITS-1:0] priority_i [SOURCES], //Interrupt Priority
+  input  [SOURCES_BITS -1:0] idx_i      [SOURCES],
+  output [PRIORITY_BITS-1:0] priority_o,
+  output [SOURCES_BITS -1:0] idx_o
 );
-  //////////////////////////////////////////////////////////////////
-  //
-  // Constant
-  //
-
 
   //////////////////////////////////////////////////////////////////
   //
   // Variables
   //
-  logic [SOURCES_BITS -1:0] id;
-  logic [PRIORITY_BITS-1:0] pr;
 
+  logic [PRIORITY_BITS-1:0] priority_hi, priority_lo;
+  logic [SOURCES_BITS -1:0] idx_hi,      idx_lo;
+
+//initial if (HI-LO>2) $display ("HI=%0d, LO=%0d -> hi(%0d,%0d) lo(%0d,%0d)", HI, LO, HI, HI-(HI-LO)/2, LO+(HI-LO)/2, LO);
 
   //////////////////////////////////////////////////////////////////
   //
   // Module Body
   //
 
-  /** Select highest priority pending interrupt
-   */
-  plic_priority_index #(
-    .SOURCES    ( SOURCES    ),
-    .PRIORITIES ( PRIORITIES ),
-    .HI         ( SOURCES -1 ),
-    .LO         ( 0          )
-  )
-  priority_index_tree (
-    .priority_i ( priority_i ),
-    .idx_i      ( id_i       ),
-    .priority_o ( pr         ),
-    .idx_o      ( id         )
-  );
+  generate
+    if (HI - LO > 2)
+    begin
+        plic_priority_index #(
+          .SOURCES    ( SOURCES        ),
+          .PRIORITIES ( PRIORITIES     ),
+          .HI         ( LO + (HI-LO)/2 ),
+          .LO         ( LO             )
+        )
+        lo (
+          .priority_i ( priority_i  ),
+          .idx_i      ( idx_i       ),
+          .priority_o ( priority_lo ),
+          .idx_o      ( idx_lo      )
+        );
 
+        plic_priority_index #(
+          .SOURCES    ( SOURCES        ),
+          .PRIORITIES ( PRIORITIES     ),
+          .HI         ( HI             ),
+          .LO         ( HI - (HI-LO)/2 )
+        ) hi
+        (
+          .priority_i ( priority_i  ),
+          .idx_i      ( idx_i       ),
+          .priority_o ( priority_hi ),
+          .idx_o      ( idx_hi      )
+        );
+    end
+    else
+    begin
+        assign priority_lo = priority_i[LO];
+        assign priority_hi = priority_i[HI];
+        assign idx_lo      = idx_i     [LO];
+        assign idx_hi      = idx_i     [HI];
+    end
+  endgenerate
 
-  /** Generate output
-  */
-  always @(posedge clk_i,negedge rst_ni)
-    if      (!rst_ni          ) ireq_o <= 1'b0;
-    else if ( pr > threshold_i) ireq_o <= 1'b1;
-    else                        ireq_o <= 1'b0;
+  assign priority_o = priority_hi > priority_lo ? priority_hi : priority_lo;
+  assign idx_o      = priority_hi > priority_lo ? idx_hi      : idx_lo;
 
-  always @(posedge clk_i)
-    id_o <= id;
+endmodule : plic_priority_index
 
-endmodule : plic_target

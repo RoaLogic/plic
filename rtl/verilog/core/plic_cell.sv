@@ -76,44 +76,30 @@ module plic_cell #(
   parameter PRIORITY_BITS = $clog2(PRIORITIES)
 )
 (
+  input                          rst_ni,      //Asynchronous active low reset
+  input                          clk_i,       //System clock
+
   //Interrupt Request
-  input                      ip_i,        //Interrupt pending
-  input                      ie_i,        //Interrupt Enable
-  input  [PRIORITY_BITS-1:0] ipriority_i, //Interrupt priority
+  input                          ip_i,        //Interrupt pending
+  input                          ie_i,        //Interrupt Enable
+  input      [PRIORITY_BITS-1:0] priority_i,  //Interrupt priority
 
-  //from previous cell
-  input  [SOURCES_BITS -1:0] id_i,        //previous interrupt request
-  input  [PRIORITY_BITS-1:0] priority_i,  //previous interrupt priority
-
-  //to next cell
-  output [SOURCES_BITS -1:0] id_o,        //current interrupt request
-  output [PRIORITY_BITS-1:0] priority_o   //current interrupt priority
+  output reg [SOURCES_BITS -1:0] id_o,        //Pending interrupt ID
+  output reg [PRIORITY_BITS-1:0] priority_o   //Pending interrupt priority
 );
-  //////////////////////////////////////////////////////////////////
-  //
-  // Variables
-  //
-  logic interrupt,
-        gt_priority;
-
   //////////////////////////////////////////////////////////////////
   //
   // Module Body
   //
 
-  /** Handle interrupt?
-   * interrupt = InterruptPending && InterruptEnable && (Priority > 0)
-   * Lower IDs take priority over higher IDs
-   * As such (Priority > 0) is covered by gt_priority.
-   */
-  assign interrupt   = ip_i & ie_i;
-  assign gt_priority = ipriority_i >  priority_i;
+  always @(posedge clk_i,negedge rst_ni)
+    if      (!rst_ni      ) priority_o <= 0;
+    else if ( ip_i && ie_i) priority_o <= priority_i;
+    else                    priority_o <= 0;
 
-
-  /** Mux output
-   *
-   */
-  assign id_o       = (interrupt && gt_priority) ? ID          : id_i;
-  assign priority_o = (interrupt && gt_priority) ? ipriority_i : priority_i;
+  always @(posedge clk_i,negedge rst_ni)
+    if      (!rst_ni      ) id_o <= 0;
+    else if ( ip_i && ie_i) id_o <= ID;
+    else                    id_o <= 0;
 
 endmodule : plic_cell

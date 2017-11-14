@@ -99,12 +99,13 @@ module plic_core #(
   //
   genvar s, t;
 
-  logic [SOURCES_BITS -1:0] id_array [SOURCES+1][TARGETS];
-  logic [PRIORITY_BITS-1:0] pr_array [SOURCES+1][TARGETS];
+  logic [SOURCES_BITS -1:0] id_array       [TARGETS][SOURCES];
+  logic [PRIORITY_BITS-1:0] pr_array       [TARGETS][SOURCES];
 
   logic [SOURCES_BITS -1:0] id_claimed     [TARGETS];
   logic [TARGETS      -1:0] claim_array    [SOURCES];
   logic [TARGETS      -1:0] complete_array [SOURCES];
+
 
   //////////////////////////////////////////////////////////////////
   //
@@ -167,29 +168,22 @@ endgenerate
 generate
   for (t=0; t < TARGETS; t++)
   begin : gen_cell_target_array
-      for (s=0; s <= SOURCES; s++)
+      for (s=0; s < SOURCES; s++)
       begin : gen_cell_source_array
-          if (s == 0)
-          begin
-              assign id_array[s][t] = 'h0;
-              assign pr_array[s][t] = 'h0;
-          end
-          else
-            plic_cell #(
-              .ID         ( s          ),
-              .SOURCES    ( SOURCES    ),
-              .PRIORITIES ( PRIORITIES )
-            )
-            cell_inst (
-              .ip_i        ( ip          [s-1]    ),
-              .ie_i        ( ie       [t][s-1]    ), //bitslice from packed array 'ie'
-              .ipriority_i ( ipriority   [s-1]    ),
-
-              .id_i        ( id_array    [s-1][t] ), //unpacked array id
-              .priority_i  ( pr_array    [s-1][t] ), //unpacked array pr
-              .id_o        ( id_array    [s  ][t] ),
-              .priority_o  ( pr_array    [s  ][t] )
-            );
+          plic_cell #(
+            .ID         ( s +1       ),
+            .SOURCES    ( SOURCES    ),
+            .PRIORITIES ( PRIORITIES )
+          )
+          cell_inst (
+            .rst_ni     ( rst_n           ),
+            .clk_i      ( clk             ),
+            .ip_i       ( ip          [s] ),
+            .ie_i       ( ie       [t][s] ), //bitslice from packed array 'ie'
+            .priority_i ( ipriority   [s] ),
+            .id_o       ( id_array [t][s] ),
+            .priority_o ( pr_array [t][s] )
+          );
       end : gen_cell_source_array
   end : gen_cell_target_array
 endgenerate
@@ -207,13 +201,13 @@ generate
         .PRIORITIES ( PRIORITIES )
       )
       target_inst (
-        .rst_n       ( rst_n                 ),
-        .clk         ( clk                   ),
-        .id_i        ( id_array [SOURCES][t] ),
-        .ipriority_i ( pr_array [SOURCES][t] ),
-        .threshold_i ( threshold[t]          ),
-        .id_o        ( id       [t]          ),
-        .ireq_o      ( ireq     [t]          )
+        .rst_ni      ( rst_n        ),
+        .clk_i       ( clk          ),
+        .id_i        ( id_array [t] ),
+        .priority_i  ( pr_array [t] ),
+        .threshold_i ( threshold[t] ),
+        .id_o        ( id       [t] ),
+        .ireq_o      ( ireq     [t] )
       );
   end : gen_target
 endgenerate
