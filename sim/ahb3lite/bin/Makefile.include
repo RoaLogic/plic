@@ -63,12 +63,13 @@ DEFINES:=
 DUT_SRC_DIR=$(ROOT_DIR)/rtl/verilog
 RTL_TOP  = $(busif)_plic_top 
 RTL_VLOG = $(ROOT_DIR)/submodules/$(busif)_pkg/rtl/verilog/$(busif)_pkg.sv	\
-	   $(DUT_SRC_DIR)/$(busif)/$(busif)_plic_top.sv		\
 	   $(DUT_SRC_DIR)/core/plic_gateway.sv			\
 	   $(DUT_SRC_DIR)/core/plic_cell.sv			\
+	   $(DUT_SRC_DIR)/core/plic_priority_index.sv		\
 	   $(DUT_SRC_DIR)/core/plic_target.sv			\
 	   $(DUT_SRC_DIR)/core/plic_dynamic_registers.sv	\
-	   $(DUT_SRC_DIR)/core/plic_core.sv
+	   $(DUT_SRC_DIR)/core/plic_core.sv			\
+	   $(DUT_SRC_DIR)/$(busif)/$(busif)_plic_top.sv
 RTL_VHDL =
 
 
