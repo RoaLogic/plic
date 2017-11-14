@@ -643,8 +643,8 @@ module test #(
         ahb_mst_bfm.idle(); //Idle the AHB bus
         wait fork; 
 
-        //it takes 2 cycles for the interrupt to propagate
-        repeat (3) @(posedge HCLK);
+        //it takes 3 cycles for the interrupt to propagate
+        repeat (4) @(posedge HCLK);
 
         //check if interrupt shows up at the expected target
         $write ("  Checking Source[%0d] -> IRQ[%0t]...", s, t);
@@ -681,7 +681,19 @@ module test #(
 
         //clear source
         src[s] = 1'b0;
-        @(posedge HCLK);
+
+        repeat (3) @(posedge HCLK);
+        $write ("  Checking IRQ cleared ...");
+        if (irq == 0)
+        begin
+            $display ("PASSED");
+        end
+        else
+        begin
+            $display ("FAILED");
+            $error ("Expected IRQ=0, received %d @%0t", irq, $time);
+            errors++;
+        end
 
         //complete interrupt -- dummy write to ID
         $display ("  Sending Interrupt Complete");
