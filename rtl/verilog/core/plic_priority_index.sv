@@ -90,7 +90,7 @@ module plic_priority_index #(
   logic [PRIORITY_BITS-1:0] priority_hi, priority_lo;
   logic [SOURCES_BITS -1:0] idx_hi,      idx_lo;
 
-//initial if (HI-LO>2) $display ("HI=%0d, LO=%0d -> hi(%0d,%0d) lo(%0d,%0d)", HI, LO, HI, HI-(HI-LO)/2, LO+(HI-LO)/2, LO);
+  //initial if (HI-LO>1) $display ("HI=%0d, LO=%0d -> hi(%0d,%0d) lo(%0d,%0d)", HI, LO, HI, HI-(HI-LO)/2, LO+(HI-LO)/2, LO);
 
   //////////////////////////////////////////////////////////////////
   //
@@ -98,7 +98,7 @@ module plic_priority_index #(
   //
 
   generate
-    if (HI - LO > 2)
+    if (HI - LO > 1)
     begin
         plic_priority_index #(
           .SOURCES    ( SOURCES        ),
