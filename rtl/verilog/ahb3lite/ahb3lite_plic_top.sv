@@ -79,7 +79,7 @@ module ahb3lite_plic_top #(
   parameter HDATA_SIZE = 32,
 
   //PLIC Parameters
-  parameter SOURCES           = 35,  //Number of interrupt sources
+  parameter SOURCES           = 64,//35,  //Number of interrupt sources
   parameter TARGETS           = 4,   //Number of interrupt targets
   parameter PRIORITIES        = 8,   //Number of Priority levels
   parameter MAX_PENDING_COUNT = 8,   //Max. number of 'pending' events
@@ -315,7 +315,7 @@ module ahb3lite_plic_top #(
    */
   plic_core #(
     .SOURCES           ( SOURCES           ),
-    .TARGETS           ( 4                 ),
+    .TARGETS           ( TARGETS           ),
     .PRIORITIES        ( PRIORITIES        ),
     .MAX_PENDING_COUNT ( MAX_PENDING_COUNT )
   )
