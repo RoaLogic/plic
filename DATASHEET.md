@@ -17,7 +17,7 @@ Author: Roa Logic
 
 ## Product Brief
 
-The Roa Logic AHB-Lite PLIC (Platform Level Interrupt Controller) IP is a fully parameterised soft IP implementing the Interrupt Controller defined in the *[RISC-V Privileged v1.9.1 specification](https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.9.1.pdf)*[1].
+The Roa Logic AHB-Lite PLIC (Platform Level Interrupt Controller) IP is a fully parameterised soft IP implementing the Interrupt Controller defined in the *[RISC-V Privileged v1.10 specification](https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.10.pdf)*[1].
 
 The IP features an AHB-Lite Slave interface, fully compliant with the *[AMBA 3 AHB-Lite v1.0](https://www.arm.com/products/system-ip/amba-specifications)* specifications.
 
@@ -45,7 +45,7 @@ The AHB-Lite PLIC IP core is a fully parameterised Platform-Level Interrupt Cont
 
 The purpose of the PLIC core is to connect multiple interrupt sources to one or more interrupt targets. The core supports a programmable number of simultaneous pending interrupt requests per source and individual routing of those interrupt requests to each target.
 
-Per the [RISC-V Privileged Architecture Instruction Set specification (v1.9.1)](https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.9.1.pdf), the core performs full interrupt prioritisation of each interrupt source; each may be assigned a separate priority and enabled per target via a matrix of interrupt enable bits. Further, an optional priority threshold per target may be defined to mask lower priority interrupts.
+Per the [RISC-V Privileged Architecture Instruction Set specification (v1.10)](https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.10.pdf), the core performs full interrupt prioritisation of each interrupt source; each may be assigned a separate priority and enabled per target via a matrix of interrupt enable bits. Further, an optional priority threshold per target may be defined to mask lower priority interrupts.
 
 To reduce latency, the PLIC core presents all asserted interrupts to the target in priority order, queuing them so that a software interrupt handler can service all pending interrupts without the need to restore the interrupted context.
 
@@ -55,7 +55,7 @@ For illustration, a simplified example system using the PLIC core is shown below
 
 ### PLIC Operation
 
-As stated in the [RISC-V Privileged Architecture Instruction Set specification (v1.9.1)](https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.9.1.pdf):
+As stated in the [RISC-V Privileged Architecture Instruction Set specification (v1.10)](https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.10.pdf):
 
 > PLIC connects global *interrupt sources*, which are usually I/O devices, to *interrupt targets*, which are usually *hart contexts*. The PLIC contains multiple *interrupt gateways*, one per interrupt source, together with a *PLIC core* that performs interrupt prioritization and routing. Global interrupts are sent from their source to an *interrupt gateway* that processes the interrupt signal from each source and sends a single *interrupt request* to the PLIC core, which latches these in the core interrupt pending bits (IP). Each interrupt source is assigned a separate priority. The PLIC core contains a matrix of interrupt enable (IE) bits to select the interrupts that are enabled for each target. The PLIC core forwards an *interrupt notification* to one or more targets if the targets have any pending interrupts enabled, and the priority of the pending interrupts exceeds a per-target threshold. When the target takes the external interrupt, it sends an *interrupt claim* request to retrieve the identifier of the highest-priority global interrupt source pending for that target from the PLIC core, which then clears the corresponding interrupt source pending bit. After the target has serviced the interrupt, it sends the associated interrupt gateway an *interrupt completion* message and the interrupt gateway can now forward another interrupt request for the same source to the PLIC.
 
@@ -318,7 +318,7 @@ The operation and run-time configuration of the PLIC is managed via a memory map
 |   `CONFIG`   |       1       |               64               |    RO    | Configuration                                                 |
 |     `EL`     |       1       |            `SOURCES`           |    RW    | Edge/Level Trigger                                            |
 |     `IE`     |   `TARGETS`   |            `SOURCES`           |    RW    | Interrupt Enable                                              |
-|     `ID`     |   `TARGETS`   |   clog<sub>2</sub>(`SOURCES`)  |    RW    | ID of Highest priority IRQ, Int. Claim (R), Int. Complete (W) |
+|     `ID`     |   `TARGETS`   |  clog<sub>2</sub>(`SOURCES+1`) |    RW    | ID of Highest priority IRQ, Int. Claim (R), Int. Complete (W) |
 |  `PRIORITY`  |   `SOURCES`   | clog<sub>2</sub>(`PRIORITIES`) |    RW    | Priority Level                                                |
 |  `THRESHOLD` |   `TARGETS`   | clog<sub>2</sub>(`PRIORITIES`) |    RW    | Priority Threshold                                            |
 
@@ -386,6 +386,8 @@ This register indicates to the target which of potentially multiple pending inte
 When a target reads this register, this also indicates the target has claimed the interrupt for the defined source and will service the interrupt source.
 
 A target then writes to this register to indicate completion of servicing the interrupt source. It is the action of writing to this register which generates the interrupt completion notification – the value written will be ignored. Instead the register continues to identify the highest priority interrupt source to be serviced.
+
+Given an ID of zero means that no interrupt is pending, the width of this register must be sufficient to support `SOURCES` number of interrupt sources. This means the width of ID register = clog<sub>2</sub>(`SOURCES+1`)
 
 ##### PRIORITY\[\]
 
@@ -673,15 +675,15 @@ The PLIC is designed to be compliant with the following specifications, as licen
 
 > “The [RISC-V Instruction Set Manual, Volume I: User-Level ISA, Document Version 2.2](https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-spec-v2.2.pdf)", Editors Andrew Waterman and Krste Asanović,RISC-V Foundation, May 2017.
 
-> “The [RISC-VInstruction Set Manual, Volume II: Privileged Architecture, Version 1.9.1](https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.9.1.pdf)",Editors Andrew Waterman and Krste Asanović, RISC-V Foundation, November 2016
+> “The [RISC-VInstruction Set Manual, Volume II: Privileged Architecture, Version 1.10](https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.10.pdf)", Editors Andrew Waterman and Krste Asanović, RISC-V Foundation, May 2017.
 
 ## Revision History
 
-|   **Date**  | **Rev.** | **Comments**    |
-|:-----------:|:--------:|:----------------|
-| 13-Oct-2017 |    1.0   | Initial Release |
-|             |          |                 |
-|             |          |                 |
-|             |          |                 |
+|   **Date**  | **Rev.** | **Comments**                            |
+|:-----------:|:--------:|:----------------------------------------|
+| 13-Oct-2017 |    1.0   | Initial Release                         |
+| 01-Dec-2017 |    1.1   | RISC-V Privileged Spec v1.10 compliance |
+|             |          |                                         |
+|             |          |                                         |
 
 [1] Full specification details are provided in the References section

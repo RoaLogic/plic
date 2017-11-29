@@ -9,7 +9,7 @@ The purpose of the PLIC core is to connect multiple interrupt sources to
 one or more interrupt targets. The core supports a programmable number
 of simultaneous pending interrupt requests per source and individual routing of those interrupt requests to each target.
 
-Per the \href{https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.9.1.pdf}{RISC-V Privileged Architecture Instruction Set specification (v1.9.1)}, the core performs full interrupt prioritisation of each interrupt source; each may be assigned a separate priority and enabled per target via a matrix of interrupt enable bits. Further, an optional priority threshold per target may be defined to mask lower priority interrupts.
+Per the \href{https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.10.pdf}{RISC-V Privileged Architecture Instruction Set specification (v1.10)}, the core performs full interrupt prioritisation of each interrupt source; each may be assigned a separate priority and enabled per target via a matrix of interrupt enable bits. Further, an optional priority threshold per target may be defined to mask lower priority interrupts.
 
 To reduce latency, the PLIC core presents all asserted interrupts to the target in priority order, queuing them so that a software interrupt handler can service all pending interrupts without the need to restore the interrupted context.
 
@@ -23,7 +23,7 @@ For illustration, a simplified example system using the PLIC core is shown below
 
 \section{PLIC Operation}
 
-As stated in the \href{https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.9.1.pdf}{RISC-V Privileged Architecture Instruction Set specification (v1.9.1)}:
+As stated in the \href{https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.10.pdf}{RISC-V Privileged Architecture Instruction Set specification (v1.10)}:
 
 \begin{quote}
 

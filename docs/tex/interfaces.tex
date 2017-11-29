@@ -237,7 +237,7 @@ The operation and run-time configuration of the PLIC is managed via a memory map
 	\texttt{CONFIG}    & 1 & 64 & RO & Configuration\\
 	\texttt{EL}        & 1 & \texttt{SOURCES} & RW & Edge/Level Trigger\\
 	\texttt{IE}        & \texttt{TARGETS} & \texttt{SOURCES} & RW & Interrupt Enable\\
-	\texttt{ID}        & \texttt{TARGETS} & clog\textsubscript{2}(\texttt{SOURCES}) & RW & ID of Highest priority IRQ, \newline Int. Claim (R), \newline Int. Complete (W)\\
+	\texttt{ID}        & \texttt{TARGETS} & clog\textsubscript{2}(\texttt{SOURCES+1})  & RW & ID of Highest priority IRQ, \newline Int. Claim (R), \newline Int. Complete (W)\\
 	\texttt{PRIORITY}  & \texttt{SOURCES} & clog\textsubscript{2}(\texttt{PRIORITIES}) & RW & Priority Level\\
 	\texttt{THRESHOLD} & \texttt{TARGETS} & clog\textsubscript{2}(\texttt{PRIORITIES}) & RW & Priority Threshold \\
 	\bottomrule
@@ -366,6 +366,10 @@ claimed the interrupt for the defined source and will service the interrupt sour
 A target then writes to this register to indicate completion of servicing the interrupt source.
 It is the action of writing to this register which generates the interrupt completion notification -- the
 value written will be ignored. Instead the register continues to identify the highest priority interrupt source to be serviced.
+
+Given an ID of zero means that no interrupt is pending, the width of this register must be sufficient to support \texttt{SOURCES} number of interrupt sources. This means the width of ID register = clog\textsubscript{2}(\texttt{SOURCES+1})
+
+
 
 \subsubsection{PRIORITY[]}
 
