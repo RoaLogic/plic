@@ -1,9 +1,9 @@
 ---
-Title: AHB-Lite Platform-Level Interrupt Controller (PLIC)
+Title: RISC-V Platform-Level Interrupt Controller (PLIC)
 Category: Datasheet
 Author: Roa Logic
 ---
-# AHB-Lite Platform-Level Interrupt Controller (PLIC) Datasheet
+# RISC-V Platform-Level Interrupt Controller (PLIC) Datasheet
 
 ## Contents
 
@@ -17,7 +17,7 @@ Author: Roa Logic
 
 ## Product Brief
 
-The Roa Logic AHB-Lite PLIC (Platform Level Interrupt Controller) IP is a fully parameterised soft IP implementing the Interrupt Controller defined in the *[RISC-V Privileged v1.10 specification](https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.10.pdf)*[1].
+The Roa Logic RISC-V PLIC (Platform Level Interrupt Controller) IP is a fully parameterised soft IP implementing the Interrupt Controller defined in the *[RISC-V Privileged v1.10 specification](https://github.com/riscv/riscv-isa-manual/blob/master/release/riscv-privileged-v1.10.pdf)*[1].
 
 The IP features an AHB-Lite Slave interface, fully compliant with the *[AMBA 3 AHB-Lite v1.0](https://www.arm.com/products/system-ip/amba-specifications)* specifications.
 
@@ -41,7 +41,7 @@ Bus address and data widths as well as the number of Interrupt Sources and Targe
 
 ### Overview
 
-The AHB-Lite PLIC IP core is a fully parameterised Platform-Level Interrupt Controller, featuring a single AHB-Lite Slave interface and support for a user-defined number of both Interrupt Sources and Targets.
+The RISC-V PLIC IP core is a fully parameterised Platform-Level Interrupt Controller, featuring a single AHB-Lite Slave interface and support for a user-defined number of both Interrupt Sources and Targets.
 
 The purpose of the PLIC core is to connect multiple interrupt sources to one or more interrupt targets. The core supports a programmable number of simultaneous pending interrupt requests per source and individual routing of those interrupt requests to each target.
 

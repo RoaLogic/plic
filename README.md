@@ -1,4 +1,4 @@
-# AHB-Lite Platform-Level Interrupt Controller (PLIC)
+# Platform-Level Interrupt Controller (PLIC)
 
 ## Overview
 
@@ -13,7 +13,7 @@ To reduce latency, the PLIC core presents all asserted interrupts to the target 
 ## Documentation
 
 - [Datasheet](DATASHEET.md)
-  - [PDF Format](docs/AHB-Lite_PLIC_Datasheet.pdf)
+  - [PDF Format](docs/RISCV_PLIC_Datasheet.pdf)
 - [Register Map Worksheet](docs/assets/csv/RegisterMapping.xlsx)
 
 ## Features
@@ -30,8 +30,9 @@ Compliant to the [RISC-V Privilege Level 1.9, 1.9.1, 1.10 specifications](https:
 
 ## Interfaces
 
-- AHB3 Lite
-- Dynamic Registers
+- AMBA AHB3 Lite
+
+## Dynamic Registers
 
 The PLIC core implements Dynamic Registers, which means the registers and register mapping are automatically generated based on the parameters provided to the core. The core prints the register mapping during simulation (and for some tools during synthesis).
 
@@ -40,5 +41,6 @@ The PLIC core implements Dynamic Registers, which means the registers and regist
 Released under the RoaLogic [BSD License](/LICENSE.md)
 
 ## Dependencies
+
 Requires the Roa Logic [AHB3Lite Package](). This is included as a submodule.
 After cloning the git repository, perform a `git submodule init` to download the submodule.

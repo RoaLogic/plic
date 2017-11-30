@@ -1,5 +1,5 @@
 theme: jekyll-theme-dinky
-title: AHB-Lite PLIC
+title: RISC-V PLIC
 description: RISC-V Platform Level Interrupt Controller
 show_downloads: true
 show_license: true

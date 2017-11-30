@@ -1,6 +1,6 @@
 #!/bin/bash
 
-topfile="AHB-Lite_PLIC_Markdown"
+topfile="RISCV_PLIC_Markdown"
 
 # Run from markdown directory only
 curdir=${PWD##*/}
