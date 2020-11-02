@@ -26,7 +26,7 @@ To reduce latency, the PLIC core presents all asserted interrupts to the target 
 
 ## Compatibility
 
-Compliant to the [RISC-V Privilege Level 1.9, 1.9.1, 1.10 specifications](https://github.com/riscv/riscv-isa-manual/tree/master/release)
+Compliant to the [RISC-V Privilege Level 1.9, 1.9.1, 1.10 specifications](https://github.com/riscv/riscv-isa-manual/releases/tag/archive)
 
 ## Interfaces
 
