@@ -183,8 +183,8 @@ module apb4_plic_top #(
     .HAS_CONFIG_REG    ( HAS_CONFIG_REG    )
   )
   dyn_register_inst (
-    .rst_n    ( HRESETn  ), //Active low asynchronous reset
-    .clk      ( HCLK     ), //System clock
+    .rst_n    ( PRESETn  ), //Active low asynchronous reset
+    .clk      ( PCLK     ), //System clock
 
     .we       ( apb_we   ), //write cycle
     .re       ( apb_re   ), //read cycle
@@ -216,8 +216,8 @@ module apb4_plic_top #(
     .MAX_PENDING_COUNT ( MAX_PENDING_COUNT )
   )
   plic_core_inst (
-    .rst_n     ( HRESETn  ),
-    .clk       ( HCLK     ),
+    .rst_n     ( PRESETn  ),
+    .clk       ( PCLK     ),
 
     .src       ( src      ),
     .el        ( el       ),
