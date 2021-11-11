@@ -163,8 +163,8 @@ module apb4_plic_top #(
 
   /** APB Read/Write
    */
-  assign apb_re = PSEL & PENABLE & !PWRITE;
-  assign apb_we = PSEL & PENABLE &  PWRITE;
+  assign apb_re = PSEL & ~PENABLE & ~PWRITE;
+  assign apb_we = PSEL &  PENABLE &  PWRITE;
 
 
   /** Hookup Dynamic Register block
