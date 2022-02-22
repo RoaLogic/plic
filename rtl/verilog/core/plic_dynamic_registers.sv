@@ -698,8 +698,9 @@ endgenerate
   assign read_register     = address2register(raddr);
   assign read_register_idx = register_idx(read_register);
 
-  always @(posedge clk)
-    if (re)
+  always @(posedge clk, negedge rst_n)
+    if (!rst_n) rdata <= {$bits(rdata){1'b0}};
+    else if (re)
       case ( register_function(read_register) )
         CONFIG   : if (HAS_CONFIG_REG) rdata <= encode_config(read_register_idx);
         EL       : rdata <= el >> (read_register_idx * DATA_SIZE);
