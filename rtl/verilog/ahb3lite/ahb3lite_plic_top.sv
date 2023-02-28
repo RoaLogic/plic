@@ -73,7 +73,9 @@
 
 
 
-module ahb3lite_plic_top #(
+module ahb3lite_plic_top
+import ahb3lite_pkg::*;
+#(
   //AHB Parameters
   parameter HADDR_SIZE = 32,
   parameter HDATA_SIZE = 32,
@@ -112,7 +114,6 @@ module ahb3lite_plic_top #(
   //
   // Constants
   //
-  import ahb3lite_pkg::*;
   localparam HDATA_BYTES = (HDATA_SIZE+7)/8;   //number of bytes in HDATA
   localparam BE_SIZE     = HDATA_BYTES;
 
